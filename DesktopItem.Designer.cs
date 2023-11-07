@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -40,15 +42,26 @@
             label1.TabIndex = 0;
             label1.Text = "???";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(116, 97);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
             // DesktopItem
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(140, 140);
+            Controls.Add(pictureBox1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "DesktopItem";
             Text = "DesktopItem";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -56,5 +69,6 @@
         #endregion
 
         private Label label1;
+        private PictureBox pictureBox1;
     }
 }

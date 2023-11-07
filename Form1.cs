@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 namespace Bachup_s_backup
 {
@@ -7,6 +7,8 @@ namespace Bachup_s_backup
         public Form1()
         {
             InitializeComponent();
+            TopMost = true;
+            this.MinimizeBox = false;
             textBox1.DragEnter += MyDragEnter;
             textBox1.DragDrop += textBox1_DragDrop;
             DragEnter += (s, e) =>
@@ -20,11 +22,10 @@ namespace Bachup_s_backup
                     string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                     foreach (string file in files)
                     {
-                        MessageBox.Show("name¡G" + Path.GetFileName(file) + "\npath¡G" + file, "info");
-                        DesktopItem DI = new(Path.GetFileName(file));
-                        DI.Location = new Point(MousePosition.X -Location.X,MousePosition.Y-Location.Y);
-                        MessageBox.Show(MousePosition.ToString());
-                        //DI.Location = new Point(50, 50);
+                        //MessageBox.Show("Name¡G" + Path.GetFileName(file) + "\nPath¡G" + file, "info");
+                        DesktopItem DI = new(file);
+                        DI.Location = new Point(MousePosition.X - Location.X, MousePosition.Y - Location.Y);
+                        //MessageBox.Show(DI.Location.ToString());
                         DI.Visible = true;
                         Controls.Add(DI);
                     }
@@ -53,6 +54,11 @@ namespace Bachup_s_backup
         private void textBox1_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             //textBox1.Text = e.Data.GetData(DataFormats.Text).ToString();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
