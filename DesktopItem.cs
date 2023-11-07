@@ -13,7 +13,7 @@ namespace Bachup_s_backup
 {
     public partial class DesktopItem : Form
     {
-        TransparentPanel Top_panel;
+        Panel Top_panel;
         public DesktopItem(string s, Image? img = null)
         {
             InitializeComponent();
@@ -25,7 +25,8 @@ namespace Bachup_s_backup
         {
             InitializeComponent();
             TopLevel = false;
-            label1.Text = Path.GetFileName(path);
+            var name = Path.GetFileName(path);
+            label1.Text = name.Length > 10 ? name.Substring(0, 9) + "..." : name;
             if ((File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
             {
 
@@ -38,7 +39,7 @@ namespace Bachup_s_backup
             {
                 Location = new Point(0, 0),
                 Size = this.Size,
-                BackColor = Color.Transparent,
+                BackColor = Color.Black,
             };
             Controls.Add(Top_panel);
             Top_panel.BringToFront();
@@ -55,7 +56,7 @@ namespace Bachup_s_backup
             static extern bool ReleaseCapture();
             Top_panel.MouseDown += (s, e) =>
             {
-                ReleaseCapture();
+               // ReleaseCapture();
                 SendMessage(Handle, 0xA1, 0x2, 0);
             };
         }

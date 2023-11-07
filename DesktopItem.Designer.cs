@@ -35,15 +35,16 @@
             // 
             // label1
             // 
-            label1.AutoSize = true;
             label1.Location = new Point(12, 112);
             label1.Name = "label1";
-            label1.Size = new Size(30, 19);
+            label1.Size = new Size(116, 19);
             label1.TabIndex = 0;
             label1.Text = "???";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
+            pictureBox1.Image = Properties.Resources.OneDrive_Folder_Icon_svg;
             pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(116, 97);
@@ -63,7 +64,6 @@
             Text = "DesktopItem";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
