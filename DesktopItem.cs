@@ -13,7 +13,8 @@ namespace Bachup_s_backup
 {
     public partial class DesktopItem : Form
     {
-        Panel Top_panel;
+        TransparentPanel Top_panel;
+        Point offset;
         public DesktopItem(string s, Image? img = null)
         {
             InitializeComponent();
@@ -43,22 +44,34 @@ namespace Bachup_s_backup
             };
             Controls.Add(Top_panel);
             Top_panel.BringToFront();
+
+            bool drag = false;
             Top_panel.MouseDoubleClick += (s, e) =>
             {
-                using Process fileopener = new Process();
-                fileopener.StartInfo.FileName = "explorer";
-                fileopener.StartInfo.Arguments = "\"" + path + "\"";
-                fileopener.Start();
+                if (e.Button == MouseButtons.Left)
+                {
+                    using Process fileopener = new Process();
+                    fileopener.StartInfo.FileName = "explorer";
+                    fileopener.StartInfo.Arguments = "\"" + path + "\"";
+                    fileopener.Start();
+                }
             };
-            [System.Runtime.InteropServices.DllImport("user32.dll")]
-            static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-            [System.Runtime.InteropServices.DllImport("user32.dll")]
-            static extern bool ReleaseCapture();
+
             Top_panel.MouseDown += (s, e) =>
             {
-               // ReleaseCapture();
-                SendMessage(Handle, 0xA1, 0x2, 0);
+                if (e.Button == MouseButtons.Left)
+                {
+                    drag = true;
+                    offset = e.Location;
+                }
             };
+
+            Top_panel.MouseMove += (s, e) =>
+            {
+                if (drag) Location = new Point(Location.X + e.X - offset.X, Location.Y + e.Y - offset.Y);
+            };
+
+            Top_panel.MouseUp += (s, e) => drag = false;
         }
     }
 }
