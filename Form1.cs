@@ -4,6 +4,7 @@ namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
+        List<DesktopItem> selected = new();
         public Form1()
         {
             InitializeComponent();
@@ -11,6 +12,11 @@ namespace Bachup_s_backup
             this.MinimizeBox = false;
             textBox1.DragEnter += MyDragEnter;
             textBox1.DragDrop += textBox1_DragDrop;
+            MouseDown += (s, e) =>
+            {
+                //Message msg = Message.Create(Handle, 0xA1, 0x2, IntPtr.Zero);
+                //WndProc(ref msg);
+            };
             DragEnter += (s, e) =>
             {
                 e.Effect = DragDropEffects.Copy;
@@ -23,7 +29,7 @@ namespace Bachup_s_backup
                     foreach (string file in files)
                     {
                         //MessageBox.Show("Name¡G" + Path.GetFileName(file) + "\nPath¡G" + file, "info");
-                        DesktopItem DI = new(file);
+                        DesktopItem DI = new(file, e.Data);
                         DI.Location = new Point(MousePosition.X - Location.X, MousePosition.Y - Location.Y);
                         //MessageBox.Show(DI.Location.ToString());
                         DI.Visible = true;

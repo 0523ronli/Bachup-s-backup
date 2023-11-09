@@ -47,6 +47,7 @@
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(800, 450);
             Controls.Add(textBox1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
