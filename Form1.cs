@@ -14,8 +14,9 @@ namespace Bachup_s_backup
             textBox1.DragDrop += textBox1_DragDrop;
             MouseDown += (s, e) =>
             {
-                //Message msg = Message.Create(Handle, 0xA1, 0x2, IntPtr.Zero);
-                //WndProc(ref msg);
+                Capture=false;
+                Message msg = Message.Create(Handle, 0xA1, 0x2, 0x0);
+                WndProc(ref msg);
             };
             DragEnter += (s, e) =>
             {
