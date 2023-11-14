@@ -16,13 +16,6 @@ namespace Bachup_s_backup
     {
         TransparentPanel Top_panel;
         object D_data;
-        public DesktopItem(string s, Image? img = null)
-        {
-            InitializeComponent();
-            TopLevel = false;
-            label1.Text = s;
-            pictureBox1.Image = img;
-        }
         public DesktopItem(string path,object D_data)
         {
             this.D_data = D_data;
