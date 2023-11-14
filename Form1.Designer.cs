@@ -41,6 +41,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(223, 450);
             textBox1.TabIndex = 0;
+            textBox1.Visible = false;
             // 
             // label1
             // 
