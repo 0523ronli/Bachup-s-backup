@@ -11,30 +11,29 @@ using System.Drawing.Design;
 
 namespace Bachup_s_backup
 {
-    public struct RECT
-    {
-        public uint Left;
-        public uint Top;
-        public uint Right;
-        public uint Bottom;
-    }
     public partial class Form1 : Form
     {
         List<DesktopItem> selected = new();
+        [DllImport("user32.dll")]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
+        [DllImport("user32.dll")]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         public Form1()
         {
             InitializeComponent();
-
+            RegisterHotKey(this.Handle, 1, 2 | 1, (int)Keys.F1);
             TopMost = true;
-            this.MinimizeBox = false;
+            //this.MinimizeBox = false;
+            //FormBorderStyle = FormBorderStyle.Sizable;
             FormBorderStyle = FormBorderStyle.None;
             textBox1.DragEnter += MyDragEnter;
             textBox1.DragDrop += textBox1_DragDrop;
             MouseDown += (s, e) =>
             {
                 Capture = false;
-                Message msg = Message.Create(Handle, 0x84, 0x2, 0x0);
+                Message msg = Message.Create(Handle, 161, new IntPtr(2), IntPtr.Zero);
                 WndProc(ref msg);
 
             };
@@ -58,13 +57,12 @@ namespace Bachup_s_backup
                 else
                 {
                     MessageBox.Show(e.Data.GetFormats().ToString());
-
                 }
             };
+            FormClosed +=(s,e)=>{
+                UnregisterHotKey(this.Handle, 1);
+            };
         }
-
-        [DllImport("user32")]
-        public static extern bool GetClientRect(IntPtr hwnd, out RECT lpRect);
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -82,6 +80,12 @@ namespace Bachup_s_backup
                         var p when p.Y > Location.Y + Height - 20 => 15,
                         _ => 2,
                     };
+                    break;
+                case 0x0312:
+                    if (m.WParam.ToInt32() == 1)
+                    {
+                        Visible = !Visible;
+                    }
                     break;
                 default:
                     base.WndProc(ref m);
@@ -120,5 +124,6 @@ namespace Bachup_s_backup
             Message msg = Message.Create(Handle, 0x112 /*WM_SYSCOMMAND*/, 0xF008 /*SC_SIZE + WMSZ_BOTTOMRIGHT*/, 0);
             WndProc(ref msg);
         }
+
     }
 }

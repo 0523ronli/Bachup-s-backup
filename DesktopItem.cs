@@ -76,7 +76,7 @@ namespace Bachup_s_backup
                     }
                     else
                     {
-                        DoDragDrop(D_data, DragDropEffects.Move);
+                        DoDragDrop(D_data, DragDropEffects.Copy);
                         dragging = false;
                         Location = orgi_P;
                     }
