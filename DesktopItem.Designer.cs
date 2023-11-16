@@ -35,6 +35,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label1.Location = new Point(12, 112);
             label1.Name = "label1";
             label1.Size = new Size(116, 19);
@@ -44,6 +45,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.Image = Properties.Resources.OneDrive_Folder_Icon_svg;
             pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";

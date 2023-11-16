@@ -10,15 +10,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace UItestv2
 {
-    public abstract class flatbtn:Button
+    public abstract class flatbtn : Button
     {
         public Form? Linkform { get; set; }
         public Panel expandPanel = new Panel();
-        public Action ToRun { get; set; }
+        public Action? ToRun { get; set; }
         public abstract void repaint();
         public void OpenUrl(string url)
         {
-            if (!string.IsNullOrEmpty(url) )
+            if (!string.IsNullOrEmpty(url))
                 try { if (MessageBox.Show($"開啟以下網址:{url}", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK) Process.Start("explorer", url); } catch { MessageBox.Show("連結開啟失敗"); }
         }
     }

@@ -6,14 +6,15 @@ using static System.Net.WebRequestMethods;
 using System.Drawing;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Drawing.Design;
+using static Bachup_s_backup.Program;
 
 namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
         List<DesktopItem> selected = new();
+        DragDropEffects current_effects = DragDropEffects.Copy;
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
@@ -23,33 +24,32 @@ namespace Bachup_s_backup
         public Form1()
         {
             InitializeComponent();
-            RegisterHotKey(this.Handle, 1, 2 | 1, (int)Keys.F1);
+            InitHotkey();
+
             TopMost = true;
-            //this.MinimizeBox = false;
-            //FormBorderStyle = FormBorderStyle.Sizable;
             FormBorderStyle = FormBorderStyle.None;
-            textBox1.DragEnter += MyDragEnter;
-            textBox1.DragDrop += textBox1_DragDrop;
+
             MouseDown += (s, e) =>
             {
                 Capture = false;
-                Message msg = Message.Create(Handle, 161, new IntPtr(2), IntPtr.Zero);
+                Message msg = Message.Create(Handle, 161, 2, 0);
                 WndProc(ref msg);
 
             };
             DragEnter += (s, e) =>
             {
-                e.Effect = DragDropEffects.Copy;
+                //TODO:chage effect
+                e.Effect = current_effects;
             };
             DragDrop += (s, e) =>
             {
-                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                if (e.Data!.GetDataPresent(DataFormats.FileDrop))
                 {
-                    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop)!;
                     foreach (string file in files)
                     {
                         DesktopItem DI = new(file, e.Data);
-                        DI.Location = new Point(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
+                        DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
                         DI.Visible = true;
                         Controls.Add(DI);
                     }
@@ -59,9 +59,25 @@ namespace Bachup_s_backup
                     MessageBox.Show(e.Data.GetFormats().ToString());
                 }
             };
-            FormClosed +=(s,e)=>{
-                UnregisterHotKey(this.Handle, 1);
+            FormClosed += (s, e) =>
+            {
+                UnregistHotkey();
             };
+        }
+
+        private void UnregistHotkey()
+        {
+            UnregisterHotKey(this.Handle, HotKeyID.Switch_Visable);
+        }
+
+        private void InitHotkey()
+        {
+            RegisterHotKey(this.Handle, HotKeyID.Switch_Visable, 1, (int)Keys.F1);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
         protected override void WndProc(ref Message m)
         {
@@ -82,9 +98,11 @@ namespace Bachup_s_backup
                     };
                     break;
                 case 0x0312:
-                    if (m.WParam.ToInt32() == 1)
+                    switch (m.WParam)
                     {
-                        Visible = !Visible;
+                        case HotKeyID.Switch_Visable:
+                            Visible = !Visible;
+                            break;
                     }
                     break;
                 default:
@@ -92,38 +110,5 @@ namespace Bachup_s_backup
                     break;
             }
         }
-        private void MyDragEnter(object sender, DragEventArgs e)
-        {
-
-            if (e.Data.GetDataPresent(DataFormats.Text))
-            {
-                e.Effect = DragDropEffects.Copy;
-
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-
-            }
-            textBox1.Text = string.Join("\n", e.Data.GetFormats());
-
-        }
-        private void textBox1_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
-        {
-            //textBox1.Text = e.Data.GetData(DataFormats.Text).ToString();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-        private void label1_MouseDown(object sender, MouseEventArgs e)
-        { 
-            label1.Capture = false;
-            var p = new Point(0, 0);
-            Message msg = Message.Create(Handle, 0x112 /*WM_SYSCOMMAND*/, 0xF008 /*SC_SIZE + WMSZ_BOTTOMRIGHT*/, 0);
-            WndProc(ref msg);
-        }
-
     }
 }

@@ -16,40 +16,32 @@ namespace Bachup_s_backup
     {
         TransparentPanel Top_panel;
         object D_data;
-        public DesktopItem(string path,object D_data)
+        public DesktopItem(string path, object D_data)
         {
             this.D_data = D_data;
             InitializeComponent();
+
             TopLevel = false;
             var name = Path.GetFileName(path);
-            label1.Text = name.Length > 10 ? name.Substring(0, 9) + "..." : name;
+            label1.Text = name.Length > 15 ? name.Substring(0, 14) + "..." : name;
+            //label1.Text = name;
             if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
             {
-                try
-                {
-                    pictureBox1.Image = Icon.ExtractAssociatedIcon(path)!.ToBitmap();
-                }catch (Exception ex) { }
-           
+                pictureBox1.Image = Icon.ExtractAssociatedIcon(path)!.ToBitmap();
             }
+
+
             Top_panel = new()
             {
-                Location = new Point(0, 0),
-                Size = this.Size,
-                BackColor = Color.Black,
+                Dock = DockStyle.Fill,
             };
             Controls.Add(Top_panel);
             Top_panel.BringToFront();
-            bool doubleClicking = false;
-
             Top_panel.MouseDoubleClick += (s, e) =>
             {
-                bool doubleClicking = true;
                 if (e.Button == MouseButtons.Left)
                 {
-                    using Process fileopener = new Process();
-                    fileopener.StartInfo.FileName = "explorer";
-                    fileopener.StartInfo.Arguments = "\"" + path + "\"";
-                    fileopener.Start();
+                    new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{path}\"" } }.Start();
                 }
             };
 
@@ -57,15 +49,15 @@ namespace Bachup_s_backup
             bool dragging = false;
             int clickedX = 0, clickedY = 0;
             int orgiX = 0, orgiY = 0;
-            Point orgi_P=Location;
+            Point orgi_P = Location;
             Top_panel.MouseMove += (s, e) =>
             {
                 if (dragging)
                 {
-                    var left = (Parent as Form).Location.X;
-                    var right = (Parent as Form).Location.X + (Parent as Form).Width;
-                    var top = (Parent as Form).Location.Y;
-                    var buttom = (Parent as Form).Location.Y + (Parent as Form).Height;
+                    var left = (Parent as Form)!.Location.X;
+                    var right = (Parent as Form)!.Location.X + (Parent as Form)!.Width;
+                    var top = (Parent as Form)!.Location.Y;
+                    var buttom = (Parent as Form)!.Location.Y + (Parent as Form)!.Height;
 
                     var mousePos = Cursor.Position;
 
@@ -91,8 +83,10 @@ namespace Bachup_s_backup
                 orgiY = Location.Y;
                 orgi_P = Location;
                 dragging = true;
+                
             };
-            Top_panel.MouseUp += (s, e) => { 
+            Top_panel.MouseUp += (s, e) =>
+            {
                 dragging = false;
             };
 

@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8981: 類型名稱只包含小寫的 ASCII 字元。此類名稱可能保留供此語言使用。
+dotnet_diagnostic.CS8981.severity = none

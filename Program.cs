@@ -15,5 +15,10 @@ namespace Bachup_s_backup
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
+        public static class HotKeyID
+        {
+            public const int Switch_Visable = 1;
+            public const int Switch_DragMode = 2;
+        }
     }
 }

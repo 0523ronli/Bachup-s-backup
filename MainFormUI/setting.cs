@@ -14,7 +14,7 @@ namespace UItestv2
 {
     public partial class setting : Form
     {
-        bool keepdiaplay = true; 
+        bool keepdiaplay = true;
         public setting()
         {
             InitializeComponent();
@@ -29,14 +29,14 @@ namespace UItestv2
 
         private void changeCLRbrn_Click(object sender, EventArgs e)
         {
-            int r=0, g=0, b=0;
+            int r = 0, g = 0, b = 0;
             void changeColor(ref Color c)
             {
                 try
                 {
                     c = Color.FromArgb(r, g, b);
-                    if (keepdiaplay) if(MessageBox.Show("更變成功\n不再顯示此提示?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)keepdiaplay=false;
-                    
+                    if (keepdiaplay) if (MessageBox.Show("更變成功\n不再顯示此提示?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes) keepdiaplay = false;
+
                 }
                 catch (Exception)
                 {
@@ -45,10 +45,10 @@ namespace UItestv2
             }
             try
             {
-                string[] s = CLRinput.Text.Split(new char[] { ',', ' ' },3, StringSplitOptions.RemoveEmptyEntries);
-                r=int.Parse(s[0]);
-                g=int.Parse(s[1]);
-                b=int.Parse(s[2]);
+                string[] s = CLRinput.Text.Split(new char[] { ',', ' ' }, 3, StringSplitOptions.RemoveEmptyEntries);
+                r = int.Parse(s[0]);
+                g = int.Parse(s[1]);
+                b = int.Parse(s[2]);
             }
             catch (Exception)
             {
@@ -76,11 +76,11 @@ namespace UItestv2
                     break;
             }
             Instance.leftrestore();
-            foreach(Leftbtn btn in Instance.foldablePanel.Controls)btn.repaint();
+            foreach (Leftbtn btn in Instance.foldablePanel.Controls) btn.repaint();
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(String.Join("\n\n",Instance.foldablePanel.Controls.Cast<Control>().ToList()));
+            MessageBox.Show(String.Join("\n\n", Instance.foldablePanel.Controls.Cast<Control>().ToList()));
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
