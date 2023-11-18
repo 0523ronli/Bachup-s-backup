@@ -23,7 +23,7 @@ namespace Bachup_s_backup
 
             TopLevel = false;
             var name = Path.GetFileName(path);
-            label1.Text = name.Length > 15 ? name.Substring(0, 14) + "..." : name;
+            label1.Text = name.Length > 15 ? name.Substring(0, 14) + "..." + "Yeci is Gay" : name;
             //label1.Text = name;
             if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
             {

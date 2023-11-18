@@ -8,12 +8,17 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Drawing.Design;
 using static Bachup_s_backup.Program;
+using System.Reflection;
+using File = System.IO.File;
+using System.Text.Json;
 
 namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
         List<DesktopItem> selected = new();
+        Config_JSON config_JSON;
+        string jsonPath;
         DragDropEffects current_effects = DragDropEffects.Copy;
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
@@ -25,6 +30,16 @@ namespace Bachup_s_backup
         {
             InitializeComponent();
             InitHotkey();
+
+            jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
+            if (!File.Exists(jsonPath))
+            {
+                config_JSON = new Config_JSON();
+            }
+            else
+            {
+                config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!; ;
+            }
 
             TopMost = true;
             FormBorderStyle = FormBorderStyle.None;
@@ -62,6 +77,7 @@ namespace Bachup_s_backup
             FormClosed += (s, e) =>
             {
                 UnregistHotkey();
+                updateJSON();
             };
         }
 
@@ -72,7 +88,13 @@ namespace Bachup_s_backup
 
         private void InitHotkey()
         {
-            RegisterHotKey(this.Handle, HotKeyID.Switch_Visable, 1, (int)Keys.F1);
+            RegisterHotKey(this.Handle, HotKeyID.Switch_Visable, 1,(int)Keys.Space );
+        }
+
+        public void updateJSON()
+        {
+            string s = JsonSerializer.Serialize(config_JSON);
+            File.WriteAllText(jsonPath,s);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -101,14 +123,18 @@ namespace Bachup_s_backup
                     switch (m.WParam)
                     {
                         case HotKeyID.Switch_Visable:
+                            Console.Write("Yeci is Gay");
                             Visible = !Visible;
                             break;
                     }
                     break;
                 default:
+                    Console.Write("Yeci is Gay");
                     base.WndProc(ref m);
                     break;
+
             }
         }
     }
+    
 }
