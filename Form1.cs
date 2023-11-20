@@ -8,18 +8,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Drawing.Design;
 using static Bachup_s_backup.Program;
-using System.Reflection;
-using File = System.IO.File;
-using System.Text.Json;
 
 namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
-        public static Form1 Instance;
-        public HashSet<DesktopItem> selected = new();
-        Config_JSON config_JSON = new();
-        string jsonPath;
+        List<DesktopItem> selected = new();
         DragDropEffects current_effects = DragDropEffects.Copy;
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
@@ -29,24 +23,8 @@ namespace Bachup_s_backup
 
         public Form1()
         {
-            
-            Instance = this;
-            // InitializeComponent();
-            // InitHotkey();
-
-            jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-            //if (File.Exists(jsonPath))
-            //{
-            //    try
-            //    {
-            //        config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!;
-            //    }
-            //    catch (Exception)
-            //    {
-            //        MessageBox.Show(File.ReadAllText(jsonPath), "parse error");
-            //    }
-            //}
-            //InitByJson();
+            InitializeComponent();
+            InitHotkey();
 
             TopMost = true;
             FormBorderStyle = FormBorderStyle.None;
@@ -84,7 +62,6 @@ namespace Bachup_s_backup
             FormClosed += (s, e) =>
             {
                 UnregistHotkey();
-                UpdateJSON();
             };
         }
         public void createDrag()
@@ -100,22 +77,7 @@ namespace Bachup_s_backup
 
         private void InitHotkey()
         {
-           ///RegisterHotKey(this.Handle, HotKeys.Switch_Visable.ID, 1, (int)Keys.V);
-            //RegisterHotKey(this.Handle, HotKeys.Switch_DragMode.ID, 1, (int)Keys.E);
-        }
-
-        private void InitByJson()
-        {
-            Location = config_JSON.location;
-            Size = config_JSON.size;
-            Controls.AddRange(config_JSON.DI_list.Select(x => new DesktopItem(x.path!)).ToArray());
-        }
-
-        public void UpdateJSON()
-        {
-            string s = JsonSerializer.Serialize(config_JSON);
-            File.Create(jsonPath).Dispose();
-            File.WriteAllText(jsonPath, s);
+            RegisterHotKey(this.Handle, HotKeyID.Switch_Visable, 1, (int)Keys.F1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -143,21 +105,17 @@ namespace Bachup_s_backup
                 case 0x0312:
                     if (m.WParam == HotKeys.Switch_Visable.ID)
                     {
-                        Visible = !Visible;
+                        case HotKeyID.Switch_Visable:
+                            Visible = !Visible;
+                            break;
                     }
-                    if (m.WParam == HotKeys.Switch_DragMode.ID)
-                    {
-                        current_effects = current_effects == DragDropEffects.Copy ? DragDropEffects.Move : DragDropEffects.Copy;
-                    }
-                    else
-                    {
-                        base.WndProc(ref m);
-                    }
+                    break;
+                default:
+                    base.WndProc(ref m);
                     break;
             }
         }
 
         
     }
-
 }

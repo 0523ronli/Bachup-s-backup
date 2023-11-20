@@ -22,10 +22,10 @@ namespace Bachup_s_backup
             InitializeComponent();
 
             TopLevel = false;
-            FilePath = path;
-            FileName = Path.GetFileName(FilePath);
-            label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
-            if ((File.GetAttributes(FilePath) & FileAttributes.Directory) != FileAttributes.Directory)
+            var name = Path.GetFileName(path);
+            label1.Text = name.Length > 15 ? name.Substring(0, 14) + "..." : name;
+            //label1.Text = name;
+            if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
             {
                 pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)!.ToBitmap();
             }

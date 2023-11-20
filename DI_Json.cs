@@ -8,8 +8,8 @@ namespace Bachup_s_backup
 {
     internal struct DI_Json
     {
-        public Point location;
-        public String? path;
-        public object? data;
+        Point location;
+        String? path;
+        object? extra_data;
     }
 }
