@@ -13,12 +13,26 @@ namespace Bachup_s_backup
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.EnableVisualStyles();
+            Application.Run(new Form2());
         }
-        public static class HotKeyID
+        public static class HotKeys
         {
-            public const int Switch_Visable = 1;
-            public const int Switch_DragMode = 2;
+            public static Hotkey Switch_Visable = new()
+            {
+                ID = 1,
+                Key = (int)Keys.V
+            };
+            public static Hotkey Switch_DragMode = new ()
+            {
+                ID = 2,
+                Key = (int)Keys.E
+            };
+        }
+        public struct Hotkey
+        {
+            public int ID;
+            public int Key;
         }
     }
 }

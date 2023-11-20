@@ -79,7 +79,7 @@ namespace UItestv2
                 Text = "Gay",
                 subbtnList = new List<Subbtn>
                 {
-                    new Subbtn() {Text="Nano",Linkform=new Form1() }
+                    //new Subbtn() {Text="Nano",Linkform=new Form1() }
                 }
             });
             leftrestore();

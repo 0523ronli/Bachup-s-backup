@@ -1,6 +1,6 @@
 ﻿namespace Bachup_s_backup
 {
-    partial class Form1
+    partial class Form2
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,7 +30,7 @@
         {
             SuspendLayout();
             // 
-            // Form2
+            // Form1
             // 
             AllowDrop = true;
             AutoScaleMode = AutoScaleMode.None;
@@ -39,12 +39,12 @@
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "Form2";
+            Name = "Form1";
             Opacity = 0.7D;
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Show;
-            Text = "Form2";
+            Text = "Form1";
             TopMost = true;
             ResumeLayout(false);
         }

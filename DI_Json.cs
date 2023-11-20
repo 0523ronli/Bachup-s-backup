@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Bachup_s_backup
 {
-    internal class DI_Json
+    internal struct DI_Json
     {
         public Point location;
         public String? path;
-        public object? extra_data;
+        public object? data;
     }
 }

@@ -14,24 +14,24 @@ using System.Text.Json;
 
 namespace Bachup_s_backup
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
-        public static Form1 Instance;
+        public static Form2 Instance;
         public HashSet<DesktopItem> selected = new();
         Config_JSON config_JSON = new();
         string jsonPath;
         DragDropEffects current_effects = DragDropEffects.Copy;
-        [DllImport("user32.dll")]
-        public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+        //[DllImport("user32.dll")]
+        //public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
-        [DllImport("user32.dll")]
-        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        //[DllImport("user32.dll")]
+        //public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        public Form1()
+        public Form2()
         {
             
             Instance = this;
-            // InitializeComponent();
+            InitializeComponent();
             // InitHotkey();
 
             jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
@@ -118,7 +118,7 @@ namespace Bachup_s_backup
             File.WriteAllText(jsonPath, s);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form2_Load(object sender, EventArgs e)
         {
 
         }

@@ -2,3 +2,9 @@
 
 # CS8981: 類型名稱只包含小寫的 ASCII 字元。此類名稱可能保留供此語言使用。
 dotnet_diagnostic.CS8981.severity = none
+
+# CS8618: 退出建構函式時，不可為 Null 的欄位必須包含非 Null 值。請考慮宣告為可為 Null。
+dotnet_diagnostic.CS8618.severity = none
+
+# IDE0044: 新增唯讀修飾元
+dotnet_diagnostic.IDE0044.severity = none
