@@ -149,7 +149,7 @@ namespace Bachup_s_backup
                 location = f.Location,
                 FilePath=f.FilePath
             }).ToList();
-            string s = JsonSerializer.Serialize<Config_JSON>(config_JSON);
+            string s = JsonSerializer.Serialize<Config_JSON>(config_JSON,typeof(Config_JSON);
             File.WriteAllText(jsonPath, s);
         }
     }
