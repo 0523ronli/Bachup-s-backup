@@ -1,20 +1,18 @@
-using System.Windows.Forms;
-using System.Windows;
-using System.Net.Mail;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using static System.Net.WebRequestMethods;
-using System.Drawing;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Drawing.Design;
 using static Bachup_s_backup.Program;
+using System.Reflection;
+using System.Text.Json;
 
 namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
-        List<DesktopItem> selected = new();
+        public static Form1 Instance;
+        string jsonPath;
+        public Config_JSON config_JSON = new Config_JSON();
+        public HashSet<DesktopItem> selected = new();
         DragDropEffects current_effects = DragDropEffects.Copy;
+        bool shift_pressed = false;
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
@@ -25,6 +23,14 @@ namespace Bachup_s_backup
         {
             InitializeComponent();
             InitHotkey();
+
+            jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
+            if (File.Exists(jsonPath))
+            {
+                config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!; ;
+            }
+            
+            Instance = this;
 
             TopMost = true;
             FormBorderStyle = FormBorderStyle.None;
@@ -38,13 +44,19 @@ namespace Bachup_s_backup
             };
             DragEnter += (s, e) =>
             {
-                //e.Effect = current_effects;
+                e.Effect = current_effects;
             };
             DragDrop += (s, e) =>
             {
                 if (e.Data!.GetDataPresent(DataFormats.FileDrop))
                 {
-                    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop)!;
+                    var thing = e.Data.GetData(DataFormats.FileDrop);
+                    if (thing == null)
+                    {
+                        MessageBox.Show("drop null");
+                        return;
+                    }
+                    string[] files = (string[])thing;
                     foreach (string file in files)
                     {
                         DesktopItem DI = new(file);
@@ -58,12 +70,23 @@ namespace Bachup_s_backup
                     MessageBox.Show(e.Data.GetFormats().ToString());
                 }
             };
+            //KeyDown += (s, e) =>
+            //{
+            //    if(e.KeyCode==Keys.Shift)shift_pressed = true;
+            //};
+            //KeyUp += (s, e) =>
+            //{
+            //    if (e.KeyCode == Keys.Shift) shift_pressed = false;
+            //};
 
             FormClosed += (s, e) =>
             {
                 UnregistHotkey();
+                updateJSON();
+                Application.Exit();
             };
         }
+
         public void createDrag()
         {
             DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath)), current_effects);
@@ -71,13 +94,13 @@ namespace Bachup_s_backup
 
         private void UnregistHotkey()
         {
-            //UnregisterHotKey(this.Handle, HotKeys.Switch_Visable.ID);
-            //UnregisterHotKey(this.Handle, HotKeys.Switch_DragMode.ID);
+            UnregisterHotKey(this.Handle, HotKeys.Switch_Visable.ID);
+            UnregisterHotKey(this.Handle, HotKeys.Switch_DragMode.ID);
         }
 
         private void InitHotkey()
         {
-            RegisterHotKey(this.Handle, HotKeyID.Switch_Visable, 1, (int)Keys.F1);
+            RegisterHotKey(this.Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_Visable.Key);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -105,9 +128,7 @@ namespace Bachup_s_backup
                 case 0x0312:
                     if (m.WParam == HotKeys.Switch_Visable.ID)
                     {
-                        case HotKeyID.Switch_Visable:
-                            Visible = !Visible;
-                            break;
+                        Visible = !Visible;
                     }
                     break;
                 default:
@@ -115,7 +136,21 @@ namespace Bachup_s_backup
                     break;
             }
         }
-
-        
+        public void updateJSON()
+        {
+            if (!File.Exists(jsonPath))
+            {
+                File.Create(jsonPath);
+            }
+            config_JSON.size = Size;
+            config_JSON.location = Location;
+            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json()
+            {
+                location = f.Location,
+                FilePath=f.FilePath
+            }).ToList();
+            string s = JsonSerializer.Serialize<Config_JSON>(config_JSON);
+            File.WriteAllText(jsonPath, s);
+        }
     }
 }

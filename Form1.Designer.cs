@@ -30,7 +30,7 @@
         {
             SuspendLayout();
             // 
-            // Form2
+            // Form1
             // 
             AllowDrop = true;
             AutoScaleMode = AutoScaleMode.None;
@@ -39,7 +39,7 @@
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "Form2";
+            Name = "Form1";
             Opacity = 0.7D;
             ShowIcon = false;
             ShowInTaskbar = false;

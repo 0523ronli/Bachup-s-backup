@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,14 +7,21 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
+using System.Windows.Input;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Bachup_s_backup
 {
     public partial class DesktopItem : Form
     {
+        public HashSet<DesktopItem> selected = new();
+        [DllImport("user32.dll")]
+        public static extern bool GetAsyncKeyState(int vKey);
         TransparentPanel Top_panel;
         public String FileName;
         public String FilePath;
@@ -22,18 +30,24 @@ namespace Bachup_s_backup
             InitializeComponent();
 
             TopLevel = false;
-            var name = Path.GetFileName(path);
-            label1.Text = name.Length > 15 ? name.Substring(0, 14) + "..." : name;
-            //label1.Text = name;
-            if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
-            {
-                pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)!.ToBitmap();
-            }
-
-
+            FilePath = path;
+            FileName = Path.GetFileName(path);
             Top_panel = new();
             Controls.Add(Top_panel);
             Top_panel.BringToFront();
+
+            label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
+            if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
+            {
+                try
+                {
+                    pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)!.ToBitmap();
+                }catch (Exception)
+                {
+
+                }
+            }
+
             Top_panel.MouseDoubleClick += (s, e) =>
             {
                 if (e.Button == MouseButtons.Left)
@@ -65,8 +79,8 @@ namespace Bachup_s_backup
                     }
                     else
                     {
-                        Form1.Instance.createDrag();
-                        
+                        //Form1.Instance.createDrag();
+                        DoDragDrop(new DataObject(DataFormats.FileDrop,new string[] { FilePath }), DragDropEffects.Copy);
                         moveing = false;
                         Location = orgi_P;
                     }
@@ -81,6 +95,7 @@ namespace Bachup_s_backup
                 orgiY = Location.Y;
                 orgi_P = Location;
                 moveing = true;
+                if(!GetAsyncKeyState((int)Keys.Shift))Form1.Instance.selected.Clear();
                 Form1.Instance.selected.Add(this);
             };
             Top_panel.MouseUp += (s, e) =>
