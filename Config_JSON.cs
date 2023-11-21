@@ -9,9 +9,9 @@ namespace Bachup_s_backup
 {
     public class Config_JSON
     {
-        public Point location = new(0,0);
-        public Size size = new(0, 0);
-        public List<DI_Json> DI_List = new();
+        public Point location { get; set; } = new(0, 0);
+        public Size size { get; set; } = new(200, 450);
+        public List<DI_Json> DI_List { get; set; } = new();
 
     }
 }

@@ -8,11 +8,11 @@ namespace Bachup_s_backup
     public partial class Form1 : Form
     {
         public static Form1 Instance;
-        string jsonPath;
-        public Config_JSON config_JSON = new Config_JSON();
+        string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public HashSet<DesktopItem> selected = new();
+        public Config_JSON config_JSON = new();
         DragDropEffects current_effects = DragDropEffects.Copy;
-        bool shift_pressed = false;
+
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
@@ -21,77 +21,64 @@ namespace Bachup_s_backup
 
         public Form1()
         {
+            loadEvent();
+
+            MouseDown += onMouseDown;
+            DragEnter += onDragEnter;
+            DragDrop += onDragDrop;
+            FormClosed += onFormClosed;
+        }
+
+        private void loadEvent()
+        {
             InitializeComponent();
             InitHotkey();
-
-            jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-            if (File.Exists(jsonPath))
-            {
-                config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!; ;
-            }
-            
-            Instance = this;
-
-            TopMost = true;
-            FormBorderStyle = FormBorderStyle.None;
-
-            MouseDown += (s, e) =>
-            {
-                Capture = false;
-                Message msg = Message.Create(Handle, 161, 2, 0);
-                WndProc(ref msg);
-
-            };
-            DragEnter += (s, e) =>
-            {
-                e.Effect = current_effects;
-            };
-            DragDrop += (s, e) =>
-            {
-                if (e.Data!.GetDataPresent(DataFormats.FileDrop))
-                {
-                    var thing = e.Data.GetData(DataFormats.FileDrop);
-                    if (thing == null)
-                    {
-                        MessageBox.Show("drop null");
-                        return;
-                    }
-                    string[] files = (string[])thing;
-                    foreach (string file in files)
-                    {
-                        DesktopItem DI = new(file);
-                        DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
-                        DI.Visible = true;
-                        Controls.Add(DI);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(e.Data.GetFormats().ToString());
-                }
-            };
-            //KeyDown += (s, e) =>
-            //{
-            //    if(e.KeyCode==Keys.Shift)shift_pressed = true;
-            //};
-            //KeyUp += (s, e) =>
-            //{
-            //    if (e.KeyCode == Keys.Shift) shift_pressed = false;
-            //};
-
-            FormClosed += (s, e) =>
-            {
-                UnregistHotkey();
-                updateJSON();
-                Application.Exit();
-            };
+            loadJson();
         }
 
-        public void createDrag()
+        private void onMouseDown(object? s, MouseEventArgs e)
         {
-            DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath)), current_effects);
+            Capture = false;
+            Message msg = Message.Create(Handle, 161, 2, 0);
+            WndProc(ref msg);
         }
 
+        private void onDragEnter(object? s, DragEventArgs e)
+        {
+            e.Effect = current_effects;
+        }
+
+        private void onDragDrop(object? s, DragEventArgs e)
+        {
+            if (e.Data!.GetDataPresent(DataFormats.FileDrop))
+            {
+                var thing = e.Data.GetData(DataFormats.FileDrop);
+                if (thing == null)
+                {
+                    MessageBox.Show("drop null");
+                    return;
+                }
+                string[] files = (string[])thing;
+                foreach (string file in files)
+                {
+                    DesktopItem DI = new(file);
+                    DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
+                    DI.Visible = true;
+                    Controls.Add(DI);
+                }
+            }
+            else
+            {
+                MessageBox.Show(e.Data.GetFormats().ToString());
+            }
+        }
+
+        private void onFormClosed(object? s, FormClosedEventArgs e)
+        {
+            UnregistHotkey();
+            updateJSON();
+            Application.Exit();
+        }
         private void UnregistHotkey()
         {
             UnregisterHotKey(this.Handle, HotKeys.Switch_Visable.ID);
@@ -103,10 +90,6 @@ namespace Bachup_s_backup
             RegisterHotKey(this.Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_Visable.Key);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -136,12 +119,27 @@ namespace Bachup_s_backup
                     break;
             }
         }
+
+        public void loadJson()
+        {
+            if (File.Exists(jsonPath))
+            {
+                config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!;
+                Location = config_JSON.location;
+                Size = config_JSON.size;
+                var items = config_JSON.DI_List.Select(nano => new DesktopItem (nano.FilePath)
+                {
+                    Location = nano.location,
+                    FilePath = nano.FilePath
+                }).ToList();
+                selected.UnionWith(items.Cast<DesktopItem>());
+            }
+        }
+
         public void updateJSON()
         {
-            if (!File.Exists(jsonPath))
-            {
-                File.Create(jsonPath);
-            }
+            File.Delete(jsonPath);
+            File.Create(jsonPath).Close();
             config_JSON.size = Size;
             config_JSON.location = Location;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json()
@@ -149,8 +147,7 @@ namespace Bachup_s_backup
                 location = f.Location,
                 FilePath=f.FilePath
             }).ToList();
-            string s = JsonSerializer.Serialize<Config_JSON>(config_JSON,typeof(Config_JSON);
-            File.WriteAllText(jsonPath, s);
+            File.WriteAllText(jsonPath, JsonSerializer.Serialize<Config_JSON>(config_JSON));
         }
     }
 }
