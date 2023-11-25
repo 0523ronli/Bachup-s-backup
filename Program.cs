@@ -34,5 +34,11 @@ namespace Bachup_s_backup
             public int ID;
             public int Key;
         }
+        private static void OnThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show("Something not expected went wrong: \n " + e.Exception.Message, "O_o", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static Color DI_default = SystemColors.ActiveBorder;
+        public static Color DI_selected = Color.LightBlue;
     }
 }

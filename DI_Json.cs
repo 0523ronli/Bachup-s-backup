@@ -10,5 +10,9 @@ namespace Bachup_s_backup
     {
         public Point location { get; set; }
         public String FilePath { get; set; }
+        public DI_Json(Point location, String FilePath)
+        {
+            this.location=location; this.FilePath=FilePath;
+        }
     }
 }

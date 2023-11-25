@@ -14,8 +14,8 @@ namespace Bachup_s_backup
         public String FilePath;
         public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {
-            if (File.Exists(path)) return new(path) { Location = locataion ?? new() };
-            else return null;
+            if (File.Exists(path)||Directory.Exists(path)) return new(path) { Location = locataion ?? new() };
+            else return null!;
         }
         private DesktopItem(string path)
         {
@@ -29,10 +29,6 @@ namespace Bachup_s_backup
             Top_panel.BringToFront();
             Visible = true;
 
-            if (!File.Exists(FilePath))
-            {
-
-            }
             label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
             if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
             {
@@ -66,17 +62,19 @@ namespace Bachup_s_backup
 
                     var mousePos = Cursor.Position;
 
-                    if (mousePos.X >= left && mousePos.X <= right && mousePos.Y >= top && mousePos.Y <= buttom)
-                    {
-                        mousePos.Offset(-left - clickedX, -top - clickedY);
-                        Location = mousePos;
-                    }
-                    else
-                    {
-                        DoDragDrop(new DataObject(DataFormats.FileDrop, new string[] { FilePath }), DragDropEffects.Copy);
-                        M_dragging = false;
-                        Location = orgi_P;
-                    }
+                    //if (mousePos.X >= left && mousePos.X <= right && mousePos.Y >= top && mousePos.Y <= buttom)
+                    //{
+                    //    mousePos.Offset(-left - clickedX, -top - clickedY);
+                    //    Location = mousePos;
+                    //}
+                    //else
+                    //{
+                    //    DoDragDrop(new DataObject(DataFormats.FileDrop, new string[] { FilePath }), DragDropEffects.Copy);
+                    //    M_dragging = false;
+                    //    Location = orgi_P;
+                    //}
+                    (Parent as Form1)!.MakeDrag();
+                    M_dragging = false;
                 }
             };
 
@@ -88,19 +86,16 @@ namespace Bachup_s_backup
                 orgiY = Location.Y;
                 orgi_P = Location;
                 M_dragging = true;
-                if (!GetAsyncKeyState(0x10))
-                {
-                    Form1.Instance.selected.Clear();
-                }
-                Form1.Instance.selected.Add(this);
-                foreach (DesktopItem DI in Parent!.Controls)
-                {
-                    DI.BackColor = Form1.Instance.selected.Contains(DI) ? Color.LightBlue : SystemColors.ActiveBorder;
-                }
+                
+                (Parent as Form1)!.selected.Add(this);
             };
             Top_panel.MouseUp += (s, e) =>
             {
                 M_dragging = false;
+                if (!GetAsyncKeyState(0x10))
+                {
+                    (Parent as Form1)!.selected.Clear();
+                }
             };
         }
     }

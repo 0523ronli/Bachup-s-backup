@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
+using System.Drawing.Drawing2D;
 
 namespace Bachup_s_backup
 {
@@ -9,10 +10,10 @@ namespace Bachup_s_backup
     {
         public static Form1 Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-        public HashSet<DesktopItem> selected = new();
+        public Set_of_DI selected = new();
         public Config_JSON config_JSON = new();
         DragDropEffects current_effects = DragDropEffects.Copy;
-
+        
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
@@ -26,6 +27,7 @@ namespace Bachup_s_backup
             loadJson();
             Console.WriteLine("F");
             Instance = this;
+            TopMost = true;
 
             MouseDown += onMouseDown;
             DragEnter += onDragEnter;
@@ -35,8 +37,10 @@ namespace Bachup_s_backup
 
         private void onMouseDown(object? s, MouseEventArgs e)
         {
+            selected.Clear();
             Capture = false;
             Message msg = Message.Create(Handle, 161, 2, 0);
+
             WndProc(ref msg);
         }
 
@@ -47,31 +51,40 @@ namespace Bachup_s_backup
 
         private void onDragDrop(object? s, DragEventArgs e)
         {
-            if (e.Data!.GetDataPresent(DataFormats.FileDrop))
+            //TopMost = false;
+            //SendToBack();
+            try
             {
-                var thing = e.Data.GetData(DataFormats.FileDrop);
-                if (thing == null)
+                if (e.Data!.GetDataPresent(DataFormats.FileDrop))
                 {
-                    MessageBox.Show("drop null");
-                    return;
-                }
-                string[] files = (string[])thing;
-                foreach (string file in files)
-                {
-                    DesktopItem DI;
-                    if((DI = DesktopItem.SaveCreate(file)) == null)
+                    foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
-                        MessageBox.Show($"can not find file at {file}");
-                        continue;
+                        
+                        DesktopItem DI = DesktopItem.SaveCreate(file);
+                        if (DI == null)
+                        {
+                            MessageBox.Show(this, $"can not find file at {file}");
+                            continue;
+                        }
+                        Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
+                        {
+                            Controls.Remove(x); selected.Remove(x);x.Dispose();
+                        });
+                        DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
+                        Controls.Add(DI);
+                        GC.Collect();
                     }
-                    DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
-                    Controls.Add(DI);
+                }
+                else
+                {
+                    MessageBox.Show(this, e.Data.GetFormats().ToString());
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Data.GetFormats().ToString());
+                MessageBox.Show(ex.Message, "Messed up when dropping");
             }
+            //TopMost = true;
         }
 
         private void onFormClosed(object? s, FormClosedEventArgs e)
@@ -106,7 +119,7 @@ namespace Bachup_s_backup
                         var p when p.X > Location.X + Width - 20 => 11,
                         var p when p.Y < Location.Y + 20 => 12,
                         var p when p.Y > Location.Y + Height - 20 => 15,
-                        _ => 2,
+                        _ => 1,
                     };
                     break;
                 case 0x0312:
@@ -129,7 +142,7 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 var items = config_JSON.DI_List.Select(
-                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x=>x!=null);
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
                 Controls.AddRange(items.ToArray());
             }
         }
@@ -139,12 +152,14 @@ namespace Bachup_s_backup
             File.Create(jsonPath).Close();
             config_JSON.size = Size;
             config_JSON.location = Location;
-            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json()
-            {
-                location = f.Location,
-                FilePath=f.FilePath
-            }).ToList();
-            File.WriteAllText(jsonPath, JsonSerializer.Serialize<Config_JSON>(config_JSON));
+            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
+            File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
+        }
+
+        public void MakeDrag()
+        {
+            var thing = selected.Select(x => x.FilePath).ToArray();
+            DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath).ToArray()), current_effects);
         }
     }
 }
