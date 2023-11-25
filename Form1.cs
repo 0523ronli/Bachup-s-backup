@@ -21,19 +21,16 @@ namespace Bachup_s_backup
 
         public Form1()
         {
-            loadEvent();
+            InitializeComponent();
+            InitHotkey();
+            loadJson();
+            Console.WriteLine("F");
+            Instance = this;
 
             MouseDown += onMouseDown;
             DragEnter += onDragEnter;
             DragDrop += onDragDrop;
             FormClosed += onFormClosed;
-        }
-
-        private void loadEvent()
-        {
-            InitializeComponent();
-            InitHotkey();
-            loadJson();
         }
 
         private void onMouseDown(object? s, MouseEventArgs e)
@@ -61,9 +58,13 @@ namespace Bachup_s_backup
                 string[] files = (string[])thing;
                 foreach (string file in files)
                 {
-                    DesktopItem DI = new(file);
+                    DesktopItem DI;
+                    if((DI = DesktopItem.SaveCreate(file)) == null)
+                    {
+                        MessageBox.Show($"can not find file at {file}");
+                        continue;
+                    }
                     DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
-                    DI.Visible = true;
                     Controls.Add(DI);
                 }
             }
@@ -127,18 +128,14 @@ namespace Bachup_s_backup
                 config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!;
                 Location = config_JSON.location;
                 Size = config_JSON.size;
-                var items = config_JSON.DI_List.Select(nano => new DesktopItem (nano.FilePath)
-                {
-                    Location = nano.location,
-                    FilePath = nano.FilePath
-                }).ToList();
-                selected.UnionWith(items.Cast<DesktopItem>());
+                var items = config_JSON.DI_List.Select(
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x=>x!=null);
+                Controls.AddRange(items.ToArray());
             }
         }
 
         public void updateJSON()
         {
-            File.Delete(jsonPath);
             File.Create(jsonPath).Close();
             config_JSON.size = Size;
             config_JSON.location = Location;
