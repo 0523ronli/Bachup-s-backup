@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using static UItestv2.Global;
-using static UItestv2.MainForm;
+using static UItestv2.SettingMainForm;
 
 namespace UItestv2
 {

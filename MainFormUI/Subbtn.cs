@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static UItestv2.Global;
-using static UItestv2.MainForm;
+using static UItestv2.SettingMainForm;
 
 namespace UItestv2
 {

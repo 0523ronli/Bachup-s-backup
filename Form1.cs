@@ -10,7 +10,7 @@ namespace Bachup_s_backup
     {
         public static Form1 Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-        public Set_of_DI selected = new();
+        public SelectedItem selected = new(Instance);
         public Config_JSON config_JSON = new();
         DragDropEffects current_effects = DragDropEffects.Copy;
         
@@ -23,24 +23,41 @@ namespace Bachup_s_backup
         public Form1()
         {
             InitializeComponent();
-            InitHotkey();
-            loadJson();
-            Console.WriteLine("F");
+            InitializeConfig();
+            RegisterHotkey();
+            
             Instance = this;
             TopMost = true;
+            KeyPreview = true;
 
+            KeyDown += onKeyDown;
             MouseDown += onMouseDown;
             DragEnter += onDragEnter;
             DragDrop += onDragDrop;
             FormClosed += onFormClosed;
         }
 
+
+        private void onKeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                foreach (var item in selected.ToList())
+                {
+                    Controls.Remove(item);
+                    selected.Remove(item);
+                    item.Dispose();
+                }
+                GC.Collect();
+            }
+        }
+
         private void onMouseDown(object? s, MouseEventArgs e)
         {
             selected.Clear();
             Capture = false;
+            //Message msg = Message.Create(Handle, 161, Message.Create(Handle, 0x84, 2, 0).Result, 0);
             Message msg = Message.Create(Handle, 161, 2, 0);
-
             WndProc(ref msg);
         }
 
@@ -53,13 +70,15 @@ namespace Bachup_s_backup
         {
             //TopMost = false;
             //SendToBack();
+            
             try
             {
+                int i = 0;
+                Point M_Pos = MousePosition;
                 if (e.Data!.GetDataPresent(DataFormats.FileDrop))
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
-                        
                         DesktopItem DI = DesktopItem.SaveCreate(file);
                         if (DI == null)
                         {
@@ -70,9 +89,10 @@ namespace Bachup_s_backup
                         {
                             Controls.Remove(x); selected.Remove(x);x.Dispose();
                         });
-                        DI.Location = new(MousePosition.X - Location.X - DI.Width / 2, MousePosition.Y - Location.Y - DI.Height / 2);
+                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2+i*(DI_size.Width+10), M_Pos.Y - Location.Y - DI.Height / 2);
                         Controls.Add(DI);
                         GC.Collect();
+                        i++;
                     }
                 }
                 else
@@ -95,13 +115,14 @@ namespace Bachup_s_backup
         }
         private void UnregistHotkey()
         {
-            UnregisterHotKey(this.Handle, HotKeys.Switch_Visable.ID);
-            UnregisterHotKey(this.Handle, HotKeys.Switch_DragMode.ID);
+            UnregisterHotKey(Handle, HotKeys.Switch_Visable.ID);
+            UnregisterHotKey(Handle, HotKeys.Switch_DragMode.ID);
         }
 
-        private void InitHotkey()
+        private void RegisterHotkey()
         {
-            RegisterHotKey(this.Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_Visable.Key);
+            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_Visable.Key);
+            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_DragMode.Key);
         }
 
         protected override void WndProc(ref Message m)
@@ -127,6 +148,16 @@ namespace Bachup_s_backup
                     {
                         Visible = !Visible;
                     }
+                    if (m.WParam == HotKeys.Delete.ID)
+                    {
+                        foreach (var item in selected.ToList())
+                        {
+                            Controls.Remove(item);
+                            selected.Remove(item);
+                            item.Dispose();
+                        }
+                        GC.Collect();
+                    }
                     break;
                 default:
                     base.WndProc(ref m);
@@ -134,7 +165,7 @@ namespace Bachup_s_backup
             }
         }
 
-        public void loadJson()
+        public void InitializeConfig()
         {
             if (File.Exists(jsonPath))
             {

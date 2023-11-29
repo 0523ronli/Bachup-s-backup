@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Bachup_s_backup
 {
-    public class Set_of_DI:HashSet<DesktopItem>
+    public class SelectedItem:HashSet<DesktopItem>
     {
+        private Form1 Form;
+
+        public SelectedItem(Form1 Form)
+        {
+            this.Form = Form;
+        }
+
         public new void Add(DesktopItem item)
         {
             item.BackColor = Program.DI_selected;
@@ -26,6 +33,13 @@ namespace Bachup_s_backup
                 item.BackColor = Program.DI_default;
             }
             base.Clear();
+        }
+        public new void Delete()
+        {
+            foreach(var item in this)
+            {
+                Form.Controls.Remove(item);
+            }
         }
     }
 }

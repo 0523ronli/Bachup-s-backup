@@ -11,10 +11,10 @@ using static UItestv2.Global;
 
 namespace UItestv2
 {
-    public partial class MainForm : Form
+    public partial class SettingMainForm : Form
     {
-        public static MainForm Instance;
-        public MainForm()
+        public static SettingMainForm Instance;
+        public SettingMainForm()
         {
             InitializeComponent();
             Instance = this;
@@ -39,7 +39,7 @@ namespace UItestv2
             c.Size = s;
             c.BringToFront();
         }
-        
+
         public void leftrestore()
         {
             foldablePanel.Controls.Clear();
@@ -79,7 +79,8 @@ namespace UItestv2
                 Text = "Gay",
                 subbtnList = new List<Subbtn>
                 {
-                    //new Subbtn() {Text="Nano",Linkform=new Form1() }
+                    new Subbtn() {Text="Nano",Linkform=new Form1() }
+
                 }
             });
             leftrestore();

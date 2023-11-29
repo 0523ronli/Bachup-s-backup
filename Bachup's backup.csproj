@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MainFormUI\MainFormUI.cs" />
+    <Compile Remove="MainFormUI\SettingForm.cs" />
+    <Compile Remove="Set_of_DI.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

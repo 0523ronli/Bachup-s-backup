@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Bachup_s_backup
 {
@@ -10,8 +11,32 @@ namespace Bachup_s_backup
         public static extern bool GetAsyncKeyState(int vKey);
 
         TransparentPanel Top_panel;
-        public String FileName;
-        public String FilePath;
+        public string FileName;
+        public string FilePath;
+        private ContextMenuStrip RightClickMenu;
+        private ToolStripMenuItem RCM_Item1;
+        private ToolStripMenuItem RCM_item2;
+        private void InitializeContextMenu()
+        {
+            RightClickMenu = new ContextMenuStrip();
+
+            RCM_Item1 = new ToolStripMenuItem("菜单项1");
+            RCM_Item1.Click += MenuItem1_Click;
+            RightClickMenu.Items.Add(RCM_Item1);
+
+            RCM_item2 = new ToolStripMenuItem("菜单项2");
+            RCM_item2.Click += MenuItem2_Click;
+            RightClickMenu.Items.Add(RCM_item2);
+        }
+        private void MenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("gay1！");
+        }
+
+        private void MenuItem2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("gay2！");
+        }
         public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {
             if (File.Exists(path)||Directory.Exists(path)) return new(path) { Location = locataion ?? new() };
@@ -61,42 +86,39 @@ namespace Bachup_s_backup
                     var buttom = (Parent as Form)!.Location.Y + (Parent as Form)!.Height;
 
                     var mousePos = Cursor.Position;
-
-                    //if (mousePos.X >= left && mousePos.X <= right && mousePos.Y >= top && mousePos.Y <= buttom)
-                    //{
-                    //    mousePos.Offset(-left - clickedX, -top - clickedY);
-                    //    Location = mousePos;
-                    //}
-                    //else
-                    //{
-                    //    DoDragDrop(new DataObject(DataFormats.FileDrop, new string[] { FilePath }), DragDropEffects.Copy);
-                    //    M_dragging = false;
-                    //    Location = orgi_P;
-                    //}
                     (Parent as Form1)!.MakeDrag();
                     M_dragging = false;
+
                 }
             };
 
             Top_panel.MouseDown += (s, e) =>
             {
+                if(e.Button == MouseButtons.Left)
+                {
+                    M_dragging = true;
+
+
+                    (Parent as Form1)!.selected.Add(this);
+                }
+
                 clickedX = e.X;
                 clickedY = e.Y;
                 orgiX = Location.X;
                 orgiY = Location.Y;
                 orgi_P = Location;
-                M_dragging = true;
                 
-                (Parent as Form1)!.selected.Add(this);
             };
+            
             Top_panel.MouseUp += (s, e) =>
             {
                 M_dragging = false;
-                if (!GetAsyncKeyState(0x10))
+                if (!GetAsyncKeyState(0x10)) //Shift Button Up
                 {
                     (Parent as Form1)!.selected.Clear();
                 }
             };
+            
         }
     }
 }
