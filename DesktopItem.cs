@@ -13,29 +13,30 @@ namespace Bachup_s_backup
         TransparentPanel Top_panel;
         public string FileName;
         public string FilePath;
-        private ContextMenuStrip RightClickMenu;
-        private ToolStripMenuItem RCM_Item1;
-        private ToolStripMenuItem RCM_item2;
+        ContextMenuStrip RightClickMenu = new ContextMenuStrip();
+        ToolStripMenuItem RCM_open = new ToolStripMenuItem("Open");
+        ToolStripMenuItem RCM_delete = new ToolStripMenuItem("Delete");
+        ToolStripMenuItem RCM_rename = new ToolStripMenuItem("Rename");
         private void InitializeContextMenu()
         {
-            RightClickMenu = new ContextMenuStrip();
+            RCM_open.Click += (s, e) =>
+            {
+                foreach (var item in (Parent as Form1)!.selected)
+                {
+                    new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{item.FilePath}\"" } }.Start();
+                }
+            };
+            RightClickMenu.Items.Add(RCM_open);
+            RCM_delete.Click += (s,e)=> {
+                (Parent as Form1)!.selected.DeleteAll();
+            };
+            RightClickMenu.Items.Add(RCM_delete);
 
-            RCM_Item1 = new ToolStripMenuItem("菜单项1");
-            RCM_Item1.Click += MenuItem1_Click;
-            RightClickMenu.Items.Add(RCM_Item1);
-
-            RCM_item2 = new ToolStripMenuItem("菜单项2");
-            RCM_item2.Click += MenuItem2_Click;
-            RightClickMenu.Items.Add(RCM_item2);
-        }
-        private void MenuItem1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("gay1！");
-        }
-
-        private void MenuItem2_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("gay2！");
+            RCM_rename.Click += (s, e) => {
+                //(Parent as Form1)!.selected.DeleteAll();
+                MessageBox.Show("GAY!!!!!!!!!!!!!!!!!!!!!!!!!");
+            };
+            RightClickMenu.Items.Add(RCM_rename);
         }
         public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {
@@ -45,6 +46,7 @@ namespace Bachup_s_backup
         private DesktopItem(string path)
         {
             InitializeComponent();
+            InitializeContextMenu();
 
             TopLevel = false;
             FilePath = path;
@@ -72,51 +74,42 @@ namespace Bachup_s_backup
                 }
             };
 
-            bool M_dragging = false;
-            int clickedX = 0, clickedY = 0;
-            int orgiX = 0, orgiY = 0;
-            Point orgi_P = Location;
+            bool M_toDrag = false;
             Top_panel.MouseMove += (s, e) =>
             {
-                if (M_dragging)
+                if (M_toDrag)
                 {
-                    var left = (Parent as Form)!.Location.X;
-                    var right = (Parent as Form)!.Location.X + (Parent as Form)!.Width;
-                    var top = (Parent as Form)!.Location.Y;
-                    var buttom = (Parent as Form)!.Location.Y + (Parent as Form)!.Height;
-
                     var mousePos = Cursor.Position;
                     (Parent as Form1)!.MakeDrag();
-                    M_dragging = false;
-
+                    M_toDrag = false;
                 }
             };
 
             Top_panel.MouseDown += (s, e) =>
             {
-                if(e.Button == MouseButtons.Left)
+                if (e.Button == MouseButtons.Left)
                 {
-                    M_dragging = true;
-
-
+                    M_toDrag = true;
                     (Parent as Form1)!.selected.Add(this);
                 }
-
-                clickedX = e.X;
-                clickedY = e.Y;
-                orgiX = Location.X;
-                orgiY = Location.Y;
-                orgi_P = Location;
-                
+                else
+                {
+                    RightClickMenu.Show(this, e.Location);
+                }
             };
             
             Top_panel.MouseUp += (s, e) =>
             {
-                M_dragging = false;
-                if (!GetAsyncKeyState(0x10)) //Shift Button Up
+                M_toDrag = false;
+                if(e.Button== MouseButtons.Left)
                 {
-                    (Parent as Form1)!.selected.Clear();
+                    if (!GetAsyncKeyState(0x10)) //Shift Button Up
+                    {
+                        (Parent as Form1)!.selected.Clear();
+                    }
+                (Parent as Form1)!.selected.Add(this);
                 }
+                
             };
             
         }

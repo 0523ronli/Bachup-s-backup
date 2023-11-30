@@ -3,6 +3,7 @@ using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
 using System.Drawing.Drawing2D;
+using UItestv2;
 
 namespace Bachup_s_backup
 {
@@ -10,8 +11,9 @@ namespace Bachup_s_backup
     {
         public static Form1 Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-        public SelectedItem selected = new(Instance);
+        public SelectedItem selected;
         public Config_JSON config_JSON = new();
+        public SettingMainForm SettingForm = new();
         DragDropEffects current_effects = DragDropEffects.Copy;
         
         [DllImport("user32.dll")]
@@ -22,6 +24,7 @@ namespace Bachup_s_backup
 
         public Form1()
         {
+            selected = new(this);
             InitializeComponent();
             InitializeConfig();
             RegisterHotkey();
@@ -117,12 +120,16 @@ namespace Bachup_s_backup
         {
             UnregisterHotKey(Handle, HotKeys.Switch_Visable.ID);
             UnregisterHotKey(Handle, HotKeys.Switch_DragMode.ID);
+            UnregisterHotKey(Handle, HotKeys.Setting.ID);
+            UnregisterHotKey(Handle, HotKeys.Close.ID);
         }
 
         private void RegisterHotkey()
         {
             RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_Visable.Key);
             RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_DragMode.Key);
+            RegisterHotKey(Handle, HotKeys.Setting.ID, 1, HotKeys.Setting.Key);
+            RegisterHotKey(Handle, HotKeys.Close.ID, 1, HotKeys.Close.Key);
         }
 
         protected override void WndProc(ref Message m)
@@ -158,6 +165,14 @@ namespace Bachup_s_backup
                         }
                         GC.Collect();
                     }
+                    if (m.WParam == HotKeys.Setting.ID)
+                    {
+                        new SettingMainForm().ShowDialog();
+                    }
+                    if (m.WParam == HotKeys.Close.ID)
+                    {
+                        Close();
+                    }
                     break;
                 default:
                     base.WndProc(ref m);
@@ -172,6 +187,7 @@ namespace Bachup_s_backup
                 config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!;
                 Location = config_JSON.location;
                 Size = config_JSON.size;
+                
                 var items = config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
                 Controls.AddRange(items.ToArray());

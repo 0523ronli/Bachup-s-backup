@@ -43,29 +43,30 @@ namespace UItestv2
             foldablePanel.Location = new Point(0, 0);
             foldablePanel.Margin = new Padding(0);
             foldablePanel.Name = "foldablePanel";
-            foldablePanel.Size = new Size(178, 561);
+            foldablePanel.Size = new Size(200, 711);
             foldablePanel.TabIndex = 0;
             // 
             // centerPenal
             // 
             centerPenal.BackColor = SystemColors.ActiveCaption;
             centerPenal.Dock = DockStyle.Fill;
-            centerPenal.Location = new Point(178, 0);
+            centerPenal.Location = new Point(200, 0);
             centerPenal.Margin = new Padding(0);
             centerPenal.Name = "centerPenal";
-            centerPenal.Size = new Size(833, 561);
+            centerPenal.Size = new Size(937, 711);
             centerPenal.TabIndex = 2;
             // 
-            // MainForm
+            // SettingMainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1011, 561);
+            ClientSize = new Size(1137, 711);
             Controls.Add(centerPenal);
             Controls.Add(foldablePanel);
-            Margin = new Padding(4, 3, 4, 3);
-            Name = "MainForm";
+            Margin = new Padding(4, 4, 4, 4);
+            Name = "SettingMainForm";
             Text = "主視窗";
+            TopMost = true;
             Load += Mainform_Load;
             ResumeLayout(false);
         }

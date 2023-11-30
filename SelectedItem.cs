@@ -34,12 +34,13 @@ namespace Bachup_s_backup
             }
             base.Clear();
         }
-        public new void Delete()
+        public void DeleteAll()
         {
             foreach(var item in this)
             {
                 Form.Controls.Remove(item);
             }
+            base.Clear();
         }
     }
 }

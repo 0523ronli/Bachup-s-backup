@@ -40,6 +40,16 @@ namespace Bachup_s_backup
                 ID = 3,
                 Key = (int)Keys.Delete
             };
+            public static Hotkey Setting = new()
+            {
+                ID = 4,
+                Key = (int)Keys.S
+            };
+            public static Hotkey Close = new()
+            {
+                ID = 5,
+                Key = (int)Keys.C
+            };
         }
         public struct Hotkey
         {
