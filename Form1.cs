@@ -187,7 +187,7 @@ namespace Bachup_s_backup
                 config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!;
                 Location = config_JSON.location;
                 Size = config_JSON.size;
-                
+                //TODO sync property
                 var items = config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
                 Controls.AddRange(items.ToArray());
