@@ -12,13 +12,9 @@ namespace Bachup_s_backup
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-
-
-
-            
-
             ApplicationConfiguration.Initialize();
             Application.EnableVisualStyles();
+            SettingMainForm _ = new();
             Application.Run(new Form1());
             //Application.Run(new SettingMainForm());
             //Application.Run(new Form2Test());
@@ -62,10 +58,8 @@ namespace Bachup_s_backup
         }
         public static void MessageForm(string s, Control? parent = null)
         {
-
             Form F = new()
             {
-                
                 FormBorderStyle = FormBorderStyle.None,
                 Visible = true,
                 StartPosition = FormStartPosition.Manual

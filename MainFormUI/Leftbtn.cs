@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using static UItestv2.Global;
-using static UItestv2.SettingMainForm;
 
 namespace UItestv2
 {
@@ -14,71 +13,70 @@ namespace UItestv2
         private void initialize()
         {
             BackColor = leftBackCLR;
-            Dock = System.Windows.Forms.DockStyle.Top;
+            Dock = DockStyle.Top;
             FlatAppearance.BorderSize = 0;
-            FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Margin = new System.Windows.Forms.Padding(10);
-            Size = new System.Drawing.Size(200, 50);
+            FlatStyle = FlatStyle.Flat;
+            Margin = new Padding(10);
+            Size = new Size(200, 50);
             Text = "leftbutton" + id.ToString();
-            TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            Font = Global.defaultFont;
+            TextAlign = ContentAlignment.MiddleLeft;
+            Font = defaultFont;
             id++;
 
-            expandPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            expandPanel.Margin = new System.Windows.Forms.Padding(10);
-            expandPanel.Size = new System.Drawing.Size(200, 0);
-            expandPanel.Font = Global.defaultFont;
-            expandPanel.ForeColor = System.Drawing.Color.Gray;
+            expandPanel.Dock = DockStyle.Top;
+            expandPanel.Margin = new Padding(10);
+            expandPanel.Size = new Size(200, 0);
+            expandPanel.Font = defaultFont;
+            expandPanel.ForeColor = Color.Gray;
         }
         public Leftbtn()
         {
             initialize();
             //event
-            Click += new System.EventHandler(Leftbtnclick);
+            Click += Leftbtnclick!;
             MouseEnter += (s, e) =>
             {
-                ((Button)s).BackColor = checkedCLR;
+                (s as Button)!.BackColor = checkedCLR;
             };
             MouseLeave += (s, e) => {
-                if (s != Instance.checkedbtn)
+                if (s != SettingMainForm.Instance.checkedbtn)
                 {
                     if (s.GetType() == typeof(Leftbtn)) (s as Button).BackColor = leftBackCLR;
-                    else (s as Button).BackColor = subBackCLR;
+                    else (s as Button)!.BackColor = subBackCLR;
                 }
             };
         }
         public static void Leftbtnclick(object sender, EventArgs e)
         {
             Leftbtn LB = (Leftbtn)sender;
-            Instance.Checkedrefersh(LB);
-            Instance.leftrestore();
+            SettingMainForm.Instance.Checkedrefersh(LB);
+            SettingMainForm.Instance.leftrestore();
             if (LB.Linkform != null)
             {
-                Instance.centerPenal.Controls.Clear();
+                SettingMainForm.Instance.centerPenal.Controls.Clear();
                 if (LB.Linkform.Text != "")
                 {
-                    if (FormFixed) LB.Linkform.FormBorderStyle = FormBorderStyle.None;
-                    if (BigForm) LB.Linkform.Dock = DockStyle.Fill;
+                    LB.Linkform.FormBorderStyle = FormBorderStyle.None;
+                    LB.Linkform.Dock = DockStyle.Fill;
                     LB.Linkform.TopLevel = false;
-                    Instance.centerPenal.Controls.Add(LB.Linkform);
+                    SettingMainForm.Instance.centerPenal.Controls.Add(LB.Linkform);
                     LB.Linkform.Show();
                 }
                 else
                 {
-
                     if (MessageBox.Show("連結的表單已遺失\n嘗試重新建立?", "錯誤", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                     {
                         LB.Dispose();
                         LB.Linkform = (Form)Activator.CreateInstance(LB.Linkform.GetType());
-                        if (FormFixed) LB.Linkform.FormBorderStyle = FormBorderStyle.None;
-                        if (BigForm) LB.Linkform.Dock = DockStyle.Fill;
+                        LB.Linkform.FormBorderStyle = FormBorderStyle.None;
+                        LB.Linkform.Dock = DockStyle.Fill;
                         LB.Linkform.TopLevel = false;
-                        Instance.centerPenal.Controls.Add(LB.Linkform);
+                        SettingMainForm.Instance.centerPenal.Controls.Add(LB.Linkform);
                         LB.Linkform.Show();
                     }
                 }
             }
-            Instance.Expand(sender as Leftbtn);
+            SettingMainForm.Instance.Expand(sender as Leftbtn);
         }
         public override void repaint()
         {
@@ -86,7 +84,7 @@ namespace UItestv2
 
             if (subbtnList != null) expandPanel.Controls.AddRange(subbtnList.Reverse<Subbtn>().ToArray<Subbtn>());
 
-            if (this != Instance.checkedbtn)
+            if (this != SettingMainForm.Instance.checkedbtn)
             {
                 BackColor = leftBackCLR;
             }

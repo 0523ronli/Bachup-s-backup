@@ -43,7 +43,7 @@ namespace UItestv2
         public void leftrestore()
         {
             foldablePanel.Controls.Clear();
-            foreach (Leftbtn button in originalleftbtn.Reverse<Leftbtn>())
+            foreach (flatbtn button in originalleftbtn.Reverse<flatbtn>())
             {
                 button.repaint();
                 foldablePanel.Controls.Add(button);
@@ -76,10 +76,11 @@ namespace UItestv2
         {
             originalleftbtn.Add(new Leftbtn()
             {
+                
                 Text = "Gay",
                 subbtnList = new List<Subbtn>
                 {
-                    new Subbtn() {Text="Nano",Linkform=new Form1() }
+                    new Subbtn() {Text="Nano", }
 
                 }
             });

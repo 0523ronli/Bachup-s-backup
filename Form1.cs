@@ -9,11 +9,14 @@ namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
+        ContextMenuStrip RightClickMenu = new();
+        
+        string Icon_size="Medium icon";
         public static Form1 Instance;
-        string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
+        string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";  
         public SelectedItem selected;
         public Config_JSON config_JSON = new();
-        public SettingMainForm SettingForm = new();
+        
         DragDropEffects current_effects = DragDropEffects.Copy;
         
         [DllImport("user32.dll")]
@@ -28,6 +31,7 @@ namespace Bachup_s_backup
             InitializeComponent();
             InitializeConfig();
             RegisterHotkey();
+            InitRCM();
             
             Instance = this;
             TopMost = true;
@@ -40,6 +44,66 @@ namespace Bachup_s_backup
             FormClosed += onFormClosed;
         }
 
+        private void InitRCM()
+        {
+            ToolStripMenuItem RCM_view = new("View");
+            ToolStripMenuItem RCM_dragmode = new("Drag Mode");
+            ToolStripMenuItem RCM_setting = new("Setting");
+            //icon size
+            List<ToolStripMenuItem> iconsize_opt = new()
+            {
+                new ToolStripMenuItem("Small Icon") { CheckOnClick = true },
+                new ToolStripMenuItem("Medium Icon") { CheckOnClick = true },
+                new ToolStripMenuItem("Large Icon") { CheckOnClick = true }
+            };
+            iconsize_opt.ForEach(x => x.Click += (s, e) =>
+            {
+                iconsize_opt.ForEach(y =>
+                {
+                    if (x != y) y.Checked = false;
+                });
+                Icon_size = x.Text;
+                reArrange();
+            });
+            RCM_view.DropDownItems.AddRange(iconsize_opt.ToArray());
+            RCM_view.DropDownItems.Add(new ToolStripSeparator());
+            //auto arrange
+            ToolStripMenuItem RCM_reArrange = new("Auto Arrange");
+            RCM_reArrange.Click += (s, e) =>
+            {
+                reArrange();
+            };
+            RCM_view.DropDownItems.Add(RCM_reArrange);
+            //dragmode
+            List<ToolStripMenuItem> dragmode_opt = new()
+            {
+                new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
+                new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
+            };
+            dragmode_opt.ForEach(x =>
+            {
+                dragmode_opt.ForEach(y =>
+                {
+                    if (x != y) y.Checked = false;
+                });
+                current_effects = (DragDropEffects)x.Tag;
+            });
+            RCM_dragmode.DropDownItems.AddRange(dragmode_opt.ToArray());
+            //setting
+            RCM_setting.Click += (s, e) =>
+            {
+                if (!SettingMainForm.Instance.Visible) SettingMainForm.Instance.ShowDialog();
+            };
+            RightClickMenu.Items.Add(RCM_view);
+            RightClickMenu.Items.Add(RCM_dragmode);
+            RightClickMenu.Items.Add(RCM_setting);
+        }
+
+        private void reArrange()
+        {
+            //TODO reArrange
+            MessageBox.Show("TO DOOOOOOOOOOOO");
+        }
 
         private void onKeyDown(object? sender, KeyEventArgs e)
         {
@@ -57,22 +121,26 @@ namespace Bachup_s_backup
 
         private void onMouseDown(object? s, MouseEventArgs e)
         {
-            selected.Clear();
-            Capture = false;
-            //Message msg = Message.Create(Handle, 161, Message.Create(Handle, 0x84, 2, 0).Result, 0);
-            Message msg = Message.Create(Handle, 161, 2, 0);
-            WndProc(ref msg);
+            if (e.Button == MouseButtons.Left)
+            {
+                selected.Clear();
+                Capture = false;
+                Message msg = Message.Create(Handle, 161, 2, 0);
+                WndProc(ref msg);
+            }
+            else
+            {
+                RightClickMenu.Show(this,e.Location);
+            }
         }
 
         private void onDragEnter(object? s, DragEventArgs e)
         {
-            e.Effect = current_effects;
+            //e.Effect = current_effects;
         }
 
         private void onDragDrop(object? s, DragEventArgs e)
         {
-            //TopMost = false;
-            //SendToBack();
             
             try
             {
@@ -107,7 +175,6 @@ namespace Bachup_s_backup
             {
                 MessageBox.Show(ex.Message, "Messed up when dropping");
             }
-            //TopMost = true;
         }
 
         private void onFormClosed(object? s, FormClosedEventArgs e)
@@ -167,7 +234,7 @@ namespace Bachup_s_backup
                     }
                     if (m.WParam == HotKeys.Setting.ID)
                     {
-                        new SettingMainForm().ShowDialog();
+                        if(!SettingMainForm.Instance.Visible) SettingMainForm.Instance.ShowDialog();
                     }
                     if (m.WParam == HotKeys.Close.ID)
                     {

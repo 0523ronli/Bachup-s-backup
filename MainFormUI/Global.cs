@@ -9,13 +9,11 @@ namespace UItestv2
 {
     public static class Global
     {
-        static public Color leftBackCLR = Color.FromArgb(75, 75, 75);
-        static public Color leftForeCLR = Color.FromArgb(0,0,0);
-        static public Color subBackCLR = Color.FromArgb(30, 30 ,30);
-        static public Color subForeCLR = Color.FromArgb(150, 150, 150);
-        static public Color checkedCLR = Color.FromArgb(138, 180, 248);     
-        static public Font defaultFont = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-        static public bool BigForm=false;
-        static public bool FormFixed=false;
+        public static Color leftBackCLR = Color.FromArgb(75, 75, 75);
+        public static Color leftForeCLR = Color.FromArgb(0, 0, 0);
+        public static Color subBackCLR = Color.FromArgb(30, 30, 30);
+        public static Color subForeCLR = Color.FromArgb(150, 150, 150);
+        public static Color checkedCLR = Color.FromArgb(138, 180, 248);
+        public static Font defaultFont = new ("微軟正黑體", 12F, FontStyle.Bold, GraphicsUnit.Point);
     }
 }
