@@ -84,6 +84,15 @@ namespace UItestv2
                     new Subbtn() {Text="Nano", }
                 }
             });
+            originalleftbtn.Add(new Leftbtn()
+            {
+
+                Text = "Setting",
+                subbtnList = new List<Subbtn>
+                {
+                    new Subbtn() {Text="Config"}
+                }
+            });
             leftrestore();
         }
     }

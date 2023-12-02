@@ -42,9 +42,9 @@ namespace Bachup_s_backup
             };
             RightClickMenu.Items.Add(open_explorer);
         }
-        public static DesktopItem SaveCreate(string path, Point? locataion = null)
+        public static DesktopItem SaveCreate(string path, Point? locataion = null, Size? size = null)
         {
-            if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new() };
+            if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new(), Size = size?? new Size(140, 140) };
             else return null!;
         }
         private DesktopItem(string path)

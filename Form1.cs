@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Drawing.Drawing2D;
 using UItestv2;
+using System.Configuration;
 
 namespace Bachup_s_backup
 {
@@ -136,7 +137,7 @@ namespace Bachup_s_backup
 
         private void onDragEnter(object? s, DragEventArgs e)
         {
-            //e.Effect = current_effects;
+            e.Effect = current_effects;
         }
 
         private void onDragDrop(object? s, DragEventArgs e)
@@ -234,7 +235,11 @@ namespace Bachup_s_backup
                     }
                     if (m.WParam == HotKeys.Setting.ID)
                     {
-                        if(!SettingMainForm.Instance.Visible) SettingMainForm.Instance.ShowDialog();
+                        if (!SettingMainForm.Instance.Visible)
+                        {
+                            Form config = new Global();
+                            config.Show();
+                        }
                     }
                     if (m.WParam == HotKeys.Close.ID)
                     {
@@ -257,7 +262,7 @@ namespace Bachup_s_backup
                 Opacity = config_JSON.Opacity;
                 //TODO sync property
                 var items = config_JSON.DI_List.Select(
-                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location, x.Size)).Where(x => x != null).ToList();
                 Controls.AddRange(items.ToArray());
             }
         }
@@ -265,9 +270,10 @@ namespace Bachup_s_backup
         public void updateJSON()
         {
             File.Create(jsonPath).Close();
-            config_JSON.size = Size;
             config_JSON.location = Location;
-            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
+            config_JSON.size = Size;
+            config_JSON.Opacity = Opacity;
+            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.Size)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
 

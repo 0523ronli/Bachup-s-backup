@@ -9,11 +9,14 @@ namespace Bachup_s_backup
     public class DI_Json
     {
         public Point location { get; set; }
-        public String FilePath { get; set; }
-        
-        public DI_Json(Point location, String FilePath)
+        public string FilePath { get; set; }
+        public Size Size { get; set; }
+
+        public DI_Json(Point location, string FilePath, Size size)
         {
-            this.location=location; this.FilePath=FilePath;
+            this.location = location;
+            this.FilePath = FilePath;
+            Size = size;
         }
     }
 }
