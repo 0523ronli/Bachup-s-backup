@@ -38,7 +38,7 @@ namespace UItestv2
             // foldablePanel
             // 
             foldablePanel.AutoScroll = true;
-            foldablePanel.BackColor = Color.FromArgb(75, 75, 75);
+            foldablePanel.BackColor = Color.FromArgb(85, 85, 85);
             foldablePanel.Dock = DockStyle.Left;
             foldablePanel.Location = new Point(0, 0);
             foldablePanel.Margin = new Padding(0);
@@ -48,7 +48,7 @@ namespace UItestv2
             // 
             // centerPenal
             // 
-            centerPenal.BackColor = SystemColors.ActiveCaption;
+            centerPenal.BackColor = SystemColors.ControlDarkDark;
             centerPenal.Dock = DockStyle.Fill;
             centerPenal.Location = new Point(200, 0);
             centerPenal.Margin = new Padding(0);
@@ -60,12 +60,13 @@ namespace UItestv2
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1137, 711);
             Controls.Add(centerPenal);
             Controls.Add(foldablePanel);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "SettingMainForm";
-            Text = "主視窗";
+            Text = "Setting";
             TopMost = true;
             Load += Mainform_Load;
             ResumeLayout(false);

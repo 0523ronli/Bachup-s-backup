@@ -6,88 +6,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static UItestv2.Global;
-using static UItestv2.SettingMainForm;
+using static UItestv2.UIv2Global;
 
 namespace UItestv2
 {
-    public partial class Subbtn : flatbtn
+    public partial class Subbtn : Flatbtn
     {
-        static int ID;
         private void initialize()
         {
-            Dock = System.Windows.Forms.DockStyle.Top;
+            Dock = DockStyle.Top;
             FlatAppearance.BorderSize = 0;
-            FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            Margin = new System.Windows.Forms.Padding(10);
-            Size = new System.Drawing.Size(200, 30);
-            Text = "subbutton"+ID.ToString();
-            TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            Font = Global.defaultFont;
-            ForeColor = System.Drawing.Color.Gray;
+            FlatStyle = FlatStyle.Flat;
+            Margin = new Padding(10);
+            Size = new Size(200, 30);
+            Text = "Subbutton";
+            TextAlign = ContentAlignment.MiddleLeft;
+            Font = defaultFont;
+            ForeColor = Color.Gray;
         }
         public Subbtn()
         {
             initialize();
-            BackColor = subBackCLR;
-            ID++;
+            BackColor = subBackColor;
             
             //event
-            Click += new System.EventHandler(Subbtnclick);
+            Click += Flatbtnclick!;
             MouseEnter += (s, e) =>
             {
-                ((Button)s).BackColor = checkedCLR;
+                BackColor = checkedColor;
             };
             MouseLeave += (s, e) => {
-                if (s != Instance.checkedbtn)
+                if (this != SettingMainForm.Instance.checkedbtn)
                 {
-                    if (s.GetType() == typeof(Leftbtn)) (s as Button).BackColor = leftBackCLR;
-                    else (s as Button).BackColor = subBackCLR;
+                    BackColor = subBackColor;
                 }
             };
         }
-        public void Subbtnclick(object sender, EventArgs e)
+        public override void repaint(bool _=false)
         {
-            Subbtn subbutton = (Subbtn)sender;
-            Instance.centerPenal.Controls.Clear();
-            if (subbutton.Linkform != null)
-            {
-                if (subbutton.Linkform.Text != "")
-                {
-                    if (FormFixed) subbutton.Linkform.FormBorderStyle = FormBorderStyle.None;
-                    if (BigForm) subbutton.Linkform.Dock = DockStyle.Fill;
-                    subbutton.Linkform.TopLevel = false;
-                    Instance.centerPenal.Controls.Add(subbutton.Linkform);
-                    subbutton.Linkform.Show();
-                }
-                else
-                {
-                    if (MessageBox.Show("連結的表單已遺失\n嘗試重新建立?", "錯誤", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
-                    {
-                        subbutton.Linkform.Dispose();
-                        subbutton.Linkform = (Form)Activator.CreateInstance(subbutton.Linkform.GetType());
-                        if (FormFixed) subbutton.Linkform.FormBorderStyle = FormBorderStyle.None;
-                        if (BigForm) subbutton.Linkform.Dock = DockStyle.Fill;
-                        subbutton.Linkform.TopLevel = false;
-                        Instance.centerPenal.Controls.Add(subbutton.Linkform);
-                        subbutton.Linkform.Show();
-                    }
-                }
-            }
-            if(ToRun is not null)
-            {
-                ToRun();
-            }
-        }
-        public override void repaint()
-        {
-            if (this != Instance.checkedbtn as Subbtn)
-            {
-                BackColor = subBackCLR;
-            }
-            else BackColor = checkedCLR;
-            ForeColor = subForeCLR;
-            Text = Linkform?.Text ?? Text;
+            BackColor = this == SettingMainForm.Instance.checkedbtn ? checkedColor : subBackColor;
+            ForeColor = subForeColor;
         }
     }
 }

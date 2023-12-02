@@ -10,16 +10,30 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace UItestv2
 {
-    public abstract class flatbtn : Button
+    public abstract class Flatbtn : Button
     {
-        public Form? Linkform { get; set; }
-        public Panel expandPanel = new Panel();
-        public Action? ToRun { get; set; }
-        public abstract void repaint();
-        public void OpenUrl(string url)
+        public Form? Linkform;
+        public Panel expandPanel = new();
+        public Action? ToRun;
+        public abstract void repaint(bool restruct=false);
+        public void Flatbtnclick(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(url))
-                try { if (MessageBox.Show($"開啟以下網址:{url}", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK) Process.Start("explorer", url); } catch { MessageBox.Show("連結開啟失敗"); }
+            SettingMainForm.Instance.checkedbtn = this;
+            SettingMainForm.Instance.ReFreshColor();
+            if (Linkform != null)
+            {
+                SettingMainForm.Instance.centerPenal.Controls.Clear();
+                Linkform.FormBorderStyle = FormBorderStyle.None;
+                Linkform.Dock = DockStyle.Fill;
+                Linkform.TopLevel = false;
+                SettingMainForm.Instance.centerPenal.Controls.Add(Linkform);
+                Linkform.Show();
+            }
+            ToRun?.Invoke();
+            if (this is Leftbtn)
+            {
+                SettingMainForm.Instance.ExpandAsync(this as Leftbtn);
+            }
         }
     }
 }

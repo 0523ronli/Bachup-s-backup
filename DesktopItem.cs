@@ -13,10 +13,10 @@ namespace Bachup_s_backup
         TransparentPanel Top_panel;
         public string FileName;
         public string FilePath;
-        ContextMenuStrip RightClickMenu = new ContextMenuStrip();
-        ToolStripMenuItem RCM_open = new ToolStripMenuItem("Open");
-        ToolStripMenuItem RCM_delete = new ToolStripMenuItem("Delete");
-        ToolStripMenuItem open_explorer = new ToolStripMenuItem("Open in explorer");
+        ContextMenuStrip RightClickMenu = new();
+        ToolStripMenuItem RCM_open = new("Open");
+        ToolStripMenuItem RCM_delete = new("Delete");
+        ToolStripMenuItem open_explorer = new("Open in explorer");
         private void InitializeContextMenu()
         {
             RCM_open.Click += (s, e) =>
@@ -27,12 +27,14 @@ namespace Bachup_s_backup
                 }
             };
             RightClickMenu.Items.Add(RCM_open);
-            RCM_delete.Click += (s,e)=> {
+            RCM_delete.Click += (s, e) =>
+            {
                 (Parent as Form1)!.selected.DeleteAll();
             };
             RightClickMenu.Items.Add(RCM_delete);
 
-            open_explorer.Click += (s, e) => {
+            open_explorer.Click += (s, e) =>
+            {
                 foreach (var item in (Parent as Form1)!.selected)
                 {
                     new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{item.FilePath}\\..\"" } }.Start();
@@ -42,7 +44,7 @@ namespace Bachup_s_backup
         }
         public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {
-            if (File.Exists(path)||Directory.Exists(path)) return new(path) { Location = locataion ?? new() };
+            if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new() };
             else return null!;
         }
         private DesktopItem(string path)
@@ -89,7 +91,7 @@ namespace Bachup_s_backup
 
             Top_panel.MouseDown += (s, e) =>
             {
-                
+
                 if (e.Button == MouseButtons.Left)
                 {
                     M_toDrag = true;
@@ -105,11 +107,11 @@ namespace Bachup_s_backup
                     (Parent as Form1)!.selected.Add(this);
                 }
             };
-            
+
             Top_panel.MouseUp += (s, e) =>
             {
                 M_toDrag = false;
-                if(e.Button== MouseButtons.Left)
+                if (e.Button == MouseButtons.Left)
                 {
                     if (!GetAsyncKeyState(0x10)) //Shift Button Up
                     {
@@ -117,9 +119,9 @@ namespace Bachup_s_backup
                     }
                     (Parent as Form1)!.selected.Add(this);
                 }
-                
+
             };
-            
+
         }
     }
 }

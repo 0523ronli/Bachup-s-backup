@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static UItestv2.Global;
+using static UItestv2.UIv2Global;
 
 
 namespace UItestv2
@@ -22,35 +22,24 @@ namespace UItestv2
         public Button checkedbtn = new();
         public bool leftfold;
         public List<Leftbtn> originalleftbtn = new();
-        public void Checkedrefersh(Button button)
+        public void ReFreshColor()
         {
-            if (checkedbtn != null)
+            foreach (Flatbtn button in originalleftbtn.Reverse<Flatbtn>())
             {
-                if (checkedbtn.GetType() == typeof(Leftbtn)) checkedbtn.BackColor = leftBackCLR;
-                else checkedbtn.BackColor = subBackCLR;
+                button.repaint();
             }
-            checkedbtn = button;
-            checkedbtn.BackColor = checkedCLR;
         }
-        public void Floating(Control c)
-        {
-            Size s = c.Size;
-            c.Dock = DockStyle.None;
-            c.Size = s;
-            c.BringToFront();
-        }
-
         public void leftrestore()
         {
             foldablePanel.Controls.Clear();
-            foreach (flatbtn button in originalleftbtn.Reverse<flatbtn>())
+            foreach (Flatbtn button in originalleftbtn.Reverse<Flatbtn>())
             {
-                button.repaint();
+                button.repaint(true);
                 foldablePanel.Controls.Add(button);
             }
 
         }
-        public async void Expand(Leftbtn leftbtn)
+        public async Task ExpandAsync(Leftbtn leftbtn)
         {
             if (foldablePanel.Contains(leftbtn.expandPanel) || leftbtn.expandPanel.Controls.Count == 0) return;
             leftrestore();
@@ -64,24 +53,35 @@ namespace UItestv2
                 foldablePanel.Controls.Add(control);
             }
             leftbtn.expandPanel.Size = new Size(0, 0);
-            foreach (int i in Enumerable.Range(0, leftbtn.expandPanel.Controls.Count * 5 + 1))
+            foreach (int i in Enumerable.Range(0, leftbtn.expandPanel.Controls.Count * 5+1))
             {
                 leftbtn.expandPanel.Size = new Size(0, i * 6);
                 await Task.Delay(1);
             }
-
         }
 
         private void Mainform_Load(object sender, EventArgs e)
         {
             originalleftbtn.Add(new Leftbtn()
             {
-                
+
                 Text = "Gay",
                 subbtnList = new List<Subbtn>
                 {
+                    new Subbtn() {Text="Nano", },
+                    new Subbtn() {Text="Nano", },
                     new Subbtn() {Text="Nano", }
+                }
+            });
+            originalleftbtn.Add(new Leftbtn()
+            {
 
+                Text = "Gay",
+                subbtnList = new List<Subbtn>
+                {
+                    new Subbtn() {Text="Nano", },
+                    new Subbtn() {Text="Nano", },
+                    new Subbtn() {Text="Nano", }
                 }
             });
             leftrestore();

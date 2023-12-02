@@ -153,7 +153,7 @@ namespace Bachup_s_backup
                         DesktopItem DI = DesktopItem.SaveCreate(file);
                         if (DI == null)
                         {
-                            MessageBox.Show(this, $"can not find file at {file}");
+                            MessageBox.Show(this, $"Can not find file at {file}");
                             continue;
                         }
                         Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
@@ -254,6 +254,7 @@ namespace Bachup_s_backup
                 config_JSON = JsonSerializer.Deserialize<Config_JSON>(File.ReadAllText(jsonPath))!;
                 Location = config_JSON.location;
                 Size = config_JSON.size;
+                Opacity = config_JSON.Opacity;
                 //TODO sync property
                 var items = config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
