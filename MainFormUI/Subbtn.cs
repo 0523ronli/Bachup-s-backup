@@ -14,6 +14,7 @@ namespace UItestv2
     {
         private void initialize()
         {
+            
             Dock = DockStyle.Top;
             FlatAppearance.BorderSize = 0;
             FlatStyle = FlatStyle.Flat;
