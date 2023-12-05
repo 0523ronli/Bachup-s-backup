@@ -20,6 +20,7 @@ namespace Bachup_s_backup
         private void button1_Click(object sender, EventArgs e)
         {
             Program.MessageForm("Nano is Gayyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+            flowLayoutPanel1.Controls.Add(new Button());
         }
     }
 }
