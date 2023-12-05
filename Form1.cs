@@ -14,9 +14,10 @@ namespace Bachup_s_backup
         
         string Icon_size="Medium icon";
         public static Form1 Instance;
-        string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";  
+        string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public SelectedItem selected;
         public Config_JSON config_JSON = new();
+        Point Rclick_pos;
         
         DragDropEffects current_effects = DragDropEffects.Copy;
         
@@ -50,6 +51,8 @@ namespace Bachup_s_backup
             ToolStripMenuItem RCM_view = new("View");
             ToolStripMenuItem RCM_dragmode = new("Drag Mode");
             ToolStripMenuItem RCM_setting = new("Setting");
+            ToolStripMenuItem RCM_add_DI = new("Add And Select File");
+            ToolStripMenuItem RCM_Close = new("Add And Select File");
             //icon size
             List<ToolStripMenuItem> iconsize_opt = new()
             {
@@ -95,9 +98,45 @@ namespace Bachup_s_backup
             {
                 if (!SettingMainForm.Instance.Visible) SettingMainForm.Instance.ShowDialog();
             };
+            //add_di
+            RCM_add_DI.Click += (s, e) =>
+            {
+                OpenFileDialog OFD = new();
+                OFD.Multiselect = true;
+                if (OFD.ShowDialog() != DialogResult.OK) return;
+                int i = 0;
+                Point M_Pos = MousePosition;
+                foreach (string file in OFD.FileNames)
+                {
+                    if (DesktopItem.SaveCreate(file) is DesktopItem DI)
+                    {
+                         Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
+                        {
+                            Controls.Remove(x); selected.Remove(x); x.Dispose();
+                        });
+                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+
+                        Controls.Add(DI);
+                        GC.Collect();
+                        i++;
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, $"Can not find file at {file}");
+                        continue;
+                    }
+                }
+            };
+            //close
+            RCM_Close.Click += (s, e) =>
+            {
+                Close();
+            };
             RightClickMenu.Items.Add(RCM_view);
+            RightClickMenu.Items.Add(RCM_add_DI);
             RightClickMenu.Items.Add(RCM_dragmode);
             RightClickMenu.Items.Add(RCM_setting);
+            RightClickMenu.Items.Add(RCM_Close);
         }
 
         private void reArrange()
@@ -131,6 +170,7 @@ namespace Bachup_s_backup
             }
             else
             {
+
                 RightClickMenu.Show(this,e.Location);
             }
         }
@@ -150,20 +190,23 @@ namespace Bachup_s_backup
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
-                        DesktopItem DI = DesktopItem.SaveCreate(file);
-                        if (DI == null)
+                        if (DesktopItem.SaveCreate(file) is DesktopItem DI)
+                        {
+                            Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
+                            {
+                                Controls.Remove(x); selected.Remove(x); x.Dispose();
+                            });
+                            DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                            DI.BackColor =config_JSON.DI_backColor;
+                            Controls.Add(DI);
+                            GC.Collect();
+                            i++;
+                        }
+                        else
                         {
                             MessageBox.Show(this, $"Can not find file at {file}");
                             continue;
                         }
-                        Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                        {
-                            Controls.Remove(x); selected.Remove(x);x.Dispose();
-                        });
-                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2+i*(DI_size.Width+10), M_Pos.Y - Location.Y - DI.Height / 2);
-                        Controls.Add(DI);
-                        GC.Collect();
-                        i++;
                     }
                 }
                 else
@@ -259,6 +302,7 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
+
                 //TODO sync property
                 var items = config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location, x.Size)).Where(x => x != null).ToList();

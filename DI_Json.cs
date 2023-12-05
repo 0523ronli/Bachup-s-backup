@@ -16,7 +16,7 @@ namespace Bachup_s_backup
         {
             this.location = location;
             this.FilePath = FilePath;
-            Size = size;
+            this.Size = size;
         }
     }
 }
