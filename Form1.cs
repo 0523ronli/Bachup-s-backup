@@ -218,7 +218,6 @@ namespace Bachup_s_backup
 
         private void onDragDrop(object? s, DragEventArgs e)
         {
-
             try
             {
                 int i = 0;
@@ -355,8 +354,10 @@ namespace Bachup_s_backup
 
         public void MakeDrag()
         {
+            TopMost = false;
             var thing = selected.Select(x => x.FilePath).ToArray();
             DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath).ToArray()), current_effects);
+            TopMost = true;
         }
     }
 }
