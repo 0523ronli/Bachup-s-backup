@@ -201,42 +201,6 @@ namespace Bachup_s_backup
             }
         }
 
-        private void AutoArrange()
-        {
-            var items = Controls.OfType<DesktopItem>().ToList();
-            
-            
-            int spacing = 10;
-
-            int currentX = spacing;
-            int currentY = spacing;
-
-            foreach (var item in items)
-            {
-                item.Location = new Point(currentX, currentY);
-
-                if (arrangeMode == ArrangeMode.Column)
-                {
-                    currentX += item.Width + spacing;
-
-                    if (currentX + item.Width > ClientSize.Width)
-                    {
-                        currentX = spacing;
-                        currentY += item.Height + spacing;
-                    }
-                } else
-                {
-                    currentY += item.Height + spacing;
-
-                    if (currentY + item.Height > ClientSize.Height)
-                    {
-                        currentY = spacing;
-                        currentX += item.Width + spacing;
-                    }
-                }   
-            }
-        }
-
         private void updateDI_Size()
         {
             var items = Controls.OfType<DesktopItem>().ToList();
@@ -301,7 +265,8 @@ namespace Bachup_s_backup
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
-                        if (DesktopItem.SaveCreate(file) is DesktopItem DI)
+                        DesktopItem DI = DesktopItem.SaveCreate(file);
+                        if (DI == null)
                         {
                             MessageBox.Show(this, $"Can not find file at {file}");
                             continue;
