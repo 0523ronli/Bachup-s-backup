@@ -2,8 +2,8 @@ using System.Runtime.InteropServices;
 using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
-using System.Drawing.Drawing2D;
 using UItestv2;
+using Bachup_s_backup.Setting_items.form1;
 using System.Configuration;
 using System.Windows.Forms;
 
@@ -201,6 +201,42 @@ namespace Bachup_s_backup
             }
         }
 
+        private void AutoArrange()
+        {
+            var items = Controls.OfType<DesktopItem>().ToList();
+            
+            
+            int spacing = 10;
+
+            int currentX = spacing;
+            int currentY = spacing;
+
+            foreach (var item in items)
+            {
+                item.Location = new Point(currentX, currentY);
+
+                if (arrangeMode == ArrangeMode.Column)
+                {
+                    currentX += item.Width + spacing;
+
+                    if (currentX + item.Width > ClientSize.Width)
+                    {
+                        currentX = spacing;
+                        currentY += item.Height + spacing;
+                    }
+                } else
+                {
+                    currentY += item.Height + spacing;
+
+                    if (currentY + item.Height > ClientSize.Height)
+                    {
+                        currentY = spacing;
+                        currentX += item.Width + spacing;
+                    }
+                }   
+            }
+        }
+
         private void updateDI_Size()
         {
             var items = Controls.OfType<DesktopItem>().ToList();
@@ -350,7 +386,7 @@ namespace Bachup_s_backup
                     {
                         if (!SettingMainForm.Instance.Visible)
                         {
-                            Form config = new Global();
+                            Form config = new SettingMainForm();
                             config.Show();
                         }
                     }

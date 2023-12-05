@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Bachup_s_backup
 {
-    public partial class Global : Form
+    public partial class Form_DI_Color : Form
     {
-        public Global()
+        public Form_DI_Color()
         {
             InitializeComponent();
         }
@@ -27,7 +27,7 @@ namespace Bachup_s_backup
             this.Close();
         }
 
-        public void DI_BackColor_Click(object sender, EventArgs e)
+        private void DI_BackColor_onDoubleClick(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -36,6 +36,11 @@ namespace Bachup_s_backup
                     DI.BackColor = colorDialog1.Color;
                 }
             }
+        }
+
+        private void DI_Size_onDoubleClick(object sender, EventArgs e)
+        {
+
         }
     }
 }
