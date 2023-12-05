@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            
+            
             SuspendLayout();
+           
+            
             // 
             // Form1
             // 
@@ -36,6 +40,7 @@
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(800, 450);
             ControlBox = false;
+            
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -48,7 +53,6 @@
             TopMost = true;
             ResumeLayout(false);
         }
-
         #endregion
     }
 }

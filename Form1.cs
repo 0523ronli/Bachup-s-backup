@@ -5,22 +5,37 @@ using System.Text.Json;
 using System.Drawing.Drawing2D;
 using UItestv2;
 using System.Configuration;
+using System.Windows.Forms;
 
 namespace Bachup_s_backup
 {
     public partial class Form1 : Form
     {
         ContextMenuStrip RightClickMenu = new();
-        
-        string Icon_size="Medium icon";
+
         public static Form1 Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public SelectedItem selected;
         public Config_JSON config_JSON = new();
+        public bool autoArrange = true;
+        public ArrangeMode arrangeMode = ArrangeMode.Row;
+        public SizeMode sizeMode = SizeMode.Medium;
         Point Rclick_pos;
-        
+
+        public enum ArrangeMode
+        {
+            Row,
+            Column,
+        }
+        public enum SizeMode
+        {
+            Large,
+            Medium,
+            Small
+        }
+
         DragDropEffects current_effects = DragDropEffects.Copy;
-        
+
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
@@ -34,7 +49,7 @@ namespace Bachup_s_backup
             InitializeConfig();
             RegisterHotkey();
             InitRCM();
-            
+
             Instance = this;
             TopMost = true;
             KeyPreview = true;
@@ -66,8 +81,19 @@ namespace Bachup_s_backup
                 {
                     if (x != y) y.Checked = false;
                 });
-                Icon_size = x.Text;
-                reArrange();
+                switch ((s as ToolStripMenuItem)?.Text)
+                {
+                    case "Small Icon":
+                        sizeMode = SizeMode.Small;
+                        break;
+                    case "Medium Icon":
+                        sizeMode = SizeMode.Medium;
+                        break;
+                    case "Large Icon":
+                        sizeMode= SizeMode.Large;
+                        break;
+                };
+                updateDI_Size();
             });
             RCM_view.DropDownItems.AddRange(iconsize_opt.ToArray());
             RCM_view.DropDownItems.Add(new ToolStripSeparator());
@@ -75,7 +101,7 @@ namespace Bachup_s_backup
             ToolStripMenuItem RCM_reArrange = new("Auto Arrange");
             RCM_reArrange.Click += (s, e) =>
             {
-                reArrange();
+                AutoArrange();
             };
             RCM_view.DropDownItems.Add(RCM_reArrange);
             //dragmode
@@ -139,10 +165,60 @@ namespace Bachup_s_backup
             RightClickMenu.Items.Add(RCM_Close);
         }
 
-        private void reArrange()
+        private void AutoArrange()
         {
-            //TODO reArrange
-            MessageBox.Show("TO DOOOOOOOOOOOO");
+            var items = Controls.OfType<DesktopItem>().ToList();
+            
+            
+            int spacing = 10;
+
+            int currentX = spacing;
+            int currentY = spacing;
+
+            foreach (var item in items)
+            {
+                item.Location = new Point(currentX, currentY);
+
+                if (arrangeMode == ArrangeMode.Column)
+                {
+                    currentX += item.Width + spacing;
+
+                    if (currentX + item.Width > ClientSize.Width)
+                    {
+                        currentX = spacing;
+                        currentY += item.Height + spacing;
+                    }
+                } else
+                {
+                    currentY += item.Height + spacing;
+
+                    if (currentY + item.Height > ClientSize.Height)
+                    {
+                        currentY = spacing;
+                        currentX += item.Width + spacing;
+                    }
+                }   
+            }
+        }
+
+        private void updateDI_Size()
+        {
+            var items = Controls.OfType<DesktopItem>().ToList();
+            items.ForEach(item =>
+            {
+                switch (sizeMode)
+                {
+                    case SizeMode.Small:
+                        item.Size = new Size(80, 80);
+                        break;
+                    case SizeMode.Medium:
+                        item.Size = new Size(140, 140);
+                        break;
+                    case SizeMode.Large:
+                        item.Size = new Size(200, 200);
+                        break;
+                };
+            });
         }
 
         private void onKeyDown(object? sender, KeyEventArgs e)
@@ -170,8 +246,7 @@ namespace Bachup_s_backup
             }
             else
             {
-
-                RightClickMenu.Show(this,e.Location);
+                RightClickMenu.Show(this, e.Location);
             }
         }
 
@@ -192,21 +267,17 @@ namespace Bachup_s_backup
                     {
                         if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                         {
-                            Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                            {
-                                Controls.Remove(x); selected.Remove(x); x.Dispose();
-                            });
-                            DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
-                            DI.BackColor =config_JSON.DI_backColor;
-                            Controls.Add(DI);
-                            GC.Collect();
-                            i++;
-                        }
-                        else
-                        {
                             MessageBox.Show(this, $"Can not find file at {file}");
                             continue;
                         }
+                        Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
+                        {
+                            Controls.Remove(x); selected.Remove(x); x.Dispose();
+                        });
+                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                        Controls.Add(DI);
+                        GC.Collect();
+                        i++;
                     }
                 }
                 else
