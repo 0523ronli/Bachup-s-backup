@@ -10,6 +10,7 @@ namespace Bachup_s_backup
         [DllImport("user32.dll")]
         public static extern bool GetAsyncKeyState(int vKey);
 
+        public DesktopItem Instance;
         TransparentPanel Top_panel;
         public string FileName;
         public string FilePath;
@@ -17,6 +18,7 @@ namespace Bachup_s_backup
         ToolStripMenuItem RCM_open = new("Open");
         ToolStripMenuItem RCM_delete = new("Delete");
         ToolStripMenuItem open_explorer = new("Open in explorer");
+        
         private void InitializeContextMenu()
         {
             RCM_open.Click += (s, e) =>
@@ -42,6 +44,8 @@ namespace Bachup_s_backup
             };
             RightClickMenu.Items.Add(open_explorer);
         }
+
+
         public static DesktopItem SaveCreate(string path, Point? locataion = null, Size? size = null)
         {
             if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new(), Size = size?? new Size(140, 140) };
@@ -52,6 +56,7 @@ namespace Bachup_s_backup
             InitializeComponent();
             InitializeContextMenu();
 
+            Instance = this;
             TopLevel = false;
             FilePath = path;
             FileName = Path.GetFileName(path);
