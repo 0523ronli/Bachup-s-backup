@@ -1,4 +1,6 @@
 using Bachup_s_backup;
+using Bachup_s_backup.Setting_items;
+using Bachup_s_backup.Setting_items.form1;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,8 +46,7 @@ namespace UItestv2
             if (foldablePanel.Contains(leftbtn.expandPanel) || leftbtn.expandPanel.Controls.Count == 0) return;
             leftrestore();
             int index = foldablePanel.Controls.IndexOf(leftbtn);
-            List<Control> controlList = new();
-            controlList.AddRange(foldablePanel.Controls.OfType<Control>());
+            List<Control> controlList = [.. foldablePanel.Controls.OfType<Control>()];
             controlList.Insert(index, leftbtn.expandPanel);
             foldablePanel.Controls.Clear();
             foreach (Control control in controlList)
@@ -65,32 +66,20 @@ namespace UItestv2
             originalleftbtn.Add(new Leftbtn()
             {
 
-                Text = "Gay",
+                Text = "Form Setting",
                 subbtnList = new List<Subbtn>
                 {
-                    new Subbtn() {Text="Nano", },
-                    new Subbtn() {Text="Nano", },
-                    new Subbtn() {Text="Nano", }
+                    new Subbtn() {Text="Opacity", Linkform = new Form_Opacity() }
                 }
             });
             originalleftbtn.Add(new Leftbtn()
             {
 
-                Text = "Gay",
+                Text = "Desktop item Setting",
                 subbtnList = new List<Subbtn>
                 {
-                    new Subbtn() {Text="Nano", },
-                    new Subbtn() {Text="Nano", },
-                    new Subbtn() {Text="Nano", }
-                }
-            });
-            originalleftbtn.Add(new Leftbtn()
-            {
-
-                Text = "Setting",
-                subbtnList = new List<Subbtn>
-                {
-                    new Subbtn() {Text="Config"}
+                    new Subbtn() {Text="Desktop_Color",Linkform = new Form_DI_Color()},
+                    new Subbtn() {Text="Desktop_Size", Linkform = new Form_DI_Size()},
                 }
             });
             leftrestore();

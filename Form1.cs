@@ -3,6 +3,7 @@ using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
 using UItestv2;
+using Bachup_s_backup.Setting_items.form1;
 using System.Configuration;
 using System.Windows.Forms;
 
@@ -66,7 +67,7 @@ namespace Bachup_s_backup
             ToolStripMenuItem RCM_dragmode = new("Drag Mode");
             ToolStripMenuItem RCM_setting = new("Setting");
             ToolStripMenuItem RCM_add_DI = new("Add And Select File");
-            ToolStripMenuItem RCM_Close = new("Add And Select File");
+            ToolStripMenuItem RCM_Close = new("Close Applaction");
             //icon size
             List<ToolStripMenuItem> iconsize_opt = new()
             {
@@ -109,13 +110,17 @@ namespace Bachup_s_backup
                 new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
                 new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
             };
-            dragmode_opt.ForEach(x =>
+            dragmode_opt.ForEach(x => x.Click += (s, e) =>
             {
                 dragmode_opt.ForEach(y =>
                 {
                     if (x != y) y.Checked = false;
                 });
                 current_effects = (DragDropEffects)x.Tag;
+            });
+            dragmode_opt.ForEach(x => 
+            {
+                x.Checked = (DragDropEffects)x.Tag == current_effects;
             });
             RCM_dragmode.DropDownItems.AddRange(dragmode_opt.ToArray());
             //setting
@@ -130,7 +135,6 @@ namespace Bachup_s_backup
                 OFD.Multiselect = true;
                 if (OFD.ShowDialog() != DialogResult.OK) return;
                 int i = 0;
-                Point M_Pos = MousePosition;
                 foreach (string file in OFD.FileNames)
                 {
                     if (DesktopItem.SaveCreate(file) is DesktopItem DI)
@@ -139,7 +143,7 @@ namespace Bachup_s_backup
                         {
                             Controls.Remove(x); selected.Remove(x); x.Dispose();
                         });
-                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                        DI.Location = new(Rclick_pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), Rclick_pos.Y - Location.Y - DI.Height / 2);
 
                         Controls.Add(DI);
                         GC.Collect();
@@ -249,6 +253,7 @@ namespace Bachup_s_backup
             else
             {
                 RightClickMenu.Show(this, e.Location);
+                Rclick_pos = MousePosition;
             }
         }
 
@@ -258,42 +263,43 @@ namespace Bachup_s_backup
         }
 
         private void onDragDrop(object? s, DragEventArgs e)
+{
+    try
+    {
+        int i = 0;
+        Point M_Pos = MousePosition;
+        if (e.Data!.GetDataPresent(DataFormats.FileDrop))
         {
-            try
+            foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
             {
-                int i = 0;
-                Point M_Pos = MousePosition;
-                if (e.Data!.GetDataPresent(DataFormats.FileDrop))
+                if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                 {
-                    foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
+                    Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
                     {
-                        DesktopItem DI = DesktopItem.SaveCreate(file,null,getSizeBySizeMode(sizeMode));
-                        if (DI == null)
-                        {
-                            MessageBox.Show(this, $"Can not find file at {file}");
-                            continue;
-                        }
-                        Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                        {
-                            Controls.Remove(x); selected.Remove(x); x.Dispose();
-                        });
-
-                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
-                        Controls.Add(DI);
-                        GC.Collect();
-                        i++;
-                    }
+                        Controls.Remove(x); selected.Remove(x); x.Dispose();
+                    });
+                    DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                    Controls.Add(DI);
+                    GC.Collect();
+                    i++;
                 }
                 else
                 {
-                    MessageBox.Show(this, e.Data.GetFormats().ToString());
+                    MessageBox.Show(this, $"Can not find file at {file}");
+                    continue;
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Messed up when dropping");
-            }
         }
+        else
+        {
+            MessageBox.Show(this, e.Data.GetFormats().ToString());
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show(ex.Message, "Messed up when dropping");
+    }
+}
 
         private void onFormClosed(object? s, FormClosedEventArgs e)
         {
