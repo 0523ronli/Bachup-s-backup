@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -14,11 +15,26 @@ namespace Bachup_s_backup
         TransparentPanel Top_panel;
         public string FileName;
         public string FilePath;
+        private bool M_toDrag = false;
         ContextMenuStrip RightClickMenu = new();
         ToolStripMenuItem RCM_open = new("Open");
         ToolStripMenuItem RCM_delete = new("Delete");
         ToolStripMenuItem open_explorer = new("Open in explorer");
-        
+
+        public DesktopItem(string path)
+        {
+            Instance = this;
+            InitializeComponent();
+            InitializeContextMenu();
+            InitPictureBox(path);
+            InitVarieties(path);
+
+            Top_panel.MouseDoubleClick += onMouseDoubleClick;
+            Top_panel.MouseMove += onMouseMove;
+            Top_panel.MouseDown += onMouseDown;
+            Top_panel.MouseUp += onMouseUp;
+        }
+
         private void InitializeContextMenu()
         {
             RCM_open.Click += (s, e) =>
@@ -44,19 +60,62 @@ namespace Bachup_s_backup
             };
             RightClickMenu.Items.Add(open_explorer);
         }
-
-
         public static DesktopItem SaveCreate(string path, Point? locataion = null, Size? size = null)
         {
-            if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new(), Size = size?? new Size(140, 140) };
+            if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new(), Size = size ?? new Size(140, 140) };
             else return null!;
         }
-        private DesktopItem(string path)
-        {
-            InitializeComponent();
-            InitializeContextMenu();
+        
 
-            Instance = this;
+        private void onMouseUp(object? sender, MouseEventArgs e)
+        {
+            M_toDrag = false;
+            if (e.Button == MouseButtons.Left)
+            {
+                if (!GetAsyncKeyState(0x10)) //Shift Button Up
+                {
+                    (Parent as Form1)!.selected.Clear();
+                }
+                (Parent as Form1)!.selected.Add(this);
+            }
+        }
+
+        private void onMouseDown(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                M_toDrag = true;
+                (Parent as Form1)!.selected.Add(this);
+            }
+            else
+            {
+                RightClickMenu.Show(this, e.Location);
+                if (!GetAsyncKeyState(0x10)) //Shift Button Up
+                {
+                    (Parent as Form1)!.selected.Clear();
+                }
+                (Parent as Form1)!.selected.Add(this);
+            }
+        }
+        private void onMouseMove(object? sender, MouseEventArgs e)
+        {
+            if (M_toDrag)
+            {
+                var mousePos = Cursor.Position;
+                (Parent as Form1)!.MakeDrag();
+                M_toDrag = false;
+            }
+        }
+        private void onMouseDoubleClick(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{FilePath}\"" } }.Start();
+            }
+        }
+
+        private void InitVarieties(string path)
+        {
             TopLevel = false;
             FilePath = path;
             FileName = Path.GetFileName(path);
@@ -64,8 +123,11 @@ namespace Bachup_s_backup
             Controls.Add(Top_panel);
             Top_panel.BringToFront();
             Visible = true;
-
             label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
+        }
+
+        private void InitPictureBox(string path)
+        {
             if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
             {
                 try
@@ -74,59 +136,6 @@ namespace Bachup_s_backup
                 }
                 catch (Exception) { }
             }
-
-            Top_panel.MouseDoubleClick += (s, e) =>
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{FilePath}\"" } }.Start();
-                }
-            };
-
-            bool M_toDrag = false;
-            Top_panel.MouseMove += (s, e) =>
-            {
-                if (M_toDrag)
-                {
-                    var mousePos = Cursor.Position;
-                    (Parent as Form1)!.MakeDrag();
-                    M_toDrag = false;
-                }
-            };
-
-            Top_panel.MouseDown += (s, e) =>
-            {
-
-                if (e.Button == MouseButtons.Left)
-                {
-                    M_toDrag = true;
-                    (Parent as Form1)!.selected.Add(this);
-                }
-                else
-                {
-                    RightClickMenu.Show(this, e.Location);
-                    if (!GetAsyncKeyState(0x10)) //Shift Button Up
-                    {
-                        (Parent as Form1)!.selected.Clear();
-                    }
-                    (Parent as Form1)!.selected.Add(this);
-                }
-            };
-
-            Top_panel.MouseUp += (s, e) =>
-            {
-                M_toDrag = false;
-                if (e.Button == MouseButtons.Left)
-                {
-                    if (!GetAsyncKeyState(0x10)) //Shift Button Up
-                    {
-                        (Parent as Form1)!.selected.Clear();
-                    }
-                    (Parent as Form1)!.selected.Add(this);
-                }
-
-            };
-
         }
     }
 }

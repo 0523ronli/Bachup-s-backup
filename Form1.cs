@@ -3,8 +3,6 @@ using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
 using UItestv2;
-using System.Configuration;
-using System.Windows.Forms;
 
 namespace Bachup_s_backup
 {
