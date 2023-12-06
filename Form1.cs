@@ -92,6 +92,10 @@ namespace Bachup_s_backup
                 };
                 updateDI_Size();
             });
+            iconsize_opt.ForEach(x =>
+            {
+                x.Checked=x.
+            });
             RCM_view.DropDownItems.AddRange(iconsize_opt.ToArray());
             RCM_view.DropDownItems.Add(new ToolStripSeparator());
             //auto arrange
@@ -357,8 +361,7 @@ namespace Bachup_s_backup
                     {
                         if (!SettingMainForm.Instance.Visible)
                         {
-                            Form config = new SettingMainForm();
-                            config.Show();
+                            SettingMainForm.Instance.ShowDialog();
                         }
                     }
                     if (m.WParam == HotKeys.Close.ID)
