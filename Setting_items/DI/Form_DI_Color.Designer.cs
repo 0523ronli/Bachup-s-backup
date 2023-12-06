@@ -32,7 +32,7 @@
             submit = new Button();
             DI_BackColor = new Label();
             colorDialog1 = new ColorDialog();
-            DI_Defult = new Label();
+            DI_ForeColor = new Label();
             SuspendLayout();
             // 
             // cancel
@@ -69,17 +69,17 @@
             DI_BackColor.TextAlign = ContentAlignment.MiddleCenter;
             DI_BackColor.DoubleClick += DI_BackColor_onDoubleClick;
             // 
-            // DI_Defult
+            // DI_ForeColor
             // 
-            DI_Defult.BackColor = SystemColors.AppWorkspace;
-            DI_Defult.ForeColor = SystemColors.ControlText;
-            DI_Defult.Location = new Point(73, 135);
-            DI_Defult.Name = "DI_Defult";
-            DI_Defult.Size = new Size(240, 50);
-            DI_Defult.TabIndex = 3;
-            DI_Defult.Text = "Click to change DI_Size";
-            DI_Defult.TextAlign = ContentAlignment.MiddleCenter;
-            DI_BackColor.DoubleClick += DI_Size_onDoubleClick;
+            DI_ForeColor.BackColor = SystemColors.AppWorkspace;
+            DI_ForeColor.ForeColor = SystemColors.ControlText;
+            DI_ForeColor.Location = new Point(73, 135);
+            DI_ForeColor.Name = "DI_Defult";
+            DI_ForeColor.Size = new Size(240, 50);
+            DI_ForeColor.TabIndex = 3;
+            DI_ForeColor.Text = "Click to change DI_ForeColor";
+            DI_ForeColor.TextAlign = ContentAlignment.MiddleCenter;
+            DI_ForeColor.DoubleClick += DI_ForeColor_onDoubleClick;
             // 
             // Global
             // 
@@ -87,7 +87,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(800, 450);
-            Controls.Add(DI_Defult);
+            Controls.Add(DI_ForeColor);
             Controls.Add(DI_BackColor);
             Controls.Add(submit);
             Controls.Add(cancel);
@@ -102,6 +102,6 @@
         private Button submit;
         private Label DI_BackColor;
         private ColorDialog colorDialog1;
-        private Label DI_Defult;
+        private Label DI_ForeColor;
     }
 }
