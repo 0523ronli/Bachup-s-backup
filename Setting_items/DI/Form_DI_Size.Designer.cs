@@ -28,12 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form_DI_Size";
+            submit = new Button();
+            comboBox1 = new ComboBox();
+            SuspendLayout();
+            // 
+            // submit
+            // 
+            submit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            submit.Location = new Point(191, 109);
+            submit.Name = "submit";
+            submit.Size = new Size(94, 29);
+            submit.TabIndex = 0;
+            submit.Text = "Submit";
+            submit.UseVisualStyleBackColor = true;
+            submit.Click += onSubmit;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "小 (80 * 80)", "中 (140 * 140)", "大 (200 * 200)" });
+            comboBox1.Location = new Point(42, 45);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(169, 27);
+            comboBox1.TabIndex = 1;
+            // 
+            // Form_DI_Size
+            // 
+            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(377, 174);
+            Controls.Add(comboBox1);
+            Controls.Add(submit);
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "Form_DI_Size";
+            Text = "Form_DI_Size";
+            Load += Form_DI_Size_Load;
+            ResumeLayout(false);
+        }
+
+        private void Submit_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
+
+        private Button submit;
+        private ComboBox comboBox1;
     }
 }

@@ -38,9 +38,15 @@ namespace Bachup_s_backup
             }
         }
 
-        private void DI_Size_onDoubleClick(object sender, EventArgs e)
+        private void DI_ForeColor_onDoubleClick(object sender, EventArgs e)
         {
-
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach (var DI in Application.OpenForms.OfType<DesktopItem>())
+                {
+                    DI.ForeColor = colorDialog1.Color;
+                }
+            }
         }
     }
 }
