@@ -209,19 +209,22 @@ namespace Bachup_s_backup
             var items = Controls.OfType<DesktopItem>().ToList();
             items.ForEach(item =>
             {
-                switch (sizeMode)
-                {
-                    case SizeMode.Small:
-                        item.Size = new Size(80, 80);
-                        break;
-                    case SizeMode.Medium:
-                        item.Size = new Size(140, 140);
-                        break;
-                    case SizeMode.Large:
-                        item.Size = new Size(200, 200);
-                        break;
-                };
+                item.Size = getSizeBySizeMode(sizeMode);
             });
+        }
+
+        private Size getSizeBySizeMode(SizeMode sizeMode)
+        {
+            switch (sizeMode)
+            {
+                case SizeMode.Small:
+                    return new Size(80, 80);
+                case SizeMode.Medium:
+                    return new Size(140, 140);
+                case SizeMode.Large:
+                    return new Size(200, 200);
+            };
+            return new Size(140,140);
         }
 
         private void onKeyDown(object? sender, KeyEventArgs e)
@@ -260,43 +263,43 @@ namespace Bachup_s_backup
         }
 
         private void onDragDrop(object? s, DragEventArgs e)
+{
+    try
+    {
+        int i = 0;
+        Point M_Pos = MousePosition;
+        if (e.Data!.GetDataPresent(DataFormats.FileDrop))
         {
-            try
+            foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
             {
-                int i = 0;
-                Point M_Pos = MousePosition;
-                if (e.Data!.GetDataPresent(DataFormats.FileDrop))
+                if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                 {
-                    foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
+                    Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
                     {
-                        if (DesktopItem.SaveCreate(file) is DesktopItem DI)
-                        {
-                            Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                            {
-                                Controls.Remove(x); selected.Remove(x); x.Dispose();
-                            });
-                            DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
-                            Controls.Add(DI);
-                            GC.Collect();
-                            i++;
-                        }
-                        else
-                        {
-                            MessageBox.Show(this, $"Can not find file at {file}");
-                            continue;
-                        }
-                    }
+                        Controls.Remove(x); selected.Remove(x); x.Dispose();
+                    });
+                    DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                    Controls.Add(DI);
+                    GC.Collect();
+                    i++;
                 }
                 else
                 {
-                    MessageBox.Show(this, e.Data.GetFormats().ToString());
+                    MessageBox.Show(this, $"Can not find file at {file}");
+                    continue;
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Messed up when dropping");
-            }
         }
+        else
+        {
+            MessageBox.Show(this, e.Data.GetFormats().ToString());
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show(ex.Message, "Messed up when dropping");
+    }
+}
 
         private void onFormClosed(object? s, FormClosedEventArgs e)
         {
@@ -395,6 +398,7 @@ namespace Bachup_s_backup
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.Size)).ToList();
+            config_JSON.DI_size = getSizeBySizeMode(sizeMode);
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
 
