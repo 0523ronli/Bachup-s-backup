@@ -48,8 +48,7 @@ namespace UItestv2
             if (foldablePanel.Contains(leftbtn.expandPanel) || leftbtn.expandPanel.Controls.Count == 0) return;
             leftrestore();
             int index = foldablePanel.Controls.IndexOf(leftbtn);
-            List<Control> controlList = new();
-            controlList.AddRange(foldablePanel.Controls.OfType<Control>());
+            List<Control> controlList = [.. foldablePanel.Controls.OfType<Control>()];
             controlList.Insert(index, leftbtn.expandPanel);
             foldablePanel.Controls.Clear();
             foreach (Control control in controlList)
