@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            
-            
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+
             SuspendLayout();
            
             

@@ -65,9 +65,9 @@ namespace UItestv2
 
         private void Mainform_Load(object sender, EventArgs e)
         {
+            originalleftbtn.Clear();
             originalleftbtn.Add(new Leftbtn()
             {
-
                 Text = "Form Setting",
                 subbtnList = new List<Subbtn>
                 {

@@ -24,10 +24,13 @@ namespace Bachup_s_backup
         public DesktopItem(string path)
         {
             Instance = this;
+            FilePath = path;
+            FileName = Path.GetFileName(path);
             InitializeComponent();
+            InitVarieties();
             InitializeContextMenu();
-            InitPictureBox(path);
-            InitVarieties(path);
+            InitPictureBox();
+            
 
             Top_panel.MouseDoubleClick += onMouseDoubleClick;
             Top_panel.MouseMove += onMouseMove;
@@ -114,11 +117,9 @@ namespace Bachup_s_backup
             }
         }
 
-        private void InitVarieties(string path)
+        private void InitVarieties()
         {
             TopLevel = false;
-            FilePath = path;
-            FileName = Path.GetFileName(path);
             Top_panel = new();
             Controls.Add(Top_panel);
             Top_panel.BringToFront();
@@ -126,9 +127,9 @@ namespace Bachup_s_backup
             label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
         }
 
-        private void InitPictureBox(string path)
+        private void InitPictureBox()
         {
-            if ((File.GetAttributes(path) & FileAttributes.Directory) != FileAttributes.Directory)
+            if ((File.GetAttributes(FilePath) & FileAttributes.Directory) != FileAttributes.Directory)
             {
                 try
                 {

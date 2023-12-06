@@ -23,7 +23,7 @@ namespace Bachup_s_backup.Setting_items.form1
         {
             double opac = (double)hScrollBar1.Value / 100;
             label1.Text = "Opacity: " + opac.ToString() + "%";
-            if (opac != null && opac != 0.0f) Form1.Instance.Opacity = opac;
+            if (opac != 0.0f) Form1.Instance.Opacity = opac;
         }
 
         private void onCancel(object sender, EventArgs e)
