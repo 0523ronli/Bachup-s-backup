@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
-using System.Drawing.Drawing2D;
 using UItestv2;
 using System.Configuration;
 using System.Windows.Forms;
@@ -206,19 +205,22 @@ namespace Bachup_s_backup
             var items = Controls.OfType<DesktopItem>().ToList();
             items.ForEach(item =>
             {
-                switch (sizeMode)
-                {
-                    case SizeMode.Small:
-                        item.Size = new Size(80, 80);
-                        break;
-                    case SizeMode.Medium:
-                        item.Size = new Size(140, 140);
-                        break;
-                    case SizeMode.Large:
-                        item.Size = new Size(200, 200);
-                        break;
-                };
+                item.Size = getSizeBySizeMode(sizeMode);
             });
+        }
+
+        private Size getSizeBySizeMode(SizeMode sizeMode)
+        {
+            switch (sizeMode)
+            {
+                case SizeMode.Small:
+                    return new Size(80, 80);
+                case SizeMode.Medium:
+                    return new Size(140, 140);
+                case SizeMode.Large:
+                    return new Size(200, 200);
+            };
+            return new Size(140,140);
         }
 
         private void onKeyDown(object? sender, KeyEventArgs e)
@@ -265,7 +267,8 @@ namespace Bachup_s_backup
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
-                        if (DesktopItem.SaveCreate(file) is DesktopItem DI)
+                        DesktopItem DI = DesktopItem.SaveCreate(file,null,getSizeBySizeMode(sizeMode));
+                        if (DI == null)
                         {
                             MessageBox.Show(this, $"Can not find file at {file}");
                             continue;
@@ -274,6 +277,7 @@ namespace Bachup_s_backup
                         {
                             Controls.Remove(x); selected.Remove(x); x.Dispose();
                         });
+
                         DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
                         Controls.Add(DI);
                         GC.Collect();
@@ -350,7 +354,7 @@ namespace Bachup_s_backup
                     {
                         if (!SettingMainForm.Instance.Visible)
                         {
-                            Form config = new Global();
+                            Form config = new SettingMainForm();
                             config.Show();
                         }
                     }
@@ -388,6 +392,7 @@ namespace Bachup_s_backup
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.Size)).ToList();
+            config_JSON.DI_size = getSizeBySizeMode(sizeMode);
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
 
