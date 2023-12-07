@@ -17,20 +17,20 @@ namespace Bachup_s_backup
 
         public new void Add(DesktopItem item)
         {
-            item.BackColor = Program.DI_selected;
+            item.BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_selected);
 
             base.Add(item);
         }
         public new void Remove(DesktopItem item)
         {
-            item.BackColor=Program.DI_default;
+            item.BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_BackColor);
             base.Remove(item);
         }
         public new void Clear()
         {
             foreach (var item in this)
             {
-                item.BackColor = Program.DI_default;
+                item.BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_BackColor);
             }
             base.Clear();
         }

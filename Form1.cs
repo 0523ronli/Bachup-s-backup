@@ -42,14 +42,14 @@ namespace Bachup_s_backup
         public Form1()
         {
             selected = new(this);
+            Instance = this;
+            TopMost = true;
+            KeyPreview = true;
+
             InitializeComponent();
             InitializeConfig();
             RegisterHotkey();
             InitRCM();
-
-            Instance = this;
-            TopMost = true;
-            KeyPreview = true;
 
             KeyDown += onKeyDown;
             MouseDown += onMouseDown;
@@ -127,12 +127,12 @@ namespace Bachup_s_backup
                 int i = 0;
                 foreach (string file in OFD.FileNames)
                 {
-                    if (DesktopItem.SaveCreate(file,size:getSizeBySizeMode(sizeMode)) is DesktopItem DI)
+                    if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                     {
                         Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                       {
+                        {
                            Controls.Remove(x); selected.Remove(x); x.Dispose();
-                       });
+                        });
                         DI.Location = new(Rclick_pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), Rclick_pos.Y - Location.Y - DI.Height / 2);
 
                         Controls.Add(DI);
@@ -263,7 +263,7 @@ namespace Bachup_s_backup
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
-                        if (DesktopItem.SaveCreate(file,size:getSizeBySizeMode(sizeMode)) is DesktopItem DI)
+                        if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                         {
                             Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
                             {
@@ -376,7 +376,7 @@ namespace Bachup_s_backup
 
                 //TODO sync property
                 var items = config_JSON.DI_List.Select(
-                    x => DesktopItem.SaveCreate(x.FilePath, x.location, x.Size)).Where(x => x != null).ToList();
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
                 Controls.AddRange(items.ToArray());
             }
         }
@@ -387,8 +387,10 @@ namespace Bachup_s_backup
             config_JSON.location = Location;
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
-            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.Size)).ToList();
+            config_JSON.DI_BackColor = config_JSON.DI_BackColor;
+            config_JSON.DI_ForeColor = config_JSON.DI_ForeColor;
             config_JSON.DI_size = getSizeBySizeMode(sizeMode);
+            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
 

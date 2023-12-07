@@ -32,7 +32,7 @@ namespace Bachup_s_backup
             InitPictureBox();
             
 
-            Top_panel.MouseDoubleClick += onMouseDoubleClick;
+            Top_panel!.MouseDoubleClick += onMouseDoubleClick;
             Top_panel.MouseMove += onMouseMove;
             Top_panel.MouseDown += onMouseDown;
             Top_panel.MouseUp += onMouseUp;
@@ -63,12 +63,21 @@ namespace Bachup_s_backup
             };
             RightClickMenu.Items.Add(open_explorer);
         }
-        public static DesktopItem SaveCreate(string path, Point? locataion = null, Size? size = null)
+        public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {
-            if (File.Exists(path) || Directory.Exists(path)) return new(path) { Location = locataion ?? new(), Size = size ?? new Size(140, 140) };
+            if (File.Exists(path) || Directory.Exists(path))
+            {
+                return new(path)
+                {
+                    Location = locataion ?? new(),
+                    Size = Form1.Instance.config_JSON.DI_size,
+                    BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_BackColor ?? "#B4B4B4"),
+                    ForeColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_ForeColor ?? "#000000"),
+
+                };
+            }
             else return null!;
         }
-        
 
         private void onMouseUp(object? sender, MouseEventArgs e)
         {
