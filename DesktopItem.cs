@@ -138,5 +138,12 @@ namespace Bachup_s_backup
                 catch (Exception) { }
             }
         }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            label1.ForeColor = Form1.Instance.config_JSON.DI_ForeColor;
+            BackColor = Form1.Instance.config_JSON.DI_backColor;
+            Size = Form1.Instance.config_JSON.DI_size;
+            base.OnPaint(e);
+        }
     }
 }

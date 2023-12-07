@@ -133,7 +133,7 @@ namespace Bachup_s_backup
                        {
                            Controls.Remove(x); selected.Remove(x); x.Dispose();
                        });
-                        DI.Location = new(Rclick_pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), Rclick_pos.Y - Location.Y - DI.Height / 2);
+                        DI.Location = new(Rclick_pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), Rclick_pos.Y - Location.Y - DI.Height / 2);
 
                         Controls.Add(DI);
                         GC.Collect();
@@ -269,7 +269,7 @@ namespace Bachup_s_backup
                             {
                                 Controls.Remove(x); selected.Remove(x); x.Dispose();
                             });
-                            DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                            DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
                             Controls.Add(DI);
                             GC.Collect();
                             i++;
@@ -398,6 +398,11 @@ namespace Bachup_s_backup
             var thing = selected.Select(x => x.FilePath).ToArray();
             DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath).ToArray()), current_effects);
             TopMost = true;
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            //
+            base.OnPaint(e);
         }
     }
 }

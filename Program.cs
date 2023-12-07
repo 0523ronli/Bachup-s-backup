@@ -52,6 +52,12 @@ namespace Bachup_s_backup
             public int ID;
             public int Key;
         }
+        public class DI_size_opt
+        {
+            public static Size Small = new(60, 60);
+            public static Size Medium = new(60, 60);
+            public static Size Large = new(60, 60);
+        }
         private static void OnThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             MessageBox.Show("Something not expected went wrong: \n " + e.Exception.Message, "O_o", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -84,7 +90,7 @@ namespace Bachup_s_backup
         public static Color DI_default = SystemColors.ActiveBorder;
         public static Color DI_selected = Color.LightBlue;
         public static Color DI_backColor = SystemColors.ActiveBorder;
-        public static Size DI_size = new Size(140, 140);
+        //public static Size DI_size = new Size(140, 140);
         public static double DI_opacity = .100;
     }
 }
