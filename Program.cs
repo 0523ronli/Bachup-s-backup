@@ -80,10 +80,5 @@ namespace Bachup_s_backup
             F.Location = new Point(workingArea.Right - F.Size.Width,
                                       workingArea.Bottom - F.Size.Height);
         }
-        public static Color DI_default = SystemColors.ActiveBorder;
-        public static Color DI_selected = Color.LightBlue;
-        public static Color DI_backColor = SystemColors.ActiveBorder;
-        public static Size DI_size = new Size(140, 140);
-        public static double DI_opacity = .100;
     }
 }
