@@ -66,6 +66,7 @@ namespace UItestv2
             Controls.Add(foldablePanel);
             Margin = new Padding(4);
             Name = "SettingMainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Setting";
             TopMost = true;
             Load += Mainform_Load;

@@ -1,4 +1,4 @@
-﻿namespace Bachup_s_backup.MainFormUI
+﻿namespace Bachup_s_backup
 {
     partial class Form_All_DI
     {
@@ -28,37 +28,87 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            Grid1 = new DataGridView();
+            Column_name = new DataGridViewTextBoxColumn();
+            Column_path = new DataGridViewTextBoxColumn();
+            Column_x = new DataGridViewTextBoxColumn();
+            Column_y = new DataGridViewTextBoxColumn();
+            Column_src = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)Grid1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(776, 426);
-            dataGridView1.TabIndex = 0;
+            Grid1.AllowUserToAddRows = false;
+            Grid1.AllowUserToDeleteRows = false;
+            Grid1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Grid1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            Grid1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            Grid1.Columns.AddRange(new DataGridViewColumn[] { Column_name, Column_path, Column_x, Column_y, Column_src });
+            Grid1.Location = new Point(12, 12);
+            Grid1.Name = "dataGridView1";
+            Grid1.RowHeadersWidth = 51;
+            Grid1.RowTemplate.Height = 29;
+            Grid1.Size = new Size(776, 426);
+            Grid1.TabIndex = 0;
+            // 
+            // Column_name
+            // 
+            Column_name.HeaderText = "名稱";
+            Column_name.MinimumWidth = 6;
+            Column_name.Name = "Column_name";
+            Column_name.ReadOnly = true;
+            Column_name.Width = 68;
+            // 
+            // Column_path
+            // 
+            Column_path.HeaderText = "路徑";
+            Column_path.MinimumWidth = 6;
+            Column_path.Name = "Column_path";
+            Column_path.ReadOnly = true;
+            Column_path.Width = 68;
+            // 
+            // Column_x
+            // 
+            Column_x.HeaderText = "X";
+            Column_x.MinimumWidth = 6;
+            Column_x.Name = "Column_x";
+            Column_x.Width = 48;
+            // 
+            // Column_y
+            // 
+            Column_y.HeaderText = "Y";
+            Column_y.MinimumWidth = 6;
+            Column_y.Name = "Column_y";
+            Column_y.Width = 47;
+            // 
+            // Column_src
+            // 
+            Column_src.HeaderText = "src";
+            Column_src.MinimumWidth = 6;
+            Column_src.Name = "Column_src";
+            Column_src.Visible = false;
+            Column_src.Width = 125;
             // 
             // Form_All_DI
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(dataGridView1);
+            Controls.Add(Grid1);
             Name = "Form_All_DI";
             Text = "Form_All_DI";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Grid1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView Grid1;
+        private DataGridViewTextBoxColumn Column_name;
+        private DataGridViewTextBoxColumn Column_path;
+        private DataGridViewTextBoxColumn Column_x;
+        private DataGridViewTextBoxColumn Column_y;
+        private DataGridViewTextBoxColumn Column_src;
     }
 }
