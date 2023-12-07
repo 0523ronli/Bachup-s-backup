@@ -16,6 +16,7 @@ namespace Bachup_s_backup
             Application.EnableVisualStyles();
             SettingMainForm _ = new();
             Application.Run(new Form1());
+            //Application.Run(new Form2Test());
             //Application.Run(new SettingMainForm());
         }
         public static class HotKeys
@@ -50,6 +51,12 @@ namespace Bachup_s_backup
         {
             public int ID;
             public int Key;
+        }
+        public class DI_size_opt
+        {
+            public static Size Small = new(60, 60);
+            public static Size Medium = new(60, 60);
+            public static Size Large = new(60, 60);
         }
         private static void OnThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {

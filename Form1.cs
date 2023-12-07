@@ -401,5 +401,10 @@ namespace Bachup_s_backup
             DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath).ToArray()), current_effects);
             TopMost = true;
         }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            //
+            base.OnPaint(e);
+        }
     }
 }

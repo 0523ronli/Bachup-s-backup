@@ -41,7 +41,6 @@ namespace UItestv2
                 button.repaint(true);
                 foldablePanel.Controls.Add(button);
             }
-
         }
         public async Task ExpandAsync(Leftbtn leftbtn)
         {
@@ -76,8 +75,8 @@ namespace UItestv2
             });
             originalleftbtn.Add(new Leftbtn()
             {
-
                 Text = "Desktop item Setting",
+                Linkform=new Form_All_DI(),
                 subbtnList = new List<Subbtn>
                 {
                     new Subbtn() {Text="Desktop_Color",Linkform = new Form_DI_Color()},

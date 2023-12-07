@@ -28,27 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            dataGridView1 = new DataGridView();
             button1 = new Button();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(12, 12);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.RowTemplate.Height = 29;
+            dataGridView1.Size = new Size(300, 188);
+            dataGridView1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.Location = new Point(694, 409);
+            button1.Location = new Point(506, 76);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 0;
+            button1.TabIndex = 1;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.Location = new Point(12, 12);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(776, 379);
-            flowLayoutPanel1.TabIndex = 1;
             // 
             // Form2Test
             // 
@@ -56,15 +59,17 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(797, 450);
             Controls.Add(button1);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(dataGridView1);
             Name = "Form2Test";
             Text = "Form2Testcs";
+            Load += Form2Test_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
+        private DataGridView dataGridView1;
         private Button button1;
-        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
