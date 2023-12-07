@@ -16,6 +16,7 @@ namespace Bachup_s_backup
             Application.EnableVisualStyles();
             SettingMainForm _ = new();
             Application.Run(new Form1());
+            //Application.Run(new Form2Test());
             //Application.Run(new SettingMainForm());
         }
         public static class HotKeys

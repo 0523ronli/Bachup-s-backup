@@ -43,7 +43,15 @@ namespace Bachup_s_backup
                     x
                 });
             });
-
+            //Grid1.DataSource= Form1.Instance.Controls.Cast<DesktopItem>().ToList().Select(x =>
+            //new object[]
+            //    {
+            //        x.FileName,
+            //        x.FilePath,
+            //        x.Location.X,
+            //        x.Location.Y,
+            //        x
+            //    });
             base.OnPaint(e);
         }
     }
