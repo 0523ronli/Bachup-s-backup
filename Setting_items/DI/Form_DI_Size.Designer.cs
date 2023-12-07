@@ -46,7 +46,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "小 (80 * 80)", "中 (140 * 140)", "大 (200 * 200)" });
+            comboBox1.Items.AddRange(new object[] { "Small (80 * 80)", "Medium (140 * 140)", "Large (200 * 200)" });
             comboBox1.Location = new Point(42, 45);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(169, 27);
