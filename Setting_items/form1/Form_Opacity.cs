@@ -12,7 +12,7 @@ namespace Bachup_s_backup.Setting_items.form1
 {
     public partial class Form_Opacity : Form
     {
-        double ori = Form1.Instance.Opacity;
+        double ori = Form1.Form1_Instance.Opacity;
 
         public Form_Opacity()
         {
@@ -23,16 +23,16 @@ namespace Bachup_s_backup.Setting_items.form1
         {
             double opac = (double)hScrollBar1.Value / 100;
             label1.Text = "Opacity: " + opac.ToString() + "%";
-            if (opac != 0.0f) Form1.Instance.Opacity = opac;
+            if (opac != 0.0f) Form1.Form1_Instance.Opacity = opac;
         }
 
         private void onCancel(object sender, EventArgs e)
         {
-            Form1.Instance.Opacity = ori;
+            Form1.Form1_Instance.Opacity = ori;
             hScrollBar1.Value = (int)(ori * 100);
         }
 
-        private void onSubmit(object sender, EventArgs e) => ori = Form1.Instance.Opacity;
+        private void onSubmit(object sender, EventArgs e) => ori = Form1.Form1_Instance.Opacity;
 
     }
 }

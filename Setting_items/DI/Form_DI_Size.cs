@@ -28,7 +28,7 @@ namespace Bachup_s_backup.Setting_items
                 DI.Size = new Size(size, size);
             }
             current_size = size;
-            Form1.Instance.config_JSON.DI_size = new Size(size, size);
+            Form1.Form1_Instance.config_JSON.DI_size = new Size(size, size);
         }
 
         private void Form_DI_Size_Load(object sender, EventArgs e)

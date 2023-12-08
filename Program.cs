@@ -54,9 +54,9 @@ namespace Bachup_s_backup
         }
         public class DI_size_opt
         {
-            public static Size Small = new(60, 60);
-            public static Size Medium = new(60, 60);
-            public static Size Large = new(60, 60);
+            public static Size Small = new(80, 80);
+            public static Size Medium = new(120,120);
+            public static Size Large = new(160, 160);
         }
         private static void OnThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
@@ -87,5 +87,10 @@ namespace Bachup_s_backup
             F.Location = new Point(workingArea.Right - F.Size.Width,
                                       workingArea.Bottom - F.Size.Height);
         }
+        
+    }
+    public static class ext
+    {
+        public static Color Hex2Coler(this string hexString) => ColorTranslator.FromHtml(hexString);
     }
 }

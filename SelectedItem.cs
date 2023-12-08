@@ -17,22 +17,23 @@ namespace Bachup_s_backup
 
         public new void Add(DesktopItem item)
         {
-            item.BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_selected);
+            item.BackColor = ColorTranslator.FromHtml(Form1.Form1_Instance.config_JSON.DI_selected);
 
             base.Add(item);
         }
         public new void Remove(DesktopItem item)
         {
-            item.BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_BackColor);
+            item.BackColor = ColorTranslator.FromHtml(Form1.Form1_Instance.config_JSON.DI_BackColor);
             base.Remove(item);
         }
         public new void Clear()
         {
             foreach (var item in this)
             {
-                item.BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_BackColor);
+                item.BackColor = ColorTranslator.FromHtml(Form1.Form1_Instance.config_JSON.DI_BackColor);
             }
             base.Clear();
+            GC.Collect();
         }
         public void DeleteAll()
         {
@@ -41,6 +42,7 @@ namespace Bachup_s_backup
                 Form.Controls.Remove(item);
             }
             base.Clear();
+            GC.Collect();
         }
     }
 }

@@ -10,25 +10,18 @@ namespace Bachup_s_backup
     {
         ContextMenuStrip RightClickMenu = new();
 
-        public static Form1 Instance;
+        public static Form1 Form1_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public SelectedItem selected;
         public Config_JSON config_JSON = new();
         public bool autoArrange = true;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
-        public SizeMode sizeMode = SizeMode.Medium;
         Point Rclick_pos;
 
         public enum ArrangeMode
         {
             Row,
             Column,
-        }
-        public enum SizeMode
-        {
-            Large,
-            Medium,
-            Small
         }
 
         DragDropEffects current_effects = DragDropEffects.Copy;
@@ -42,12 +35,12 @@ namespace Bachup_s_backup
         public Form1()
         {
             selected = new(this);
-            Instance = this;
+            Form1_Instance = this;
             TopMost = true;
             KeyPreview = true;
 
             InitializeComponent();
-            InitializeConfig();
+            ReadJSON();
             RegisterHotkey();
             InitRCM();
 
@@ -68,22 +61,21 @@ namespace Bachup_s_backup
             //icon size
             List<ToolStripMenuItem> iconsize_opt = new()
             {
-                new ToolStripMenuItem("Small Icon") { CheckOnClick = true ,Tag=SizeMode.Small},
-                new ToolStripMenuItem("Medium Icon") { CheckOnClick = true ,Tag=SizeMode.Medium},
-                new ToolStripMenuItem("Large Icon") { CheckOnClick = true,Tag=SizeMode.Large }
+                new ToolStripMenuItem("Small Icon") { CheckOnClick = true ,Tag=DI_size_opt.Small},
+                new ToolStripMenuItem("Medium Icon") { CheckOnClick = true ,Tag=DI_size_opt.Medium},
+                new ToolStripMenuItem("Large Icon") { CheckOnClick = true,Tag=DI_size_opt.Large }
             };
-            iconsize_opt.ForEach(x => x.Click += (s, e) =>
+            iconsize_opt.ForEach(x =>
             {
-                iconsize_opt.ForEach(y =>
+                x.Click += (s, e) =>
                 {
-                    if (x != y) y.Checked = false;
-                });
-                sizeMode = (SizeMode)x.Tag;
-                updateDI_Size();
-            });
-            iconsize_opt.ForEach(x => x.Paint += (s, e) =>
-            {
-                x.Checked = (SizeMode)x.Tag == sizeMode;
+                    config_JSON.DI_size = (Size)x.Tag;
+                    Refresh();
+                };
+                x.Paint += (s, e) =>
+                {
+                    x.Checked = (Size)x.Tag == config_JSON.DI_size;
+                };
             });
             RCM_view.DropDownItems.AddRange(iconsize_opt.ToArray());
             RCM_view.DropDownItems.Add(new ToolStripSeparator());
@@ -100,19 +92,27 @@ namespace Bachup_s_backup
                 new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
                 new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
             };
-            dragmode_opt.ForEach(x => x.Click += (s, e) =>
+            dragmode_opt.Select(x =>
             {
-                dragmode_opt.ForEach(y =>
+                x.Click += (s, e) =>
                 {
-                    if (x != y) y.Checked = false;
-                });
-                current_effects = (DragDropEffects)x.Tag;
+                    current_effects = (DragDropEffects)x.Tag;
+                };
+                x.Paint += (s, e) =>
+                {
+                    x.Checked = (DragDropEffects)x.Tag == current_effects;
+                };
+                return x;
             });
-            dragmode_opt.ForEach(x => x.Paint += (s, e) =>
+            List<object> lst = new();
+            lst.AddRange([1, 2]);
+            RCM_dragmode.DropDownItems.AddRange(
+                 new List<ToolStripMenuItem>()
             {
-                x.Checked = (DragDropEffects)x.Tag == current_effects;
-            });
-            RCM_dragmode.DropDownItems.AddRange(dragmode_opt.ToArray());
+                new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
+                new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
+            }.ToArray()
+                );
             //setting
             RCM_setting.Click += (s, e) =>
             {
@@ -121,8 +121,10 @@ namespace Bachup_s_backup
             //add_di
             RCM_add_DI.Click += (s, e) =>
             {
-                OpenFileDialog OFD = new();
-                OFD.Multiselect = true;
+                OpenFileDialog OFD = new()
+                {
+                    Multiselect = true
+                };
                 if (OFD.ShowDialog() != DialogResult.OK) return;
                 int i = 0;
                 foreach (string file in OFD.FileNames)
@@ -131,11 +133,12 @@ namespace Bachup_s_backup
                     {
                         Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
                         {
-                           Controls.Remove(x); selected.Remove(x); x.Dispose();
+                            Controls.Remove(x); selected.Remove(x); x.Dispose();
                         });
-                        DI.Location = new(Rclick_pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), Rclick_pos.Y - Location.Y - DI.Height / 2);
+                        DI.Location = new(Rclick_pos.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), Rclick_pos.Y - DI.Height / 2);
 
                         Controls.Add(DI);
+                        selected.Add(DI);
                         GC.Collect();
                         i++;
                     }
@@ -160,15 +163,11 @@ namespace Bachup_s_backup
 
         private void AutoArrange()
         {
-            var items = Controls.OfType<DesktopItem>().ToList();
-
-
             int spacing = 10;
-
             int currentX = spacing;
             int currentY = spacing;
 
-            foreach (var item in items)
+            foreach (var item in Controls.OfType<DesktopItem>())
             {
                 item.Location = new Point(currentX, currentY);
 
@@ -193,29 +192,6 @@ namespace Bachup_s_backup
                     }
                 }
             }
-        }
-
-        private void updateDI_Size()
-        {
-            var items = Controls.OfType<DesktopItem>().ToList();
-            items.ForEach(item =>
-            {
-                item.Size = getSizeBySizeMode(sizeMode);
-            });
-        }
-
-        private Size getSizeBySizeMode(SizeMode sizeMode)
-        {
-            switch (sizeMode)
-            {
-                case SizeMode.Small:
-                    return new Size(80, 80);
-                case SizeMode.Medium:
-                    return new Size(140, 140);
-                case SizeMode.Large:
-                    return new Size(200, 200);
-            };
-            return new Size(140, 140);
         }
 
         private void onKeyDown(object? sender, KeyEventArgs e)
@@ -244,7 +220,7 @@ namespace Bachup_s_backup
             else
             {
                 RightClickMenu.Show(this, e.Location);
-                Rclick_pos = MousePosition;
+                Rclick_pos = e.Location;
             }
         }
 
@@ -295,7 +271,7 @@ namespace Bachup_s_backup
         private void onFormClosed(object? s, FormClosedEventArgs e)
         {
             UnregistHotkey();
-            updateJSON();
+            WriteJSON();
             Application.Exit();
         }
         private void UnregistHotkey()
@@ -365,7 +341,7 @@ namespace Bachup_s_backup
             }
         }
 
-        public void InitializeConfig()
+        public void ReadJSON()
         {
             if (File.Exists(jsonPath))
             {
@@ -381,15 +357,11 @@ namespace Bachup_s_backup
             }
         }
 
-        public void updateJSON()
+        public void WriteJSON()
         {
             File.Create(jsonPath).Close();
             config_JSON.location = Location;
             config_JSON.size = Size;
-            config_JSON.Opacity = Opacity;
-            config_JSON.DI_BackColor = config_JSON.DI_BackColor;
-            config_JSON.DI_ForeColor = config_JSON.DI_ForeColor;
-            config_JSON.DI_size = getSizeBySizeMode(sizeMode);
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
@@ -403,8 +375,11 @@ namespace Bachup_s_backup
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            //
             base.OnPaint(e);
+            foreach (Control item in Controls)
+            {
+                item.Refresh();
+            }
         }
     }
 }

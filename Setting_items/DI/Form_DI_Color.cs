@@ -35,7 +35,7 @@ namespace Bachup_s_backup
                 {
                     DI.BackColor = colorDialog1.Color;
                 }
-                Form1.Instance.config_JSON.DI_BackColor = ColorToHex(colorDialog1.Color);
+                Form1.Form1_Instance.config_JSON.DI_BackColor = ColorToHex(colorDialog1.Color);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Bachup_s_backup
                 {
                     DI.ForeColor = colorDialog1.Color;
                 }
-                Form1.Instance.config_JSON.DI_ForeColor = ColorToHex(colorDialog1.Color);
+                Form1.Form1_Instance.config_JSON.DI_ForeColor = ColorToHex(colorDialog1.Color);
             }
         }
 

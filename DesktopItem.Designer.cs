@@ -36,9 +36,9 @@
             // label1
             // 
             label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label1.Location = new Point(12, 112);
+            label1.Location = new Point(12, 92);
             label1.Name = "label1";
-            label1.Size = new Size(116, 19);
+            label1.Size = new Size(96, 19);
             label1.TabIndex = 0;
             label1.Text = "???";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -49,7 +49,7 @@
             pictureBox1.Image = Properties.Resources.OneDrive_Folder_Icon_svg;
             pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(116, 97);
+            pictureBox1.Size = new Size(96, 77);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -58,7 +58,7 @@
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ActiveBorder;
-            ClientSize = new Size(140, 140);
+            ClientSize = new Size(120, 120);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;

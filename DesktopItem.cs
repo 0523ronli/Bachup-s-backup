@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Bachup_s_backup;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using static Bachup_s_backup.Form1;
 
 namespace Bachup_s_backup
 {
@@ -70,9 +72,9 @@ namespace Bachup_s_backup
                 return new(path)
                 {
                     Location = locataion ?? new(),
-                    Size = Form1.Instance.config_JSON.DI_size,
-                    BackColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_BackColor ?? "#B4B4B4"),
-                    ForeColor = ColorTranslator.FromHtml(Form1.Instance.config_JSON.DI_ForeColor ?? "#000000"),
+                    Size = Form1.Form1_Instance.config_JSON.DI_size,
+                    BackColor = Form1.Form1_Instance.config_JSON.DI_BackColor.Hex2Coler(),
+                    ForeColor = Form1.Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler(),
 
                 };
             }
@@ -149,10 +151,10 @@ namespace Bachup_s_backup
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            label1.ForeColor = Form1.Instance.config_JSON.DI_ForeColor;
-            BackColor = Form1.Instance.config_JSON.DI_backColor;
-            Size = Form1.Instance.config_JSON.DI_size;
             base.OnPaint(e);
+            label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler();
+            BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();
+            Size = Form1_Instance.config_JSON.DI_size;
         }
     }
 }

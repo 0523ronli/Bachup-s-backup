@@ -33,6 +33,12 @@
             DI_BackColor = new Label();
             colorDialog1 = new ColorDialog();
             DI_ForeColor = new Label();
+            label1 = new Label();
+            label2 = new Label();
+            groupBox1 = new GroupBox();
+            label3 = new Label();
+            label4 = new Label();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // cancel
@@ -61,7 +67,7 @@
             // 
             DI_BackColor.BackColor = SystemColors.AppWorkspace;
             DI_BackColor.ForeColor = SystemColors.ControlText;
-            DI_BackColor.Location = new Point(73, 54);
+            DI_BackColor.Location = new Point(448, 90);
             DI_BackColor.Name = "DI_BackColor";
             DI_BackColor.Size = new Size(240, 50);
             DI_BackColor.TabIndex = 2;
@@ -73,26 +79,85 @@
             // 
             DI_ForeColor.BackColor = SystemColors.AppWorkspace;
             DI_ForeColor.ForeColor = SystemColors.ControlText;
-            DI_ForeColor.Location = new Point(73, 135);
-            DI_ForeColor.Name = "DI_Defult";
+            DI_ForeColor.Location = new Point(448, 23);
+            DI_ForeColor.Name = "DI_ForeColor";
             DI_ForeColor.Size = new Size(240, 50);
             DI_ForeColor.TabIndex = 3;
             DI_ForeColor.Text = "Click to change DI_ForeColor";
             DI_ForeColor.TextAlign = ContentAlignment.MiddleCenter;
             DI_ForeColor.DoubleClick += DI_ForeColor_onDoubleClick;
             // 
-            // Global
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 39);
+            label1.Name = "label1";
+            label1.Size = new Size(175, 19);
+            label1.TabIndex = 4;
+            label1.Text = "Desktop Item BackColor";
+            // 
+            // label2
+            // 
+            label2.BackColor = SystemColors.AppWorkspace;
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.ForeColor = SystemColors.ControlText;
+            label2.Location = new Point(187, 33);
+            label2.Name = "label2";
+            label2.Size = new Size(141, 30);
+            label2.TabIndex = 5;
+            label2.Text = "Click to change";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(DI_ForeColor);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(DI_BackColor);
+            groupBox1.Controls.Add(label1);
+            groupBox1.FlatStyle = FlatStyle.Flat;
+            groupBox1.Location = new Point(12, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(776, 211);
+            groupBox1.TabIndex = 6;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Desktop Item";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 76);
+            label3.Name = "label3";
+            label3.Size = new Size(175, 19);
+            label3.TabIndex = 6;
+            label3.Text = "Desktop Item BackColor";
+            // 
+            // label4
+            // 
+            label4.BackColor = SystemColors.AppWorkspace;
+            label4.BorderStyle = BorderStyle.FixedSingle;
+            label4.ForeColor = SystemColors.ControlText;
+            label4.Location = new Point(187, 70);
+            label4.Name = "label4";
+            label4.Size = new Size(141, 30);
+            label4.TabIndex = 7;
+            label4.Text = "Click to change";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // Form_DI_Color
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(800, 450);
-            Controls.Add(DI_ForeColor);
-            Controls.Add(DI_BackColor);
+            Controls.Add(groupBox1);
             Controls.Add(submit);
             Controls.Add(cancel);
-            Name = "Global";
+            Name = "Form_DI_Color";
             Text = "global";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -103,5 +168,10 @@
         private Label DI_BackColor;
         private ColorDialog colorDialog1;
         private Label DI_ForeColor;
+        private Label label1;
+        private Label label2;
+        private GroupBox groupBox1;
+        private Label label4;
+        private Label label3;
     }
 }
