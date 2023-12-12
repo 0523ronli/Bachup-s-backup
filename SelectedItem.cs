@@ -17,7 +17,7 @@ namespace Bachup_s_backup
 
         public new void Add(DesktopItem item)
         {
-            item.BackColor = ColorTranslator.FromHtml(Form1.Form1_Instance.config_JSON.DI_selected);
+            item.BackColor = ColorTranslator.FromHtml(Form1.Form1_Instance.config_JSON.DI_selectedColor);
 
             base.Add(item);
         }

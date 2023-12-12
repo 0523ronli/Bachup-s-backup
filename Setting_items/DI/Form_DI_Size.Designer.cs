@@ -30,12 +30,18 @@
         {
             submit = new Button();
             comboBox1 = new ComboBox();
+            groupBox1 = new GroupBox();
+            radioButton3 = new RadioButton();
+            radioButton2 = new RadioButton();
+            label1 = new Label();
+            radioButton1 = new RadioButton();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // submit
             // 
             submit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            submit.Location = new Point(191, 109);
+            submit.Location = new Point(452, 255);
             submit.Name = "submit";
             submit.Size = new Size(94, 29);
             submit.TabIndex = 0;
@@ -47,22 +53,84 @@
             // 
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Small (80 * 80)", "Medium (140 * 140)", "Large (200 * 200)" });
-            comboBox1.Location = new Point(42, 45);
+            comboBox1.Location = new Point(12, 257);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(169, 27);
             comboBox1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(radioButton3);
+            groupBox1.Controls.Add(radioButton2);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(radioButton1);
+            groupBox1.Location = new Point(12, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(614, 150);
+            groupBox1.TabIndex = 2;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "General";
+            // 
+            // radioButton3
+            // 
+            radioButton3.AutoSize = true;
+            radioButton3.Location = new Point(30, 103);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new Size(103, 23);
+            radioButton3.TabIndex = 3;
+            radioButton3.TabStop = true;
+            radioButton3.Text = "Large Icon";
+            radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(30, 74);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(122, 23);
+            radioButton2.TabIndex = 2;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Medium Icon";
+            radioButton2.UseVisualStyleBackColor = true;
+            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 23);
+            label1.Name = "label1";
+            label1.Size = new Size(70, 19);
+            label1.TabIndex = 1;
+            label1.Text = "Icon Size";
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(30, 45);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(102, 23);
+            radioButton1.TabIndex = 0;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Smail Icon";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             // 
             // Form_DI_Size
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(377, 174);
+            ClientSize = new Size(638, 320);
+            Controls.Add(groupBox1);
             Controls.Add(comboBox1);
             Controls.Add(submit);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_DI_Size";
             Text = "Form_DI_Size";
             Load += Form_DI_Size_Load;
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -75,5 +143,10 @@
 
         private Button submit;
         private ComboBox comboBox1;
+        private GroupBox groupBox1;
+        private Label label1;
+        private RadioButton radioButton1;
+        private RadioButton radioButton3;
+        private RadioButton radioButton2;
     }
 }

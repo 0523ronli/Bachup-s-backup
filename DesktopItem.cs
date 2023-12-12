@@ -72,10 +72,6 @@ namespace Bachup_s_backup
                 return new(path)
                 {
                     Location = locataion ?? new(),
-                    Size = Form1.Form1_Instance.config_JSON.DI_size,
-                    BackColor = Form1.Form1_Instance.config_JSON.DI_BackColor.Hex2Coler(),
-                    ForeColor = Form1.Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler(),
-
                 };
             }
             else return null!;
@@ -84,31 +80,27 @@ namespace Bachup_s_backup
         private void onMouseUp(object? sender, MouseEventArgs e)
         {
             M_toDrag = false;
-            if (e.Button == MouseButtons.Left)
-            {
-                if (!GetAsyncKeyState(0x10)) //Shift Button Up
-                {
-                    (Parent as Form1)!.selected.Clear();
-                }
-                (Parent as Form1)!.selected.Add(this);
-            }
+            //if (e.Button == MouseButtons.Left)
+            //{
+            //    if (!GetAsyncKeyState(0x10)) //Shift Button Up
+            //    {
+            //        (Parent as Form1)!.selected.Clear();
+            //    }
+            //    (Parent as Form1)!.selected.Add(this);
+            //}
         }
 
         private void onMouseDown(object? sender, MouseEventArgs e)
         {
+            (Parent as Form1)!.selected.Clear();
+            (Parent as Form1)!.selected.Add(this);
             if (e.Button == MouseButtons.Left)
             {
                 M_toDrag = true;
-                (Parent as Form1)!.selected.Add(this);
             }
             else
             {
                 RightClickMenu.Show(this, e.Location);
-                if (!GetAsyncKeyState(0x10)) //Shift Button Up
-                {
-                    (Parent as Form1)!.selected.Clear();
-                }
-                (Parent as Form1)!.selected.Add(this);
             }
         }
         private void onMouseMove(object? sender, MouseEventArgs e)
@@ -149,12 +141,19 @@ namespace Bachup_s_backup
                 catch (Exception) { }
             }
         }
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e=null!)
         {
             base.OnPaint(e);
+            Visible = Form1_Instance.DI_visable;
             label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler();
             BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();
             Size = Form1_Instance.config_JSON.DI_size;
         }
+
+        public void OnRender()
+        {
+            OnPaint();
+        }
+        
     }
 }

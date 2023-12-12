@@ -16,6 +16,7 @@ namespace Bachup_s_backup
         public Config_JSON config_JSON = new();
         public bool autoArrange = true;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
+        public bool DI_visable = true;
         Point Rclick_pos;
 
         public enum ArrangeMode
@@ -58,14 +59,15 @@ namespace Bachup_s_backup
             ToolStripMenuItem RCM_setting = new("Setting");
             ToolStripMenuItem RCM_add_DI = new("Add And Select File");
             ToolStripMenuItem RCM_Close = new("Close Applaction");
+
             //icon size
-            List<ToolStripMenuItem> iconsize_opt = new()
+
+            RCM_view.DropDownItems.AddRange(new List<ToolStripMenuItem>()
             {
-                new ToolStripMenuItem("Small Icon") { CheckOnClick = true ,Tag=DI_size_opt.Small},
-                new ToolStripMenuItem("Medium Icon") { CheckOnClick = true ,Tag=DI_size_opt.Medium},
-                new ToolStripMenuItem("Large Icon") { CheckOnClick = true,Tag=DI_size_opt.Large }
-            };
-            iconsize_opt.ForEach(x =>
+                new("Small Icon") { CheckOnClick = true, Tag = DI_size_opt.Small },
+                new("Medium Icon") { CheckOnClick = true, Tag = DI_size_opt.Medium },
+                new("Large Icon") { CheckOnClick = true, Tag = DI_size_opt.Large }
+            }.Select(x =>
             {
                 x.Click += (s, e) =>
                 {
@@ -76,23 +78,44 @@ namespace Bachup_s_backup
                 {
                     x.Checked = (Size)x.Tag == config_JSON.DI_size;
                 };
-            });
-            RCM_view.DropDownItems.AddRange(iconsize_opt.ToArray());
+                return x;
+            }).ToArray());
+
             RCM_view.DropDownItems.Add(new ToolStripSeparator());
+
+            //DI visable
+
+            ToolStripMenuItem RCM_DI_visable = new("Item visable");
+            RCM_DI_visable.Click += (s, e) =>
+            {
+                DI_visable = !DI_visable;
+                Refresh(); //Update OnPaint()
+            };
+            RCM_DI_visable.Paint += (s, e) =>
+            {
+                RCM_DI_visable.Checked = DI_visable;
+            };
+            RCM_view.DropDownItems.Add(RCM_DI_visable);
+
+            RCM_view.DropDownItems.Add(new ToolStripSeparator());
+
             //auto arrange
+
             ToolStripMenuItem RCM_reArrange = new("Auto Arrange");
             RCM_reArrange.Click += (s, e) =>
             {
                 AutoArrange();
             };
             RCM_view.DropDownItems.Add(RCM_reArrange);
+
             //dragmode
+
             List<ToolStripMenuItem> dragmode_opt = new()
             {
                 new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
                 new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
             };
-            dragmode_opt.Select(x =>
+            dragmode_opt.ForEach(x =>
             {
                 x.Click += (s, e) =>
                 {
@@ -102,23 +125,18 @@ namespace Bachup_s_backup
                 {
                     x.Checked = (DragDropEffects)x.Tag == current_effects;
                 };
-                return x;
             });
-            List<object> lst = new();
-            lst.AddRange([1, 2]);
-            RCM_dragmode.DropDownItems.AddRange(
-                 new List<ToolStripMenuItem>()
-            {
-                new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
-                new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
-            }.ToArray()
-                );
+            RCM_dragmode.DropDownItems.AddRange(dragmode_opt.ToArray());
+
             //setting
+
             RCM_setting.Click += (s, e) =>
             {
                 if (!SettingMainForm.Instance.Visible) SettingMainForm.Instance.ShowDialog();
             };
+
             //add_di
+
             RCM_add_DI.Click += (s, e) =>
             {
                 OpenFileDialog OFD = new()
@@ -149,11 +167,14 @@ namespace Bachup_s_backup
                     }
                 }
             };
+
             //close
             RCM_Close.Click += (s, e) =>
             {
                 Close();
             };
+
+            //add buttons
             RightClickMenu.Items.Add(RCM_view);
             RightClickMenu.Items.Add(RCM_add_DI);
             RightClickMenu.Items.Add(RCM_dragmode);
@@ -280,6 +301,7 @@ namespace Bachup_s_backup
             UnregisterHotKey(Handle, HotKeys.Switch_DragMode.ID);
             UnregisterHotKey(Handle, HotKeys.Setting.ID);
             UnregisterHotKey(Handle, HotKeys.Close.ID);
+            UnregisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID);
         }
 
         private void RegisterHotkey()
@@ -288,6 +310,7 @@ namespace Bachup_s_backup
             RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_DragMode.Key);
             RegisterHotKey(Handle, HotKeys.Setting.ID, 1, HotKeys.Setting.Key);
             RegisterHotKey(Handle, HotKeys.Close.ID, 1, HotKeys.Close.Key);
+            RegisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID, 1, HotKeys.Switch_DI_Visable.Key);
         }
 
         protected override void WndProc(ref Message m)
@@ -334,6 +357,11 @@ namespace Bachup_s_backup
                     {
                         Close();
                     }
+                    if (m.WParam == HotKeys.Switch_DI_Visable.ID)
+                    {
+                        DI_visable = !DI_visable;
+                        Refresh();
+                    }
                     break;
                 default:
                     base.WndProc(ref m);
@@ -349,11 +377,8 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
-
-                //TODO sync property
-                var items = config_JSON.DI_List.Select(
-                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).Where(x => x != null).ToList();
-                Controls.AddRange(items.ToArray());
+                Controls.AddRange(config_JSON.DI_List.Select(
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).ToArray());
             }
         }
 
@@ -376,9 +401,10 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            foreach (Control item in Controls)
+            
+            foreach (DesktopItem item in Controls)
             {
-                item.Refresh();
+                item.OnRender();
             }
         }
     }

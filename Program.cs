@@ -46,6 +46,11 @@ namespace Bachup_s_backup
                 ID = 5,
                 Key = (int)Keys.C
             };
+            public static Hotkey Switch_DI_Visable = new()
+            {
+                ID = 6,
+                Key = (int)Keys.F
+            };
         }
         public struct Hotkey
         {
@@ -92,5 +97,6 @@ namespace Bachup_s_backup
     public static class ext
     {
         public static Color Hex2Coler(this string hexString) => ColorTranslator.FromHtml(hexString);
+        public static string Color2Hex(this Color color) => $"#{color.R:2x}{color.G:2x}{color.B:2x}";
     }
 }
