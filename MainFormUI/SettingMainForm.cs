@@ -83,6 +83,11 @@ namespace UItestv2
                     new Subbtn() {Text="Desktop_Size", Linkform = new Form_DI_Size()},
                 }
             });
+            originalleftbtn.Add(new Leftbtn()
+            {
+                Text = "Desktop item Setting",
+                Linkform = new Hotkeys_Setting()
+            });
             leftrestore();
         }
     }

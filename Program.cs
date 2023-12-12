@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using UItestv2;
 
 namespace Bachup_s_backup
@@ -24,39 +25,35 @@ namespace Bachup_s_backup
             public static Hotkey Switch_Visable = new()
             {
                 ID = 1,
-                Key = (int)Keys.V
+                Key = Keys.V
             };
             public static Hotkey Switch_DragMode = new()
             {
                 ID = 2,
-                Key = (int)Keys.E
-            };
+                Key = Keys.E
+            };  
             public static Hotkey Delete = new()
             {
                 ID = 3,
-                Key = (int)Keys.Delete
+                Key = Keys.Delete
             };
             public static Hotkey Setting = new()
             {
                 ID = 4,
-                Key = (int)Keys.S
+                Key = Keys.S
             };
             public static Hotkey Close = new()
             {
                 ID = 5,
-                Key = (int)Keys.C
+                Key = Keys.C
             };
             public static Hotkey Switch_DI_Visable = new()
             {
                 ID = 6,
-                Key = (int)Keys.F
+                Key = Keys.F
             };
         }
-        public struct Hotkey
-        {
-            public int ID;
-            public int Key;
-        }
+        
         public class DI_size_opt
         {
             public static Size Small = new(80, 80);
@@ -94,9 +91,15 @@ namespace Bachup_s_backup
         }
         
     }
+    public class Hotkey
+    {
+        public int ID;
+        public Keys Key;
+    }
     public static class ext
     {
         public static Color Hex2Coler(this string hexString) => ColorTranslator.FromHtml(hexString);
         public static string Color2Hex(this Color color) => $"#{color.R:2x}{color.G:2x}{color.B:2x}";
+        public static string GetKeyName(this Keys keyCode) => Enum.GetName(typeof(Keys), keyCode)??"gay";
     }
 }

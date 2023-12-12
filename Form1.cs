@@ -42,7 +42,7 @@ namespace Bachup_s_backup
 
             InitializeComponent();
             ReadJSON();
-            RegisterHotkey();
+            RegistHotkey();
             InitRCM();
 
             KeyDown += onKeyDown;
@@ -295,7 +295,7 @@ namespace Bachup_s_backup
             WriteJSON();
             Application.Exit();
         }
-        private void UnregistHotkey()
+        public void UnregistHotkey()
         {
             UnregisterHotKey(Handle, HotKeys.Switch_Visable.ID);
             UnregisterHotKey(Handle, HotKeys.Switch_DragMode.ID);
@@ -304,13 +304,13 @@ namespace Bachup_s_backup
             UnregisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID);
         }
 
-        private void RegisterHotkey()
+        public void RegistHotkey()
         {
-            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_Visable.Key);
-            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, HotKeys.Switch_DragMode.Key);
-            RegisterHotKey(Handle, HotKeys.Setting.ID, 1, HotKeys.Setting.Key);
-            RegisterHotKey(Handle, HotKeys.Close.ID, 1, HotKeys.Close.Key);
-            RegisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID, 1, HotKeys.Switch_DI_Visable.Key);
+            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, (int)HotKeys.Switch_Visable.Key);
+            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, (int)HotKeys.Switch_DragMode.Key);
+            RegisterHotKey(Handle, HotKeys.Setting.ID, 1, (int)HotKeys.Setting.Key);
+            RegisterHotKey(Handle, HotKeys.Close.ID, 1, (int)HotKeys.Close.Key);
+            RegisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID, 1, (int)HotKeys.Switch_DI_Visable.Key);
         }
 
         protected override void WndProc(ref Message m)

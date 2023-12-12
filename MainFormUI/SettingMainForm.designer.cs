@@ -64,6 +64,7 @@ namespace UItestv2
             ClientSize = new Size(1137, 711);
             Controls.Add(centerPenal);
             Controls.Add(foldablePanel);
+            KeyPreview = true;
             Margin = new Padding(4);
             Name = "SettingMainForm";
             StartPosition = FormStartPosition.CenterScreen;
