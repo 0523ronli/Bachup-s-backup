@@ -20,39 +20,39 @@ namespace Bachup_s_backup
             //Application.Run(new Form2Test());
             //Application.Run(new SettingMainForm());
         }
-        public static class HotKeys
+        public static HotKeys Hot = new()
         {
-            public static Hotkey Switch_Visable = new()
+            Switch_Visable = new()
             {
                 ID = 1,
                 Key = Keys.V
-            };
-            public static Hotkey Switch_DragMode = new()
+            },
+            Switch_DragMode = new()
             {
                 ID = 2,
                 Key = Keys.E
-            };  
-            public static Hotkey Delete = new()
+            },
+            Delete = new()
             {
                 ID = 3,
                 Key = Keys.Delete
-            };
-            public static Hotkey Setting = new()
+            },
+            Setting = new()
             {
                 ID = 4,
                 Key = Keys.S
-            };
-            public static Hotkey Close = new()
+            },
+            Close = new()
             {
                 ID = 5,
                 Key = Keys.C
-            };
-            public static Hotkey Switch_DI_Visable = new()
+            },
+            Switch_DI_Visable = new()
             {
                 ID = 6,
                 Key = Keys.F
-            };
-        }
+            },
+        };
         
         public class DI_size_opt
         {
@@ -93,8 +93,17 @@ namespace Bachup_s_backup
     }
     public class Hotkey
     {
-        public int ID;
-        public Keys Key;
+        public int ID { get; set; }
+        public Keys Key { get; set; }
+    }
+    public class HotKeys
+    {
+        public Hotkey Switch_Visable { get; set; }
+        public Hotkey Switch_DragMode { get; set; }
+        public Hotkey Delete { get; set; }
+        public Hotkey Setting { get; set; }
+        public Hotkey Close { get; set; }
+        public Hotkey Switch_DI_Visable { get; set; }
     }
     public static class ext
     {

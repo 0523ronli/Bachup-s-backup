@@ -34,11 +34,11 @@ namespace Bachup_s_backup
                     Refresh();
                 }
             };
-            HKSetter_Visable.Tag = HotKeys.Switch_Visable;
-            HKSetter_Dragmode.Tag = HotKeys.Switch_DragMode;
-            HKSetter_Setting.Tag = HotKeys.Setting;
-            HKSetter_Close.Tag = HotKeys.Close;
-            HKSetter_DI_Visible.Tag = HotKeys.Switch_DI_Visable;
+            HKSetter_Visable.Tag = Hot.Switch_Visable;
+            HKSetter_Dragmode.Tag = Hot.Switch_DragMode;
+            HKSetter_Setting.Tag = Hot.Setting;
+            HKSetter_Close.Tag = Hot.Close;
+            HKSetter_DI_Visible.Tag = Hot.Switch_DI_Visable;
             new List<Label> { HKSetter_Visable, HKSetter_Dragmode, HKSetter_Setting, HKSetter_Close, HKSetter_DI_Visible }.ForEach(x =>
             {
                 x.MouseDown += (s, e) =>

@@ -297,20 +297,20 @@ namespace Bachup_s_backup
         }
         public void UnregistHotkey()
         {
-            UnregisterHotKey(Handle, HotKeys.Switch_Visable.ID);
-            UnregisterHotKey(Handle, HotKeys.Switch_DragMode.ID);
-            UnregisterHotKey(Handle, HotKeys.Setting.ID);
-            UnregisterHotKey(Handle, HotKeys.Close.ID);
-            UnregisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID);
+            UnregisterHotKey(Handle, Hot.Switch_Visable.ID);
+            UnregisterHotKey(Handle, Hot.Switch_DragMode.ID);
+            UnregisterHotKey(Handle, Hot.Setting.ID);
+            UnregisterHotKey(Handle, Hot.Close.ID);
+            UnregisterHotKey(Handle, Hot.Switch_DI_Visable.ID);
         }
-
         public void RegistHotkey()
         {
-            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, (int)HotKeys.Switch_Visable.Key);
-            RegisterHotKey(Handle, HotKeys.Switch_Visable.ID, 1, (int)HotKeys.Switch_DragMode.Key);
-            RegisterHotKey(Handle, HotKeys.Setting.ID, 1, (int)HotKeys.Setting.Key);
-            RegisterHotKey(Handle, HotKeys.Close.ID, 1, (int)HotKeys.Close.Key);
-            RegisterHotKey(Handle, HotKeys.Switch_DI_Visable.ID, 1, (int)HotKeys.Switch_DI_Visable.Key);
+            RegisterHotKey(Handle, Hot.Switch_Visable.ID, 1, (int)Hot.Switch_Visable.Key);
+            RegisterHotKey(Handle, Hot.Switch_DragMode.ID, 1, (int)Hot.Switch_DragMode.Key);
+            RegisterHotKey(Handle, Hot.Delete.ID, 1, (int)Hot.Delete.Key);
+            RegisterHotKey(Handle, Hot.Setting.ID, 1, (int)Hot.Setting.Key);
+            RegisterHotKey(Handle, Hot.Close.ID, 1, (int)Hot.Close.Key);
+            RegisterHotKey(Handle, Hot.Switch_DI_Visable.ID, 1, (int)Hot.Switch_DI_Visable.Key);
         }
 
         protected override void WndProc(ref Message m)
@@ -332,11 +332,11 @@ namespace Bachup_s_backup
                     };
                     break;
                 case 0x0312:
-                    if (m.WParam == HotKeys.Switch_Visable.ID)
+                    if (m.WParam == Hot.Switch_Visable.ID)
                     {
                         Visible = !Visible;
                     }
-                    if (m.WParam == HotKeys.Delete.ID)
+                    if (m.WParam == Hot.Delete.ID)
                     {
                         foreach (var item in selected.ToList())
                         {
@@ -346,18 +346,18 @@ namespace Bachup_s_backup
                         }
                         GC.Collect();
                     }
-                    if (m.WParam == HotKeys.Setting.ID)
+                    if (m.WParam == Hot.Setting.ID)
                     {
                         if (!SettingMainForm.Instance.Visible)
                         {
                             SettingMainForm.Instance.ShowDialog();
                         }
                     }
-                    if (m.WParam == HotKeys.Close.ID)
+                    if (m.WParam == Hot.Close.ID)
                     {
                         Close();
                     }
-                    if (m.WParam == HotKeys.Switch_DI_Visable.ID)
+                    if (m.WParam == Hot.Switch_DI_Visable.ID)
                     {
                         DI_visable = !DI_visable;
                         Refresh();
@@ -377,6 +377,7 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
+                Hot = config_JSON.Hotkey;
                 Controls.AddRange(config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location)).ToArray());
             }
@@ -387,6 +388,8 @@ namespace Bachup_s_backup
             File.Create(jsonPath).Close();
             config_JSON.location = Location;
             config_JSON.size = Size;
+            config_JSON.Opacity = Opacity;
+            config_JSON.Hotkey = Hot;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
