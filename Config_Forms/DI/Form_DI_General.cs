@@ -11,11 +11,11 @@ using static Bachup_s_backup.Form1;
 
 namespace Bachup_s_backup.Setting_items
 {
-    public partial class Form_DI_Size : Form
+    public partial class Form_DI_General : Form
     {
         int current_size = (Application.OpenForms.OfType<DesktopItem>().Any(f => f.Size == new Size(200, 200))) ? 2 : ((Application.OpenForms.OfType<DesktopItem>().Any(f => f.Size == new Size(140, 140))) ? 1 : 0);
 
-        public Form_DI_Size()
+        public Form_DI_General()
         {
             InitializeComponent();
         }

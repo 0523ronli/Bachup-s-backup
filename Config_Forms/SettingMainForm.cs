@@ -67,10 +67,11 @@ namespace UItestv2
             originalleftbtn.Clear();
             originalleftbtn.Add(new Leftbtn()
             {
-                Text = "Form Setting",
+                Text = "Desktop Setting",
+                Linkform
                 subbtnList = new List<Subbtn>
                 {
-                    new Subbtn() {Text="Opacity", Linkform = new Form_Opacity() }
+                    new Subbtn() {Text="Opacity", Linkform = new Config_Desktop_General() }
                 }
             });
             originalleftbtn.Add(new Leftbtn()
@@ -80,7 +81,7 @@ namespace UItestv2
                 subbtnList = new List<Subbtn>
                 {
                     new Subbtn() {Text="Desktop_Color",Linkform = new Form_DI_Color()},
-                    new Subbtn() {Text="Desktop_Size", Linkform = new Form_DI_Size()},
+                    new Subbtn() {Text="Desktop_Size", Linkform = new Form_DI_General()},
                 }
             });
             originalleftbtn.Add(new Leftbtn()

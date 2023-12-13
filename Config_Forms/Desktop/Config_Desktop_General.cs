@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace Bachup_s_backup.Setting_items.form1
 {
-    public partial class Form_Opacity : Form
+    public partial class Config_Desktop_General : Form
     {
         double ori = Form1.Form1_Instance.Opacity;
 
-        public Form_Opacity()
+        public Config_Desktop_General()
         {
             InitializeComponent();
         }

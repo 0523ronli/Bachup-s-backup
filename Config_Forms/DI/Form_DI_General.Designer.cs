@@ -1,6 +1,6 @@
 ﻿namespace Bachup_s_backup.Setting_items
 {
-    partial class Form_DI_Size
+    partial class Form_DI_General
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            submit = new Button();
-            comboBox1 = new ComboBox();
             groupBox1 = new GroupBox();
             radioButton3 = new RadioButton();
             radioButton2 = new RadioButton();
@@ -37,26 +35,6 @@
             radioButton1 = new RadioButton();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // submit
-            // 
-            submit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            submit.Location = new Point(452, 255);
-            submit.Name = "submit";
-            submit.Size = new Size(94, 29);
-            submit.TabIndex = 0;
-            submit.Text = "Submit";
-            submit.UseVisualStyleBackColor = true;
-            submit.Click += onSubmit;
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Small (80 * 80)", "Medium (140 * 140)", "Large (200 * 200)" });
-            comboBox1.Location = new Point(12, 257);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(169, 27);
-            comboBox1.TabIndex = 1;
             // 
             // groupBox1
             // 
@@ -117,16 +95,14 @@
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             // 
-            // Form_DI_Size
+            // Form_DI_General
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(638, 320);
             Controls.Add(groupBox1);
-            Controls.Add(comboBox1);
-            Controls.Add(submit);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Form_DI_Size";
+            Name = "Form_DI_General";
             Text = "Form_DI_Size";
             Load += Form_DI_Size_Load;
             groupBox1.ResumeLayout(false);
@@ -139,10 +115,7 @@
             throw new NotImplementedException();
         }
 
-        #endregion
-
-        private Button submit;
-        private ComboBox comboBox1;
+#endregion
         private GroupBox groupBox1;
         private Label label1;
         private RadioButton radioButton1;
