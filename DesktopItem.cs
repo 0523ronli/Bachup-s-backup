@@ -22,6 +22,7 @@ namespace Bachup_s_backup
         ToolStripMenuItem RCM_open = new("Open");
         ToolStripMenuItem RCM_delete = new("Delete");
         ToolStripMenuItem open_explorer = new("Open in explorer");
+        ToolStripMenuItem RCM_rename = new("Rename");
 
         public DesktopItem(string path)
         {
@@ -64,6 +65,12 @@ namespace Bachup_s_backup
                 }
             };
             RightClickMenu.Items.Add(open_explorer);
+            RCM_rename.Click += (s, e) =>
+            {
+                Form f = new();
+                
+            };
+            RightClickMenu.Items.Add(RCM_rename);
         }
         public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {
