@@ -15,5 +15,6 @@ namespace UItestv2
         public static Color subForeColor = Color.FromArgb(150, 150, 150);
         public static Color checkedColor = Color.FromArgb(138, 180, 248);
         public static Font defaultFont = new ("微軟正黑體", 12F, FontStyle.Bold, GraphicsUnit.Point);
+        public static Font subFont = new("微軟正黑體", 10F, FontStyle.Bold, GraphicsUnit.Point);
     }
 }

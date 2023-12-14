@@ -22,7 +22,7 @@ namespace UItestv2
             Size = new Size(200, 30);
             Text = "Subbutton";
             TextAlign = ContentAlignment.MiddleLeft;
-            Font = defaultFont;
+            Font = subFont;
             ForeColor = Color.Gray;
         }
         public Subbtn()

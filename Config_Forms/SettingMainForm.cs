@@ -68,25 +68,26 @@ namespace UItestv2
             originalleftbtn.Add(new Leftbtn()
             {
                 Text = "Desktop Setting",
-                Linkform
-                subbtnList = new List<Subbtn>
-                {
-                    new Subbtn() {Text="Opacity", Linkform = new Config_Desktop_General() }
-                }
-            });
+                Linkform = new Form_Desktop_General(),
+                subbtnList =
+                [
+                    
+                ]
+            }) ;
             originalleftbtn.Add(new Leftbtn()
             {
                 Text = "Desktop item Setting",
-                Linkform=new Form_All_DI(),
-                subbtnList = new List<Subbtn>
-                {
-                    new Subbtn() {Text="Desktop_Color",Linkform = new Form_DI_Color()},
-                    new Subbtn() {Text="Desktop_Size", Linkform = new Form_DI_General()},
-                }
+                Linkform=new Form_DI_General(),
+                subbtnList =
+                [
+                    new Subbtn() {Text="Desktop_Item_Color",Linkform = new Form_DI_Color()},
+                    new Subbtn() {Text="Desktop_Item_Grid", Linkform = new Form_All_DI()},
+
+                ]
             });
             originalleftbtn.Add(new Leftbtn()
             {
-                Text = "Desktop item Setting",
+                Text = "Hotkeys Setting",
                 Linkform = new Hotkeys_Setting()
             });
             leftrestore();

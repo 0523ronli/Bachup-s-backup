@@ -34,7 +34,6 @@
             groupBox1 = new GroupBox();
             label4 = new Label();
             label3 = new Label();
-            propertyGrid1 = new PropertyGrid();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -96,21 +95,12 @@
             label3.TabIndex = 6;
             label3.Text = "Desktop Item BackColor";
             // 
-            // propertyGrid1
-            // 
-            propertyGrid1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            propertyGrid1.Location = new Point(12, 177);
-            propertyGrid1.Name = "propertyGrid1";
-            propertyGrid1.Size = new Size(776, 223);
-            propertyGrid1.TabIndex = 7;
-            // 
             // Form_DI_Color
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(800, 450);
-            Controls.Add(propertyGrid1);
             Controls.Add(groupBox1);
             Name = "Form_DI_Color";
             Text = "global";
@@ -126,6 +116,5 @@
         private GroupBox groupBox1;
         private Label label4;
         private Label label3;
-        private PropertyGrid propertyGrid1;
     }
 }

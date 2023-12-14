@@ -16,7 +16,7 @@ namespace Bachup_s_backup
         public Form_DI_Color()
         {
             InitializeComponent();
-            propertyGrid1.SelectedObject = new DI_color_property();
+            //propertyGrid1.SelectedObject = new DI_color_property();
         }
 
         private void submit_Click(object sender, EventArgs e)

@@ -20,21 +20,9 @@ namespace Bachup_s_backup.Setting_items
             InitializeComponent();
         }
 
-        public void onSubmit(object sender, EventArgs args)
-        {
-            int[] sizes = [80, 140, 200];
-            int size = sizes[comboBox1.SelectedIndex];
-            foreach (var DI in Application.OpenForms.OfType<DesktopItem>())
-            {
-                DI.Size = new Size(size, size);
-            }
-            current_size = size;
-            Form1.Form1_Instance.config_JSON.DI_size = new Size(size, size);
-        }
-
         private void Form_DI_Size_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = current_size;
+
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

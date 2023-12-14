@@ -19,9 +19,7 @@ namespace Bachup_s_backup
         public string FilePath;
         private bool M_toDrag = false;
         ContextMenuStrip RightClickMenu = new();
-        ToolStripMenuItem RCM_open = new("Open");
-        ToolStripMenuItem RCM_delete = new("Delete");
-        ToolStripMenuItem open_explorer = new("Open in explorer");
+        public bool Intemp=false;
 
         public DesktopItem(string path)
         {
@@ -30,7 +28,7 @@ namespace Bachup_s_backup
             FileName = Path.GetFileName(path);
             InitializeComponent();
             InitVarieties();
-            InitializeContextMenu();
+            InitRCM();
             InitPictureBox();
             
 
@@ -40,8 +38,12 @@ namespace Bachup_s_backup
             Top_panel.MouseUp += onMouseUp;
         }
 
-        private void InitializeContextMenu()
+        private void InitRCM()
         {
+            ToolStripMenuItem RCM_open = new("Open");
+            ToolStripMenuItem RCM_delete = new("Delete");
+            ToolStripMenuItem RCM_temp = new("Move Into Temp");
+            ToolStripMenuItem RCM_open_explorer = new("Open in explorer");
             RCM_open.Click += (s, e) =>
             {
                 foreach (var item in (Parent as Form1)!.selected)
@@ -50,20 +52,44 @@ namespace Bachup_s_backup
                 }
             };
             RightClickMenu.Items.Add(RCM_open);
-            RCM_delete.Click += (s, e) =>
-            {
-                (Parent as Form1)!.selected.DeleteAll();
-            };
-            RightClickMenu.Items.Add(RCM_delete);
+            
 
-            open_explorer.Click += (s, e) =>
+            RCM_open_explorer.Click += (s, e) =>
             {
                 foreach (var item in (Parent as Form1)!.selected)
                 {
                     new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{item.FilePath}\\..\"" } }.Start();
                 }
             };
-            RightClickMenu.Items.Add(open_explorer);
+            RightClickMenu.Items.Add(RCM_open_explorer);
+            RCM_temp.Click += (s, e) => {
+                string temp = FilePath;
+                string NewPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\..\local\Floating Desktop\{FileName}";
+                if (!Directory.Exists(@$"{NewPath}/.."))
+                {
+                    Directory.CreateDirectory(@$"{NewPath}/..");
+                }
+                if (File.Exists(FilePath))
+                {
+                    File.Move(FilePath,NewPath);
+                }else if (Directory.Exists(FilePath))
+                {
+                    Directory.Move(FilePath,NewPath);
+                }
+                FilePath = NewPath;
+                Intemp = true;
+                RCM_temp.Enabled = false;
+            };
+            RightClickMenu.Items.Add(RCM_temp);
+
+            RCM_delete.ForeColor = Color.Red;
+            RCM_delete.Font = new Font(RCM_delete.Font, FontStyle.Bold);
+            RCM_delete.Click += (s, e) =>
+            {
+                
+                Form1_Instance.selected.DeleteAll();
+            };
+            RightClickMenu.Items.Add(RCM_delete);
         }
         public static DesktopItem SaveCreate(string path, Point? locataion = null)
         {

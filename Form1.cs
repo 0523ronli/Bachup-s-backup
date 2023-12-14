@@ -57,7 +57,7 @@ namespace Bachup_s_backup
             ToolStripMenuItem RCM_view = new("View");
             ToolStripMenuItem RCM_dragmode = new("Drag Mode");
             ToolStripMenuItem RCM_setting = new("Setting");
-            ToolStripMenuItem RCM_add_DI = new("Add And Select File");
+            ToolStripMenuItem RCM_add_DI = new("Select And Add File");
             ToolStripMenuItem RCM_Close = new("Close Applaction");
 
             //icon size
@@ -169,6 +169,8 @@ namespace Bachup_s_backup
             };
 
             //close
+            RCM_Close.ForeColor = Color.Red;
+            RCM_Close.Font = new Font(RCM_Close.Font, FontStyle.Bold);
             RCM_Close.Click += (s, e) =>
             {
                 Close();
@@ -260,12 +262,12 @@ namespace Bachup_s_backup
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
+                        Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
+                        {
+                            Controls.Remove(x); selected.Remove(x); x.Dispose();
+                        });
                         if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                         {
-                            Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                            {
-                                Controls.Remove(x); selected.Remove(x); x.Dispose();
-                            });
                             DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
                             Controls.Add(DI);
                             GC.Collect();
@@ -401,11 +403,16 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            
+
             foreach (DesktopItem item in Controls)
             {
                 item.OnRender();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

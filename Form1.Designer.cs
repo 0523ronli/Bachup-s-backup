@@ -28,13 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-
             SuspendLayout();
-           
-            
             // 
             // Form1
             // 
@@ -42,7 +36,6 @@
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(800, 450);
             ControlBox = false;
-            
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -51,8 +44,10 @@
             ShowIcon = false;
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Show;
+            StartPosition = FormStartPosition.Manual;
             Text = "Form2";
             TopMost = true;
+            Load += Form1_Load;
             ResumeLayout(false);
         }
         #endregion

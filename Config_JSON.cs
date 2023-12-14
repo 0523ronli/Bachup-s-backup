@@ -15,7 +15,7 @@ namespace Bachup_s_backup
         public string DI_selectedColor { get; set; } = "#ADD8E6";
         public string DI_BackColor { get; set; } = "#B4B4B4";
         public string DI_ForeColor { get; set; } = "#000000";
-        public Size DI_size { get; set; } = new Size(140, 140);
+        public Size DI_size { get; set; } = DI_size_opt.Medium;
         public List<DI_Json> DI_List { get; set; } = new();
     }
 }
