@@ -20,6 +20,7 @@ namespace Bachup_s_backup
             //Application.Run(new Form2Test());
             //Application.Run(new SettingMainForm());
         }
+        public static string TempPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\..\local\Floating Desktop".FullPath();
         public static HotKeys Hot = new()
         {
             Switch_Visable = new()
@@ -110,5 +111,6 @@ namespace Bachup_s_backup
         public static Color Hex2Coler(this string hexString) => ColorTranslator.FromHtml(hexString);
         public static string Color2Hex(this Color color) => $"#{color.R:2x}{color.G:2x}{color.B:2x}";
         public static string GetKeyName(this Keys keyCode) => Enum.GetName(typeof(Keys), keyCode)??"gay";
+        public static string FullPath(this string path)=> Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
 }

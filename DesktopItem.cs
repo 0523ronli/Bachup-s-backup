@@ -21,10 +21,15 @@ namespace Bachup_s_backup
         ContextMenuStrip RightClickMenu = new();
         public bool Intemp=false;
 
+        ToolStripMenuItem RCM_open = new("Open");
+        ToolStripMenuItem RCM_delete = new("Delete");
+        ToolStripMenuItem RCM_temp = new("Move Into Temp");
+        ToolStripMenuItem RCM_open_explorer = new("Open in explorer");
+
         public DesktopItem(string path)
         {
             Instance = this;
-            FilePath = path;
+            FilePath = path.FullPath();
             FileName = Path.GetFileName(path);
             InitializeComponent();
             InitVarieties();
@@ -40,10 +45,7 @@ namespace Bachup_s_backup
 
         private void InitRCM()
         {
-            ToolStripMenuItem RCM_open = new("Open");
-            ToolStripMenuItem RCM_delete = new("Delete");
-            ToolStripMenuItem RCM_temp = new("Move Into Temp");
-            ToolStripMenuItem RCM_open_explorer = new("Open in explorer");
+            
             RCM_open.Click += (s, e) =>
             {
                 foreach (var item in (Parent as Form1)!.selected)
@@ -63,11 +65,10 @@ namespace Bachup_s_backup
             };
             RightClickMenu.Items.Add(RCM_open_explorer);
             RCM_temp.Click += (s, e) => {
-                string temp = FilePath;
-                string NewPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\..\local\Floating Desktop\{FileName}";
-                if (!Directory.Exists(@$"{NewPath}/.."))
+                string NewPath = @$"{Program.TempPath}\{FileName}".FullPath();
+                if (!Directory.Exists(Program.TempPath))
                 {
-                    Directory.CreateDirectory(@$"{NewPath}/..");
+                    Directory.CreateDirectory(Program.TempPath);
                 }
                 if (File.Exists(FilePath))
                 {
@@ -79,6 +80,7 @@ namespace Bachup_s_backup
                 FilePath = NewPath;
                 Intemp = true;
                 RCM_temp.Enabled = false;
+                label_folder.Visible = true;
             };
             RightClickMenu.Items.Add(RCM_temp);
 
@@ -118,8 +120,8 @@ namespace Bachup_s_backup
 
         private void onMouseDown(object? sender, MouseEventArgs e)
         {
-            (Parent as Form1)!.selected.Clear();
-            (Parent as Form1)!.selected.Add(this);
+            Form1_Instance.selected.Clear();
+            Form1_Instance.selected.Add(this);
             if (e.Button == MouseButtons.Left)
             {
                 M_toDrag = true;
@@ -154,6 +156,10 @@ namespace Bachup_s_backup
             Top_panel.BringToFront();
             Visible = true;
             label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
+            if (FilePath.FullPath().StartsWith(Program.TempPath))
+            {
+                Intemp = true;
+            }
         }
 
         private void InitPictureBox()
@@ -169,7 +175,11 @@ namespace Bachup_s_backup
         }
         protected override void OnPaint(PaintEventArgs e=null!)
         {
+            
             base.OnPaint(e);
+            label_folder.Visible = Intemp;
+            RCM_temp.Enabled = !Intemp;
+            pictureBox1.SendToBack();
             Visible = Form1_Instance.DI_visable;
             label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler();
             BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();

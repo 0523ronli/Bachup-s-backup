@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            label_folder = new Label();
             pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -42,6 +43,16 @@
             label1.TabIndex = 0;
             label1.Text = "???";
             label1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label_folder
+            // 
+            label_folder.AutoSize = true;
+            label_folder.Location = new Point(-1, -1);
+            label_folder.Name = "label_folder";
+            label_folder.Size = new Size(24, 19);
+            label_folder.TabIndex = 0;
+            label_folder.Text = "📁";
+            label_folder.Visible = false;
             // 
             // pictureBox1
             // 
@@ -59,18 +70,21 @@
             AutoScaleMode = AutoScaleMode.None;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(120, 120);
-            Controls.Add(pictureBox1);
+            Controls.Add(label_folder);
             Controls.Add(label1);
+            Controls.Add(pictureBox1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "DesktopItem";
             Text = "DesktopItem";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Label label1;
         private PictureBox pictureBox1;
+        private Label label_folder;
     }
 }
