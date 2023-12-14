@@ -56,6 +56,7 @@ namespace Bachup_s_backup
         {
             ToolStripMenuItem RCM_view = new("View");
             ToolStripMenuItem RCM_dragmode = new("Drag Mode");
+            ToolStripMenuItem RCM_rename = new("Rename");
             ToolStripMenuItem RCM_setting = new("Setting");
             ToolStripMenuItem RCM_add_DI = new("Select And Add File");
             ToolStripMenuItem RCM_Close = new("Close Applaction");
@@ -381,7 +382,7 @@ namespace Bachup_s_backup
                 Opacity = config_JSON.Opacity;
                 Hot = config_JSON.Hotkey;
                 Controls.AddRange(config_JSON.DI_List.Select(
-                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).ToArray());
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location, x.NickName)).ToArray());
             }
         }
 
@@ -392,7 +393,7 @@ namespace Bachup_s_backup
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
             config_JSON.Hotkey = Hot;
-            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
+            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.NickName)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
 
