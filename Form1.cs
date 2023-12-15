@@ -13,7 +13,7 @@ namespace Bachup_s_backup
         public static Form1 Form1_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public SelectedItem selected;
-        public  Config_JSON config_JSON = new();
+        public  Config_JSON config_JSON = new();  
         public bool autoArrange = true;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
         public bool DI_visable = true;
@@ -56,6 +56,7 @@ namespace Bachup_s_backup
         {
             ToolStripMenuItem RCM_view = new("View");
             ToolStripMenuItem RCM_dragmode = new("Drag Mode");
+            ToolStripMenuItem RCM_rename = new("Rename");
             ToolStripMenuItem RCM_setting = new("Setting");
             ToolStripMenuItem RCM_add_DI = new("Select And Add File");
             ToolStripMenuItem RCM_Close = new("Close Applaction");
@@ -380,7 +381,7 @@ namespace Bachup_s_backup
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
                 Controls.AddRange(config_JSON.DI_List.Select(
-                    x => DesktopItem.SaveCreate(x.FilePath, x.location)).ToArray());
+                    x => DesktopItem.SaveCreate(x.FilePath, x.location, x.NickName)).ToArray());
             }
         }
 
@@ -390,7 +391,7 @@ namespace Bachup_s_backup
             config_JSON.location = Location;
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
-            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
+            config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.NickName)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
 
