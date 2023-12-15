@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using UItestv2;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace Bachup_s_backup
 {
@@ -21,39 +22,6 @@ namespace Bachup_s_backup
             //Application.Run(new SettingMainForm());
         }
         public static string TempPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\..\local\Floating Desktop".FullPath();
-        public static HotKeys Hot = new()
-        {
-            Switch_Visable = new()
-            {
-                ID = 1,
-                Key = Keys.V
-            },
-            Switch_DragMode = new()
-            {
-                ID = 2,
-                Key = Keys.E
-            },
-            Delete = new()
-            {
-                ID = 3,
-                Key = Keys.Delete
-            },
-            Setting = new()
-            {
-                ID = 4,
-                Key = Keys.S
-            },
-            Close = new()
-            {
-                ID = 5,
-                Key = Keys.C
-            },
-            Switch_DI_Visable = new()
-            {
-                ID = 6,
-                Key = Keys.F
-            },
-        };
         
         public class DI_size_opt
         {
@@ -99,12 +67,36 @@ namespace Bachup_s_backup
     }
     public class HotKeys
     {
-        public Hotkey Switch_Visable { get; set; }
-        public Hotkey Switch_DragMode { get; set; }
-        public Hotkey Delete { get; set; }
-        public Hotkey Setting { get; set; }
-        public Hotkey Close { get; set; }
-        public Hotkey Switch_DI_Visable { get; set; }
+        public Hotkey Switch_Visable { get; set; } = new()
+        {
+            ID = 1,
+            Key = Keys.V
+        };
+        public Hotkey Switch_DragMode { get; set; }= new()
+        {
+            ID = 2,
+            Key = Keys.E
+        };
+        public Hotkey Delete { get; set; }= new()
+        {
+            ID = 3,
+            Key = Keys.Delete
+        };
+        public Hotkey Setting { get; set; } = new()
+        {
+            ID = 4,
+            Key = Keys.S
+        };
+        public Hotkey Close { get; set; } = new()
+        {
+            ID = 5,
+            Key = Keys.C
+        };
+        public Hotkey Switch_DI_Visable { get; set; } = new()
+        {
+            ID = 6,
+            Key = Keys.F
+        };
     }
     public static class ext
     {

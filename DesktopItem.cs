@@ -72,9 +72,10 @@ namespace Bachup_s_backup
                 }
                 if (File.Exists(FilePath))
                 {
-                    File.Move(FilePath,NewPath);
+                    File.Move(FilePath,NewPath,true);
                 }else if (Directory.Exists(FilePath))
                 {
+                    if(Directory.Exists(NewPath))Directory.Delete(NewPath,true);
                     Directory.Move(FilePath,NewPath);
                 }
                 FilePath = NewPath;

@@ -13,7 +13,7 @@ namespace Bachup_s_backup
         public static Form1 Form1_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public SelectedItem selected;
-        public Config_JSON config_JSON = new();
+        public  Config_JSON config_JSON = new();
         public bool autoArrange = true;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
         public bool DI_visable = true;
@@ -299,20 +299,20 @@ namespace Bachup_s_backup
         }
         public void UnregistHotkey()
         {
-            UnregisterHotKey(Handle, Hot.Switch_Visable.ID);
-            UnregisterHotKey(Handle, Hot.Switch_DragMode.ID);
-            UnregisterHotKey(Handle, Hot.Setting.ID);
-            UnregisterHotKey(Handle, Hot.Close.ID);
-            UnregisterHotKey(Handle, Hot.Switch_DI_Visable.ID);
+            UnregisterHotKey(Handle, config_JSON.Hotkey.Switch_Visable.ID);
+            UnregisterHotKey(Handle, config_JSON.Hotkey.Switch_DragMode.ID);
+            UnregisterHotKey(Handle, config_JSON.Hotkey.Setting.ID);
+            UnregisterHotKey(Handle, config_JSON.Hotkey.Close.ID);
+            UnregisterHotKey(Handle, config_JSON.Hotkey.Switch_DI_Visable.ID);
         }
         public void RegistHotkey()
         {
-            RegisterHotKey(Handle, Hot.Switch_Visable.ID, 1, (int)Hot.Switch_Visable.Key);
-            RegisterHotKey(Handle, Hot.Switch_DragMode.ID, 1, (int)Hot.Switch_DragMode.Key);
-            RegisterHotKey(Handle, Hot.Delete.ID, 1, (int)Hot.Delete.Key);
-            RegisterHotKey(Handle, Hot.Setting.ID, 1, (int)Hot.Setting.Key);
-            RegisterHotKey(Handle, Hot.Close.ID, 1, (int)Hot.Close.Key);
-            RegisterHotKey(Handle, Hot.Switch_DI_Visable.ID, 1, (int)Hot.Switch_DI_Visable.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Switch_Visable.ID, 1, (int)config_JSON.Hotkey.Switch_Visable.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Switch_DragMode.ID, 1, (int)config_JSON.Hotkey.Switch_DragMode.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Delete.ID, 1, (int)config_JSON.Hotkey.Delete.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Setting.ID, 1, (int)config_JSON.Hotkey.Setting.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Close.ID, 1, (int)config_JSON.Hotkey.Close.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Switch_DI_Visable.ID, 1, (int)config_JSON.Hotkey.Switch_DI_Visable.Key);
         }
 
         protected override void WndProc(ref Message m)
@@ -334,11 +334,11 @@ namespace Bachup_s_backup
                     };
                     break;
                 case 0x0312:
-                    if (m.WParam == Hot.Switch_Visable.ID)
+                    if (m.WParam == config_JSON.Hotkey.Switch_Visable.ID)
                     {
                         Visible = !Visible;
                     }
-                    if (m.WParam == Hot.Delete.ID)
+                    if (m.WParam == config_JSON.Hotkey.Delete.ID)
                     {
                         foreach (var item in selected.ToList())
                         {
@@ -348,18 +348,18 @@ namespace Bachup_s_backup
                         }
                         GC.Collect();
                     }
-                    if (m.WParam == Hot.Setting.ID)
+                    if (m.WParam == config_JSON.Hotkey.Setting.ID)
                     {
                         if (!SettingMainForm.Instance.Visible)
                         {
                             SettingMainForm.Instance.ShowDialog();
                         }
                     }
-                    if (m.WParam == Hot.Close.ID)
+                    if (m.WParam == config_JSON.Hotkey.Close.ID)
                     {
                         Close();
                     }
-                    if (m.WParam == Hot.Switch_DI_Visable.ID)
+                    if (m.WParam == config_JSON.Hotkey.Switch_DI_Visable.ID)
                     {
                         DI_visable = !DI_visable;
                         Refresh();
@@ -379,7 +379,6 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
-                Hot = config_JSON.Hotkey;
                 Controls.AddRange(config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location)).ToArray());
             }
@@ -391,7 +390,6 @@ namespace Bachup_s_backup
             config_JSON.location = Location;
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
-            config_JSON.Hotkey = Hot;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
@@ -401,6 +399,10 @@ namespace Bachup_s_backup
             TopMost = false;
             var thing = selected.Select(x => x.FilePath).ToArray();
             DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath).ToArray()), current_effects);
+            if (current_effects == DragDropEffects.Move)
+            {
+                selected.ToList().ForEach(x => selected.Remove(x));
+            }
             TopMost = true;
         }
         protected override void OnPaint(PaintEventArgs e)
