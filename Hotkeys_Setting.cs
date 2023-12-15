@@ -22,6 +22,12 @@ namespace Bachup_s_backup
             MouseDown += (s, e) =>
             {
                 capturing = false;
+                Refresh();
+            };
+            groupBox1.MouseDown += (s, e) =>
+            {
+                capturing = false;
+                Refresh();
             };
             KeyDown += (s, e) =>
             {
@@ -34,22 +40,24 @@ namespace Bachup_s_backup
                     Refresh();
                 }
             };
-            HKSetter_Visable.Tag = Hot.Switch_Visable;
-            HKSetter_Dragmode.Tag = Hot.Switch_DragMode;
-            HKSetter_Setting.Tag = Hot.Setting;
-            HKSetter_Close.Tag = Hot.Close;
-            HKSetter_DI_Visible.Tag = Hot.Switch_DI_Visable;
+            
             new List<Label> { HKSetter_Visable, HKSetter_Dragmode, HKSetter_Setting, HKSetter_Close, HKSetter_DI_Visible }.ForEach(x =>
             {
                 x.MouseDown += (s, e) =>
                 {
                     capturing = true;
                     captureTarget = (Hotkey)x.Tag;
+                    Refresh();
+                    x.Text="...";
                     Focus();
                 };
                 x.Paint += (s, e) =>
                 {
-                    x.Text = $"ALT+{(x.Tag as Hotkey).Key}";
+                    if(!capturing||captureTarget!=x.Tag)
+                    {
+                        x.Text = $"{(x.Tag as Hotkey).Key}";
+                    }
+                    
                 };
             }
             );
@@ -57,7 +65,11 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            
+            HKSetter_Visable.Tag = Form1_Instance.config_JSON.Hotkey.Switch_Visable;
+            HKSetter_Dragmode.Tag = Form1_Instance.config_JSON.Hotkey.Switch_DragMode;
+            HKSetter_Setting.Tag = Form1_Instance.config_JSON.Hotkey.Setting;
+            HKSetter_Close.Tag = Form1_Instance.config_JSON.Hotkey.Close;
+            HKSetter_DI_Visible.Tag = Form1_Instance.config_JSON.Hotkey.Switch_DI_Visable;
         }
     }
 }

@@ -68,10 +68,9 @@ namespace UItestv2
             originalleftbtn.Add(new Leftbtn()
             {
                 Text = "Desktop Setting",
-                Linkform = new Form_Desktop_General(),
                 subbtnList =
                 [
-                    
+                    new Subbtn() { Text = "General", Linkform = new Form_Desktop_General() },
                 ]
             }) ;
             originalleftbtn.Add(new Leftbtn()
@@ -80,8 +79,9 @@ namespace UItestv2
                 Linkform=new Form_DI_General(),
                 subbtnList =
                 [
-                    new Subbtn() {Text="Desktop_Item_Color",Linkform = new Form_DI_Color()},
-                    new Subbtn() {Text="Desktop_Item_Grid", Linkform = new Form_All_DI()},
+                    new Subbtn() { Text = "General", Linkform = new Form_DI_General() },
+                    new Subbtn() {Text="Color",Linkform = new Form_DI_Color()},
+                    new Subbtn() {Text="Item Manager", Linkform = new Form_All_DI()},
 
                 ]
             });
@@ -89,6 +89,15 @@ namespace UItestv2
             {
                 Text = "Hotkeys Setting",
                 Linkform = new Hotkeys_Setting()
+            });
+            originalleftbtn.Add(new Leftbtn()
+            {
+                Text = "Restore to Default",
+                ToRun = () => {
+                    if (MessageBox.Show("Are you sure about it?","Default all config",MessageBoxButtons.OKCancel) != DialogResult.OK) return;
+                    centerPenal.Controls.Clear();
+                    Form1.Form1_Instance.config_JSON= new Config_JSON() { DI_List = Form1.Form1_Instance.config_JSON.DI_List };
+                }
             });
             leftrestore();
         }

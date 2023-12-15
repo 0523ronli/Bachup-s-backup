@@ -31,7 +31,6 @@
             groupBox1 = new GroupBox();
             radioButton3 = new RadioButton();
             radioButton2 = new RadioButton();
-            label1 = new Label();
             radioButton1 = new RadioButton();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -41,19 +40,18 @@
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(radioButton3);
             groupBox1.Controls.Add(radioButton2);
-            groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(radioButton1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(614, 150);
+            groupBox1.Size = new Size(614, 111);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
-            groupBox1.Text = "General";
+            groupBox1.Text = "Icon Size";
             // 
             // radioButton3
             // 
             radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(30, 103);
+            radioButton3.Location = new Point(6, 84);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(103, 23);
             radioButton3.TabIndex = 3;
@@ -65,7 +63,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(30, 74);
+            radioButton2.Location = new Point(6, 55);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(122, 23);
             radioButton2.TabIndex = 2;
@@ -74,19 +72,10 @@
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += radioButton2_CheckedChanged;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(6, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(70, 19);
-            label1.TabIndex = 1;
-            label1.Text = "Icon Size";
-            // 
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(30, 45);
+            radioButton1.Location = new Point(6, 26);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(102, 23);
             radioButton1.TabIndex = 0;
@@ -117,7 +106,6 @@
 
 #endregion
         private GroupBox groupBox1;
-        private Label label1;
         private RadioButton radioButton1;
         private RadioButton radioButton3;
         private RadioButton radioButton2;

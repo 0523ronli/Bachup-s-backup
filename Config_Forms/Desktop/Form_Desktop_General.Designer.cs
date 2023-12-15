@@ -30,8 +30,6 @@
         {
             hScrollBar1 = new HScrollBar();
             label1 = new Label();
-            submit = new Button();
-            cancel = new Button();
             label2 = new Label();
             groupBox1 = new GroupBox();
             groupBox1.SuspendLayout();
@@ -56,28 +54,6 @@
             label1.TabIndex = 1;
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // submit
-            // 
-            submit.Location = new Point(620, 158);
-            submit.Name = "submit";
-            submit.Size = new Size(94, 29);
-            submit.TabIndex = 2;
-            submit.Text = "Submit";
-            submit.UseVisualStyleBackColor = true;
-            submit.Visible = false;
-            submit.Click += onSubmit;
-            // 
-            // cancel
-            // 
-            cancel.Location = new Point(520, 158);
-            cancel.Name = "cancel";
-            cancel.Size = new Size(94, 29);
-            cancel.TabIndex = 3;
-            cancel.Text = "Cancel";
-            cancel.UseVisualStyleBackColor = true;
-            cancel.Visible = false;
-            cancel.Click += onCancel;
-            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -95,19 +71,16 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(702, 117);
+            groupBox1.Size = new Size(884, 54);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
-            groupBox1.Text = "General";
             // 
             // Form_Desktop_General
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(726, 199);
+            ClientSize = new Size(908, 448);
             Controls.Add(groupBox1);
-            Controls.Add(cancel);
-            Controls.Add(submit);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_Desktop_General";
             Text = "Form_Opacity";
@@ -120,8 +93,6 @@
 
         private HScrollBar hScrollBar1;
         private Label label1;
-        private Button submit;
-        private Button cancel;
         private Label label2;
         private GroupBox groupBox1;
     }
