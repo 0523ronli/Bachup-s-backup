@@ -17,21 +17,21 @@ namespace Bachup_s_backup
         TransparentPanel Top_panel;
         public string FileName;
         public string FilePath;
-        public string NickName;
+        public string NickName="";
         private bool M_toDrag = false;
         ContextMenuStrip RightClickMenu = new();
         public bool Intemp=false;
         ToolStripMenuItem RCM_open = new("Open");
-        ToolStripMenuItem RCM_delete = new("Delete");
+        ToolStripMenuItem RCM_rename = new("Info and Rename");
         ToolStripMenuItem RCM_temp = new("Move Into Temp");
         ToolStripMenuItem RCM_open_explorer = new("Open in explorer");
+        ToolStripMenuItem RCM_delete = new("Delete");
 
-        public DesktopItem(string path, string nickName)
+        public DesktopItem(string path)
         {
             Instance = this;
             FilePath = path.FullPath();
             FileName = Path.GetFileName(path);
-            NickName = nickName;
             InitializeComponent();
             InitVarieties();
             InitRCM();
@@ -90,19 +90,26 @@ namespace Bachup_s_backup
             //rename
             RCM_rename.Click += (s, e) =>
             {
-                Form f = new() { Text = FileName, Size = new Size(400, 250), ControlBox = false, FormBorderStyle = FormBorderStyle.FixedSingle };
-                Label label1 = new Label() { Text = "Please Enter the nickname", AutoSize = false, Size = new(195, 30), Location = new(95, 35), TextAlign = ContentAlignment.MiddleCenter };
-                TextBox textBox1 = new TextBox() { Size = new(100, 20), Location = new(135, 90) };
-                Button submit = new Button { Text = "Submit", Size = new(80, 30), Location = new(295, 165) };
-                Button cancel = new Button { Text = "Canecel", Size = new(80, 30), Location = new(215, 165) };
-                f.Controls.AddRange(new Control[] {label1, textBox1, submit, cancel });
-                submit.Click += (s, e) => {
-                    NickName = textBox1.Text;
-                    f.Dispose();
-                    OnRender();
-                };
-                cancel.Click += (s, e) => f.Dispose();
-                f.Show();      
+                //Form f = new() { Text = FileName, Size = new Size(400, 250), ControlBox = false, FormBorderStyle = FormBorderStyle.FixedSingle };
+                //Label label1 = new Label() { Text = "Please Enter the nickname", AutoSize = false, Size = new(195, 30), Location = new(95, 35), TextAlign = ContentAlignment.MiddleCenter };
+                //TextBox textBox1 = new TextBox() { Size = new(100, 20), Location = new(135, 90) };
+                //Button submit = new Button { Text = "Submit", Size = new(80, 30), Location = new(295, 165) };
+                //Button cancel = new Button { Text = "Canecel", Size = new(80, 30), Location = new(215, 165) };
+                //f.Controls.AddRange(new Control[] {label1, textBox1, submit, cancel });
+                //submit.Click += (s, e) => {
+                //    NickName = textBox1.Text;
+                //    f.Dispose();
+                //    OnRender();
+                //};
+                //cancel.Click += (s, e) => f.Dispose();
+                //f.Show();
+                var f = new DI_Info(this);
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    NickName = f.textBox3.Text;
+                }
+                Refresh();
+                ;
             };
             RightClickMenu.Items.Add(RCM_rename);
 
@@ -111,18 +118,23 @@ namespace Bachup_s_backup
             RCM_delete.Font = new Font(RCM_delete.Font, FontStyle.Bold);
             RCM_delete.Click += (s, e) =>
             {
-                
-                Form1_Instance.selected.DeleteAll();
+                Form1_Instance.selected.ToList().ForEach(x =>
+                {
+                    x.Dispose();
+                });
+                Form1_Instance.selected.Clear();
+                GC.Collect();
             };
             RightClickMenu.Items.Add(RCM_delete);
         }
-        public static DesktopItem SaveCreate(string path, Point? locataion = null, string? NickName = null)
+        public static DesktopItem SaveCreate(string path, Point? locataion = null, string NickName = "")
         {
             if (File.Exists(path) || Directory.Exists(path))
             {
-                return new(path, NickName)
+                return new(path)
                 {
-                    Location = locataion ?? new()
+                    Location = locataion ?? new(),
+                    NickName = NickName
                 };
             }
             else return null!;
@@ -153,6 +165,7 @@ namespace Bachup_s_backup
             {
                 RightClickMenu.Show(this, e.Location);
             }
+            Refresh();
         }
         private void onMouseMove(object? sender, MouseEventArgs e)
         {
@@ -204,9 +217,11 @@ namespace Bachup_s_backup
             RCM_temp.Enabled = !Intemp;
             pictureBox1.SendToBack();
             Visible = Form1_Instance.DI_visable;
-            label1.Text = NickName ?? FileName;
+            label1.Text = NickName == "" ? FileName : NickName;
             label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler();
-            BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();
+            BackColor = Form1_Instance.selected.Contains(this) ?
+                Form1_Instance.config_JSON.DI_selectedColor.Hex2Coler() :
+                Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();
             Size = Form1_Instance.config_JSON.DI_size;
         }
 

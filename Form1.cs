@@ -12,7 +12,7 @@ namespace Bachup_s_backup
 
         public static Form1 Form1_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-        public SelectedItem selected;
+        public HashSet<DesktopItem> selected=new();
         public  Config_JSON config_JSON = new();  
         public bool autoArrange = true;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
@@ -35,7 +35,6 @@ namespace Bachup_s_backup
 
         public Form1()
         {
-            selected = new(this);
             Form1_Instance = this;
             TopMost = true;
             KeyPreview = true;
@@ -259,7 +258,15 @@ namespace Bachup_s_backup
             {
                 int i = 0;
                 Point M_Pos = MousePosition;
-                if (e.Data!.GetDataPresent(DataFormats.FileDrop))
+                if (e.Data!.GetDataPresent("DI_set"))
+                {
+                    foreach (DesktopItem DI in (HashSet<DesktopItem>)e.Data.GetData("DI_set")!)
+                    {
+                        DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                        i++;
+                    }
+                }
+                else if (e.Data!.GetDataPresent(DataFormats.FileDrop))
                 {
                     foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop)!)
                     {
@@ -398,11 +405,11 @@ namespace Bachup_s_backup
         public void MakeDrag()
         {
             TopMost = false;
-            var thing = selected.Select(x => x.FilePath).ToArray();
-            DoDragDrop(new DataObject(DataFormats.FileDrop, selected.Select(x => x.FilePath).ToArray()), current_effects);
+            DoDragDrop(new DI_Drag_Bundle(selected), current_effects);
             if (current_effects == DragDropEffects.Move)
             {
-                selected.ToList().ForEach(x => selected.Remove(x));
+                selected.ToList().ForEach(x => x.Dispose());
+                selected.Clear();
             }
             TopMost = true;
         }
