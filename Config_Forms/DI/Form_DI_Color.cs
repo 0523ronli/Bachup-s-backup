@@ -19,14 +19,10 @@ namespace Bachup_s_backup
             //propertyGrid1.SelectedObject = new DI_color_property();
         }
 
-        private void submit_Click(object sender, EventArgs e)
+        private void Form_DI_Color_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void cancel_Click(object sender, EventArgs e)
-        {
-            //this.Close();
+            label2.BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
+            label4.BackColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
         }
 
         private string ColorToHex(Color c)
@@ -60,7 +56,7 @@ namespace Bachup_s_backup
         {
             get
             {
-                return Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();
+                return Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
             }
             set
             {
@@ -74,7 +70,7 @@ namespace Bachup_s_backup
         {
             get
             {
-                return Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler();
+                return Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
             }
             set
             {

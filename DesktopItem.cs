@@ -60,7 +60,7 @@ namespace Bachup_s_backup
             {
                 foreach (var item in (Parent as Form1)!.selected)
                 {
-                    new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{item.FilePath}\\..\"" } }.Start();
+                    new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"/select,\"{item.FilePath}\"" } }.Start();
                 }
             };
             RightClickMenu.Items.Add(RCM_open_explorer);
@@ -103,6 +103,7 @@ namespace Bachup_s_backup
                 //};
                 //cancel.Click += (s, e) => f.Dispose();
                 //f.Show();
+                Form1.Form1_Instance.TopMost = false;
                 var f = new DI_Info(this);
                 if (f.ShowDialog() == DialogResult.OK)
                 {
@@ -218,10 +219,10 @@ namespace Bachup_s_backup
             pictureBox1.SendToBack();
             Visible = Form1_Instance.DI_visable;
             label1.Text = NickName == "" ? FileName : NickName;
-            label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Coler();
+            label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
             BackColor = Form1_Instance.selected.Contains(this) ?
-                Form1_Instance.config_JSON.DI_selectedColor.Hex2Coler() :
-                Form1_Instance.config_JSON.DI_BackColor.Hex2Coler();
+                Form1_Instance.config_JSON.DI_selectedColor.Hex2Color() :
+                Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
             Size = Form1_Instance.config_JSON.DI_size;
         }
 

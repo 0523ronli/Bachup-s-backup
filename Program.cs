@@ -100,8 +100,8 @@ namespace Bachup_s_backup
     }
     public static class ext
     {
-        public static Color Hex2Coler(this string hexString) => ColorTranslator.FromHtml(hexString);
-        public static string Color2Hex(this Color color) => $"#{color.R:2x}{color.G:2x}{color.B:2x}";
+        public static Color Hex2Color(this string hexString) => ColorTranslator.FromHtml(hexString);
+        public static string Color2Hex(this Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         public static string GetKeyName(this Keys keyCode) => Enum.GetName(typeof(Keys), keyCode)??"gay";
         public static string FullPath(this string path)=> Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }

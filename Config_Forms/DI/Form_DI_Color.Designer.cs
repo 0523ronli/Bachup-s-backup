@@ -91,9 +91,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(6, 76);
             label3.Name = "label3";
-            label3.Size = new Size(175, 19);
+            label3.Size = new Size(174, 19);
             label3.TabIndex = 6;
-            label3.Text = "Desktop Item BackColor";
+            label3.Text = "Desktop Item ForeColor";
             // 
             // Form_DI_Color
             // 
@@ -104,6 +104,7 @@
             Controls.Add(groupBox1);
             Name = "Form_DI_Color";
             Text = "global";
+            Load += Form_DI_Color_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
