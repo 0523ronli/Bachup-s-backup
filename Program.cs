@@ -106,17 +106,23 @@ namespace Bachup_s_backup
         public static string FullPath(this string path)=> Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
 
-    public class RainbowGenerator(double opacity, float speed, Form form)
+    public class RainbowGenerator
     {
-        System.Windows.Forms.Timer Timer = new()
+        double opacity; float speed; Form form;
+        public RainbowGenerator(double opacity, float speed, Form form)
+        {
+            this.opacity = opacity;
+            this.speed = speed;
+            this.form = form;
+            timer.Tick += (s, e) => form.BackColor = GetRainbowColor(opacity, speed);
+        }
+        System.Windows.Forms.Timer timer = new()
         {
             Interval = 1,
         };
-        public void Start()
-        {
-            Timer.Tick += (s, e) => form.BackColor = RainbowGenerator.GetRainbowColor(opacity, speed);
-            Timer.Start();
-        }
+        public void Start()=>timer.Start();
+        public void Stop() => timer.Stop();
+        public bool IsActive() => timer.Enabled;
 
         public static Color GetRainbowColor(double opacity, float delay)
         {

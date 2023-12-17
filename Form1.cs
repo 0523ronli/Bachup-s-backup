@@ -12,7 +12,7 @@ namespace Bachup_s_backup
 
         public static Form1 Form1_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
-        public HashSet<DesktopItem> selected=new();
+        public HashSet<DesktopItem> selected = new();
         public  Config_JSON config_JSON = new();  
         public bool autoArrange = true;
         public RainbowGenerator RainbowGenerator;
@@ -52,7 +52,6 @@ namespace Bachup_s_backup
             FormClosed += onFormClosed;
 
             RainbowGenerator = new(Opacity, 8f, this);
-            RainbowGenerator.Start();
         }
 
         private void InitRCM()
@@ -111,6 +110,24 @@ namespace Bachup_s_backup
                 AutoArrange();
             };
             RCM_view.DropDownItems.Add(RCM_reArrange);
+
+            //nano is gay
+            ToolStripMenuItem RCM_rainbow = new("Rainbow mode");
+            RCM_rainbow.CheckOnClick = true;
+            RCM_rainbow.Click += (s, e) =>
+            {
+                if (RCM_rainbow.Checked)
+                {
+                    RainbowGenerator.Start();
+                }
+                else
+                {
+                    RainbowGenerator.Stop();
+                    BackColor = SystemColors.Control;
+                }
+                
+            };
+            RCM_view.DropDownItems.Add(RCM_rainbow);
 
             //dragmode
 
