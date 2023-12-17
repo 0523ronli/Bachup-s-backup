@@ -197,10 +197,6 @@ namespace Bachup_s_backup
                         }
                     }
                 };
-                x.Paint += (s, e) =>
-                {
-                    // Paint event handling for ToolStripMenuItems
-                };
             });
             RCM_add_DI.DropDownItems.AddRange(add_opt.ToArray());
 
@@ -423,6 +419,7 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
+                current_effects = config_JSON.DragDropEffects;
                 Controls.AddRange(config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location, x.NickName)).ToArray());
             }
@@ -434,6 +431,7 @@ namespace Bachup_s_backup
             config_JSON.location = Location;
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
+            config_JSON.DragDropEffects = current_effects;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.NickName)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }

@@ -24,7 +24,6 @@ namespace Bachup_s_backup
         {
             DialogResult = DialogResult.OK;
             Close();
-            Form1.Form1_Instance.TopMost = true;
         }
     }
 }
