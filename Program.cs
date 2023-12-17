@@ -105,4 +105,76 @@ namespace Bachup_s_backup
         public static string GetKeyName(this Keys keyCode) => Enum.GetName(typeof(Keys), keyCode)??"gay";
         public static string FullPath(this string path)=> Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
+
+    public class RainbowGenerator(double opacity, float speed, Form form)
+    {
+        System.Windows.Forms.Timer Timer = new()
+        {
+            Interval = 1,
+        };
+        public void Start()
+        {
+            Timer.Tick += (s, e) => form.BackColor = RainbowGenerator.GetRainbowColor(opacity, speed);
+            Timer.Start();
+        }
+
+        public static Color GetRainbowColor(double opacity, float delay)
+        {
+            int currentMillis = Environment.TickCount;
+            double rainbowState = Math.Ceiling((currentMillis + delay) / 20.0);
+            rainbowState %= 360.0f;
+            Color color = HSBtoRGB((float)(rainbowState / 360.0f), 1, (float)opacity);
+            return color;
+        }
+        public static Color HSBtoRGB(float hue, float saturation, float brightness)
+        {
+            int r = 0, g = 0, b = 0;
+            if (saturation == 0)
+            {
+                r = g = b = (int)(brightness * 255.0f + 0.5f);
+            }
+            else
+            {
+                float h = (hue - (float)Math.Floor(hue)) * 6.0f;
+                float f = h - (float)Math.Floor(h);
+                float p = brightness * (1.0f - saturation);
+                float q = brightness * (1.0f - saturation * f);
+                float t = brightness * (1.0f - (saturation * (1.0f - f)));
+                switch ((int)h)
+                {
+                    case 0:
+                        r = (int)(brightness * 255.0f + 0.5f);
+                        g = (int)(t * 255.0f + 0.5f);
+                        b = (int)(p * 255.0f + 0.5f);
+                        break;
+                    case 1:
+                        r = (int)(q * 255.0f + 0.5f);
+                        g = (int)(brightness * 255.0f + 0.5f);
+                        b = (int)(p * 255.0f + 0.5f);
+                        break;
+                    case 2:
+                        r = (int)(p * 255.0f + 0.5f);
+                        g = (int)(brightness * 255.0f + 0.5f);
+                        b = (int)(t * 255.0f + 0.5f);
+                        break;
+                    case 3:
+                        r = (int)(p * 255.0f + 0.5f);
+                        g = (int)(q * 255.0f + 0.5f);
+                        b = (int)(brightness * 255.0f + 0.5f);
+                        break;
+                    case 4:
+                        r = (int)(t * 255.0f + 0.5f);
+                        g = (int)(p * 255.0f + 0.5f);
+                        b = (int)(brightness * 255.0f + 0.5f);
+                        break;
+                    case 5:
+                        r = (int)(brightness * 255.0f + 0.5f);
+                        g = (int)(p * 255.0f + 0.5f);
+                        b = (int)(q * 255.0f + 0.5f);
+                        break;
+                }
+            }
+            return Color.FromArgb(r, g, b);
+        }
+    }
 }

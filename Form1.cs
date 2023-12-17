@@ -15,6 +15,7 @@ namespace Bachup_s_backup
         public HashSet<DesktopItem> selected=new();
         public  Config_JSON config_JSON = new();  
         public bool autoArrange = true;
+        public RainbowGenerator RainbowGenerator;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
         public bool DI_visable = true;
         Point Rclick_pos;
@@ -49,6 +50,9 @@ namespace Bachup_s_backup
             DragEnter += onDragEnter;
             DragDrop += onDragDrop;
             FormClosed += onFormClosed;
+
+            RainbowGenerator = new(Opacity, 8f, this);
+            RainbowGenerator.Start();
         }
 
         private void InitRCM()
