@@ -136,37 +136,73 @@ namespace Bachup_s_backup
             };
 
             //add_di
-
-            RCM_add_DI.Click += (s, e) =>
+            List<ToolStripMenuItem> add_opt = new()
             {
-                OpenFileDialog OFD = new()
-                {
-                    Multiselect = true
-                };
-                if (OFD.ShowDialog() != DialogResult.OK) return;
-                int i = 0;
-                foreach (string file in OFD.FileNames)
-                {
-                    if (DesktopItem.SaveCreate(file) is DesktopItem DI)
-                    {
-                        Controls.Cast<DesktopItem>().Where(x => x.FilePath == file).ToList().ForEach(x =>
-                        {
-                            Controls.Remove(x); selected.Remove(x); x.Dispose();
-                        });
-                        DI.Location = new(Rclick_pos.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), Rclick_pos.Y - DI.Height / 2);
-
-                        Controls.Add(DI);
-                        selected.Add(DI);
-                        GC.Collect();
-                        i++;
-                    }
-                    else
-                    {
-                        MessageBox.Show(this, $"Can not find file at {file}");
-                        continue;
-                    }
-                }
+                new ToolStripMenuItem("File") { CheckOnClick = false, Tag = "File" },
+                new ToolStripMenuItem("Folder") { CheckOnClick = false, Tag = "Folder" }
             };
+            add_opt.ForEach(x =>
+            {
+                x.Click += (s, e) =>
+                {
+                    if (x.Tag.ToString() == "File")
+                    {
+                        OpenFileDialog OFD = new()
+                        {
+                            Multiselect = true
+                        };
+                        if (OFD.ShowDialog() != DialogResult.OK) return;
+                        int i = 0;
+                        foreach (string file in OFD.FileNames)
+                        {
+                            if (DesktopItem.SaveCreate(file) is DesktopItem DI)
+                            {
+                                Controls.Cast<DesktopItem>().Where(item => item.FilePath == file).ToList().ForEach(item =>
+                                {
+                                    Controls.Remove(item);
+                                    selected.Remove(item);
+                                    item.Dispose();
+                                });
+                                DI.Location = new Point(Rclick_pos.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), Rclick_pos.Y - DI.Height / 2);
+
+                                Controls.Add(DI);
+                                selected.Add(DI);
+                                GC.Collect();
+                                i++;
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, $"Cannot find file at {file}");
+                                continue;
+                            }
+                        }
+                    }
+                    else if (x.Tag.ToString() == "Folder")
+                    {
+                        FolderBrowserDialog FBD = new();
+                        if (FBD.ShowDialog() != DialogResult.OK) return;
+                        string folderPath = FBD.SelectedPath;
+                        DesktopItem folderItem = DesktopItem.SaveCreate(folderPath);
+                        if (folderItem != null)
+                        {
+                            folderItem.Location = new Point(Rclick_pos.X - folderItem.Width / 2, Rclick_pos.Y - folderItem.Height / 2);
+
+                            Controls.Add(folderItem);
+                            selected.Add(folderItem);
+                            GC.Collect();
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, $"Cannot create DesktopItem for folder: {folderPath}");
+                        }
+                    }
+                };
+                x.Paint += (s, e) =>
+                {
+                    // Paint event handling for ToolStripMenuItems
+                };
+            });
+            RCM_add_DI.DropDownItems.AddRange(add_opt.ToArray());
 
             //close
             RCM_Close.ForeColor = Color.Red;

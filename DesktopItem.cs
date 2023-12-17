@@ -111,6 +111,7 @@ namespace Bachup_s_backup
                 }
                 Refresh();
                 ;
+                Form1.Form1_Instance.TopMost = true;
             };
             RightClickMenu.Items.Add(RCM_rename);
 
