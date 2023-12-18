@@ -19,11 +19,13 @@ namespace Bachup_s_backup
             {
                 if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
-                    if (Grid1.Rows[e.RowIndex].Cells[4].Value is DesktopItem src &&
-                        int.TryParse(Grid1.Rows[e.RowIndex].Cells[2].Value.ToString(), out int x) &&
-                        int.TryParse(Grid1.Rows[e.RowIndex].Cells[3].Value.ToString(), out int y))
+                    if (Grid1.Rows[e.RowIndex].Cells[5].Value is DesktopItem src &&
+                        int.TryParse(Grid1.Rows[e.RowIndex].Cells[3].Value.ToString(), out int x) &&
+                        int.TryParse(Grid1.Rows[e.RowIndex].Cells[4].Value.ToString(), out int y))
                     {
+                        src.NickName = Grid1.Rows[e.RowIndex].Cells[2].Value?.ToString()??"";
                         src.Location = new(x, y);
+                        src.Refresh();
                     }
                 }
             };
@@ -38,6 +40,7 @@ namespace Bachup_s_backup
                 {
                     x.FileName,
                     x.FilePath,
+                    x.NickName,
                     x.Location.X,
                     x.Location.Y,
                     x
