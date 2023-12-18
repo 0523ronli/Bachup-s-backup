@@ -122,14 +122,14 @@ namespace Bachup_s_backup
         };
         public void Start()=>timer.Start();
         public void Stop() => timer.Stop();
-        public bool IsActive() => timer.Enabled;
+        public bool IsActive => timer.Enabled;
 
         public static Color GetRainbowColor(double opacity, float delay)
         {
             int currentMillis = Environment.TickCount;
             double rainbowState = Math.Ceiling((currentMillis + delay) / 20.0);
             rainbowState %= 360.0f;
-            Color color = HSBtoRGB((float)(rainbowState / 360.0f), 1, (float)opacity);
+            Color color = HSBtoRGB((float)(rainbowState / 360.0f), .6f, (float)opacity);
             return color;
         }
         public static Color HSBtoRGB(float hue, float saturation, float brightness)

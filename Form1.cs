@@ -39,6 +39,7 @@ namespace Bachup_s_backup
             Form1_Instance = this;
             TopMost = true;
             KeyPreview = true;
+            RainbowGenerator = new(Opacity, 8f, this);
 
             InitializeComponent();
             ReadJSON();
@@ -50,8 +51,6 @@ namespace Bachup_s_backup
             DragEnter += onDragEnter;
             DragDrop += onDragDrop;
             FormClosed += onFormClosed;
-
-            RainbowGenerator = new(Opacity, 8f, this);
         }
 
         private void InitRCM()
@@ -113,10 +112,9 @@ namespace Bachup_s_backup
 
             //nano is gay
             ToolStripMenuItem RCM_rainbow = new("Rainbow mode");
-            RCM_rainbow.CheckOnClick = true;
             RCM_rainbow.Click += (s, e) =>
             {
-                if (RCM_rainbow.Checked)
+                if (!RCM_rainbow.Checked)
                 {
                     RainbowGenerator.Start();
                 }
@@ -125,8 +123,8 @@ namespace Bachup_s_backup
                     RainbowGenerator.Stop();
                     BackColor = SystemColors.Control;
                 }
-                
             };
+            RCM_rainbow.Paint += (s, e) => { RCM_rainbow.Checked = RainbowGenerator.IsActive; };
             RCM_view.DropDownItems.Add(RCM_rainbow);
 
             //dragmode
@@ -441,9 +439,22 @@ namespace Bachup_s_backup
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
                 current_effects = config_JSON.DragDropEffects;
+                if (config_JSON.RainbowMode) RainbowGenerator.Start();
+                else RainbowGenerator.Stop();
                 Controls.AddRange(config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location, x.NickName)).ToArray());
             }
+        }
+        public void ReadJSON(bool _)
+        {
+            Location = config_JSON.location;
+            Size = config_JSON.size;
+            Opacity = config_JSON.Opacity;
+            current_effects = config_JSON.DragDropEffects;
+            if (config_JSON.RainbowMode) RainbowGenerator.Start();
+            else RainbowGenerator.Stop();
+            AutoArrange();
+            Refresh();
         }
 
         public void WriteJSON()
@@ -453,6 +464,7 @@ namespace Bachup_s_backup
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
             config_JSON.DragDropEffects = current_effects;
+            config_JSON.RainbowMode = RainbowGenerator.IsActive;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.NickName)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }
@@ -475,6 +487,14 @@ namespace Bachup_s_backup
             foreach (DesktopItem item in Controls)
             {
                 item.OnRender();
+            }
+            if (RainbowGenerator.IsActive)
+            {
+
+            }
+            else
+            {
+                BackColor = SystemColors.Control;
             }
         }
 

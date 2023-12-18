@@ -10,7 +10,7 @@ namespace Bachup_s_backup
     public class Config_JSON
     {
         public Point location { get; set; } = new(0, 0);
-        public Size size { get; set; } = new(200, 450);
+        public Size size { get; set; } = new(800, 450);
         public double Opacity { get; set; } = .700;
         public DragDropEffects DragDropEffects { get; set; } = DragDropEffects.Copy;
         public HotKeys Hotkey { get; set; } = new();
@@ -19,5 +19,6 @@ namespace Bachup_s_backup
         public string DI_ForeColor { get; set; } = "#000000";
         public Size DI_size { get; set; } = DI_size_opt.Medium;
         public List<DI_Json> DI_List { get; set; } = new();
+        public bool RainbowMode { get; set; } = false;
     }
 }

@@ -96,7 +96,9 @@ namespace UItestv2
                 ToRun = () => {
                     if (MessageBox.Show("Are you sure about it?","Default all config",MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                     centerPenal.Controls.Clear();
-                    Form1.Form1_Instance.config_JSON= new Config_JSON() { DI_List = Form1.Form1_Instance.config_JSON.DI_List };
+                    Form1.Form1_Instance.config_JSON = new Config_JSON() { DI_List = Form1.Form1_Instance.config_JSON.DI_List };
+                    Form1.Form1_Instance.ReadJSON(false);
+                    //Form1.Form1_Instance.Refresh();
                 }
             });
             leftrestore();

@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+           
+
             SuspendLayout();
             // 
             // Form1
