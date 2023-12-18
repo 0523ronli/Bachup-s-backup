@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Bachup_s_backup.Form1;
+using static Bachup_s_backup.MainDesktop;
 
 namespace Bachup_s_backup
 {
@@ -18,17 +18,11 @@ namespace Bachup_s_backup
             InitializeComponent();
             //propertyGrid1.SelectedObject = new DI_color_property();
         }
-        private Color GetContrastColor(Color backgroundColor)
-        {
-            double luminance = (0.299 * backgroundColor.R + 0.587 * backgroundColor.G + 0.114 * backgroundColor.B) / 255;
-            return luminance > 0.5 ? Color.Black : Color.White;
-        }
+
         private void Form_DI_Color_Load(object sender, EventArgs e)
         {
-            label2.BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
-            label2.ForeColor = GetContrastColor(label2.BackColor);
-            label4.BackColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
-            label4.ForeColor = GetContrastColor(label4.BackColor);
+            label2.BackColor = Desktop_Instance.config_JSON.DI_BackColor.Hex2Color();
+            label4.BackColor = Desktop_Instance.config_JSON.DI_ForeColor.Hex2Color();
         }
 
         private string ColorToHex(Color c)
@@ -40,10 +34,8 @@ namespace Bachup_s_backup
         {
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                label2.BackColor = colorDialog.Color;
-                label2.ForeColor = GetContrastColor(label2.BackColor);
-                Form1_Instance.config_JSON.DI_BackColor = colorDialog.Color.Color2Hex();
-                Form1_Instance.Refresh();
+                Desktop_Instance.config_JSON.DI_BackColor = colorDialog.Color.Color2Hex();
+                Desktop_Instance.Refresh();
             }
         }
 
@@ -51,10 +43,8 @@ namespace Bachup_s_backup
         {
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                label4.BackColor = colorDialog.Color;
-                label4.ForeColor = GetContrastColor(label2.BackColor);
-                Form1_Instance.config_JSON.DI_ForeColor = colorDialog.Color.Color2Hex();
-                Form1_Instance.Refresh();
+                Desktop_Instance.config_JSON.DI_ForeColor = colorDialog.Color.Color2Hex();
+                Desktop_Instance.Refresh();
             }
         }
     }
@@ -66,12 +56,12 @@ namespace Bachup_s_backup
         {
             get
             {
-                return Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
+                return Desktop_Instance.config_JSON.DI_BackColor.Hex2Color();
             }
             set
             {
-                Form1_Instance.config_JSON.DI_BackColor = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
-                Form1_Instance.Refresh();
+                Desktop_Instance.config_JSON.DI_BackColor = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
+                Desktop_Instance.Refresh();
             }
         }
         [Category("Color Setting")]
@@ -80,12 +70,12 @@ namespace Bachup_s_backup
         {
             get
             {
-                return Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
+                return Desktop_Instance.config_JSON.DI_ForeColor.Hex2Color();
             }
             set
             {
-                Form1_Instance.config_JSON.DI_ForeColor = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
-                Form1_Instance.Refresh();
+                Desktop_Instance.config_JSON.DI_ForeColor = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
+                Desktop_Instance.Refresh();
             }
         }
     }

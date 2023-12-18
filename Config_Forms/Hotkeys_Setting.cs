@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Bachup_s_backup.Form1;
+using static Bachup_s_backup.MainDesktop;
 using static Bachup_s_backup.Program;
 
 namespace Bachup_s_backup
@@ -35,8 +35,8 @@ namespace Bachup_s_backup
                 {
                     captureTarget!.Key = e.KeyCode;
                     capturing = false;
-                    Form1_Instance.UnregistHotkey();
-                    Form1_Instance.RegistHotkey();
+                    Desktop_Instance.UnregistHotkey();
+                    Desktop_Instance.RegistHotkey();
                     Refresh();
                 }
             };
@@ -65,11 +65,11 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            HKSetter_Visable.Tag = Form1_Instance.config_JSON.Hotkey.Switch_Visable;
-            HKSetter_Dragmode.Tag = Form1_Instance.config_JSON.Hotkey.Switch_DragMode;
-            HKSetter_Setting.Tag = Form1_Instance.config_JSON.Hotkey.Setting;
-            HKSetter_Close.Tag = Form1_Instance.config_JSON.Hotkey.Close;
-            HKSetter_DI_Visible.Tag = Form1_Instance.config_JSON.Hotkey.Switch_DI_Visable;
+            HKSetter_Visable.Tag = Desktop_Instance.config_JSON.Hotkey.Switch_Visable;
+            HKSetter_Dragmode.Tag = Desktop_Instance.config_JSON.Hotkey.Switch_DragMode;
+            HKSetter_Setting.Tag = Desktop_Instance.config_JSON.Hotkey.Setting;
+            HKSetter_Close.Tag = Desktop_Instance.config_JSON.Hotkey.Close;
+            HKSetter_DI_Visible.Tag = Desktop_Instance.config_JSON.Hotkey.Switch_DI_Visable;
         }
     }
 }

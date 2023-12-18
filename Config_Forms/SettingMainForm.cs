@@ -76,7 +76,6 @@ namespace UItestv2
             originalleftbtn.Add(new Leftbtn()
             {
                 Text = "Desktop item Setting",
-                Linkform=new Form_DI_General(),
                 subbtnList =
                 [
                     new Subbtn() { Text = "General", Linkform = new Form_DI_General() },
@@ -96,8 +95,8 @@ namespace UItestv2
                 ToRun = () => {
                     if (MessageBox.Show("Are you sure about it?","Default all config",MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                     centerPenal.Controls.Clear();
-                    Form1.Form1_Instance.config_JSON = new Config_JSON() { DI_List = Form1.Form1_Instance.config_JSON.DI_List };
-                    Form1.Form1_Instance.ReadJSON(false);
+                    MainDesktop.Desktop_Instance.config_JSON = new Config_JSON() { DI_List = MainDesktop.Desktop_Instance.config_JSON.DI_List };
+                    MainDesktop.Desktop_Instance.ReadJSON(false);
                     //Form1.Form1_Instance.Refresh();
                 }
             });

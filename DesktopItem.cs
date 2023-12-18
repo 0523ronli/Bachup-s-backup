@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static Bachup_s_backup.Form1;
+using static Bachup_s_backup.MainDesktop;
 
 namespace Bachup_s_backup
 {
@@ -14,7 +14,7 @@ namespace Bachup_s_backup
         public static extern bool GetAsyncKeyState(int vKey);
 
         public DesktopItem Instance;
-        TransparentPanel Top_panel;
+        TransparentPanel Top_panel=new();
         public string FileName;
         public string FilePath;
         public string NickName="";
@@ -32,8 +32,18 @@ namespace Bachup_s_backup
             Instance = this;
             FilePath = path.FullPath();
             FileName = Path.GetFileName(path);
+            TopLevel = false;
+
             InitializeComponent();
-            InitVarieties();
+
+            Controls.Add(Top_panel);
+            Top_panel.BringToFront();
+            Visible = true;
+            if (FilePath.FullPath().StartsWith(Program.TempPath))
+            {
+                Intemp = true;
+            }
+
             InitRCM();
             InitPictureBox();
             
@@ -48,7 +58,7 @@ namespace Bachup_s_backup
         {
             RCM_open.Click += (s, e) =>
             {
-                foreach (var item in (Parent as Form1)!.selected)
+                foreach (var item in (Parent as MainDesktop)!.selected)
                 {
                     new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{item.FilePath}\"" } }.Start();
                 }
@@ -58,7 +68,7 @@ namespace Bachup_s_backup
             //open in explorer
             RCM_open_explorer.Click += (s, e) =>
             {
-                foreach (var item in (Parent as Form1)!.selected)
+                foreach (var item in (Parent as MainDesktop)!.selected)
                 {
                     new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"/select,\"{item.FilePath}\"" } }.Start();
                 }
@@ -90,20 +100,7 @@ namespace Bachup_s_backup
             //rename
             RCM_rename.Click += (s, e) =>
             {
-                //Form f = new() { Text = FileName, Size = new Size(400, 250), ControlBox = false, FormBorderStyle = FormBorderStyle.FixedSingle };
-                //Label label1 = new Label() { Text = "Please Enter the nickname", AutoSize = false, Size = new(195, 30), Location = new(95, 35), TextAlign = ContentAlignment.MiddleCenter };
-                //TextBox textBox1 = new TextBox() { Size = new(100, 20), Location = new(135, 90) };
-                //Button submit = new Button { Text = "Submit", Size = new(80, 30), Location = new(295, 165) };
-                //Button cancel = new Button { Text = "Canecel", Size = new(80, 30), Location = new(215, 165) };
-                //f.Controls.AddRange(new Control[] {label1, textBox1, submit, cancel });
-                //submit.Click += (s, e) => {
-                //    NickName = textBox1.Text;
-                //    f.Dispose();
-                //    OnRender();
-                //};
-                //cancel.Click += (s, e) => f.Dispose();
-                //f.Show();
-                Form1.Form1_Instance.TopMost = false;
+                Desktop_Instance.TopMost = false;
                 var f = new DI_Info(this);
                 if (f.ShowDialog() == DialogResult.OK)
                 {
@@ -111,7 +108,7 @@ namespace Bachup_s_backup
                 }
                 Refresh();
                 ;
-                Form1.Form1_Instance.TopMost = true;
+                Desktop_Instance.TopMost = true;
             };
             RightClickMenu.Items.Add(RCM_rename);
 
@@ -120,11 +117,11 @@ namespace Bachup_s_backup
             RCM_delete.Font = new Font(RCM_delete.Font, FontStyle.Bold);
             RCM_delete.Click += (s, e) =>
             {
-                Form1_Instance.selected.ToList().ForEach(x =>
+                Desktop_Instance.selected.ToList().ForEach(x =>
                 {
                     x.Dispose();
                 });
-                Form1_Instance.selected.Clear();
+                Desktop_Instance.selected.Clear();
                 GC.Collect();
             };
             RightClickMenu.Items.Add(RCM_delete);
@@ -157,8 +154,8 @@ namespace Bachup_s_backup
 
         private void onMouseDown(object? sender, MouseEventArgs e)
         {
-            Form1_Instance.selected.Clear();
-            Form1_Instance.selected.Add(this);
+            Desktop_Instance.selected.Clear();
+            Desktop_Instance.selected.Add(this);
             if (e.Button == MouseButtons.Left)
             {
                 M_toDrag = true;
@@ -174,7 +171,7 @@ namespace Bachup_s_backup
             if (M_toDrag)
             {
                 var mousePos = Cursor.Position;
-                (Parent as Form1)!.MakeDrag();
+                (Parent as MainDesktop)!.MakeDrag();
                 M_toDrag = false;
             }
         }
@@ -188,16 +185,7 @@ namespace Bachup_s_backup
 
         private void InitVarieties()
         {
-            TopLevel = false;
-            Top_panel = new();
-            Controls.Add(Top_panel);
-            Top_panel.BringToFront();
-            Visible = true;
-            label1.Text = FileName.Length > 15 ? FileName[..14] + "..." : FileName;
-            if (FilePath.FullPath().StartsWith(Program.TempPath))
-            {
-                Intemp = true;
-            }
+            
         }
 
         private void InitPictureBox()
@@ -213,18 +201,19 @@ namespace Bachup_s_backup
         }
         protected override void OnPaint(PaintEventArgs e=null!)
         {
-            
             base.OnPaint(e);
             label_folder.Visible = Intemp;
             RCM_temp.Enabled = !Intemp;
             pictureBox1.SendToBack();
-            Visible = Form1_Instance.DI_visable;
-            label1.Text = NickName == "" ? FileName : NickName;
-            label1.ForeColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
-            BackColor = Form1_Instance.selected.Contains(this) ?
-                Form1_Instance.config_JSON.DI_selectedColor.Hex2Color() :
-                Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
-            Size = Form1_Instance.config_JSON.DI_size;
+            Visible = Desktop_Instance.DI_visable;
+            Label_Name.Text = NickName == "" ? FileName : NickName;
+            Label_Name.ForeColor = Desktop_Instance.config_JSON.DI_ForeColor.Hex2Color();
+            BackColor = Desktop_Instance.selected.Contains(this) ?
+                Desktop_Instance.config_JSON.DI_selectedColor.Hex2Color() :
+                Desktop_Instance.config_JSON.DI_BackColor.Hex2Color();
+            if (Desktop_Instance.config_JSON.DI_Transparent) TransparencyKey = BackColor;
+            else TransparencyKey = Color.Empty;
+            Size = Desktop_Instance.config_JSON.DI_size;
         }
 
         public void OnRender()

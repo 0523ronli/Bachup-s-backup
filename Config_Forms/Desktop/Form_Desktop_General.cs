@@ -12,7 +12,7 @@ namespace Bachup_s_backup.Setting_items.form1
 {
     public partial class Form_Desktop_General : Form
     {
-        double ori = Form1.Form1_Instance.Opacity;
+        double ori = MainDesktop.Desktop_Instance.Opacity;
 
         public Form_Desktop_General()
         {
@@ -23,7 +23,7 @@ namespace Bachup_s_backup.Setting_items.form1
         {
             double opac = (double)hScrollBar1.Value / 100;
             label1.Text = $"{opac}%";
-            if (opac != 0.0f) Form1.Form1_Instance.Opacity = opac;
+            if (opac != 0.0f) MainDesktop.Desktop_Instance.Opacity = opac;
         }
 
         private void Form_Desktop_General_Load(object sender, EventArgs e) => hScrollBar1.Value = (int)(ori * 100);

@@ -17,7 +17,7 @@ namespace Bachup_s_backup
             ApplicationConfiguration.Initialize();
             Application.EnableVisualStyles();
             SettingMainForm _ = new();
-            Application.Run(new Form1());
+            Application.Run(new MainDesktop());
             //Application.Run(new Form2Test());
             //Application.Run(new SettingMainForm());
         }
