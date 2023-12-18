@@ -12,6 +12,7 @@ namespace Bachup_s_backup
         public Point location { get; set; } = new(0, 0);
         public Size size { get; set; } = new(200, 450);
         public double Opacity { get; set; } = .700;
+        public DragDropEffects DragDropEffects { get; set; } = DragDropEffects.Copy;
         public HotKeys Hotkey { get; set; } = new();
         public string DI_selectedColor { get; set; } = "#ADD8E6";
         public string DI_BackColor { get; set; } = "#B4B4B4";

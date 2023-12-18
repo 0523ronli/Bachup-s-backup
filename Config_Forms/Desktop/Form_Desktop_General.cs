@@ -26,13 +26,7 @@ namespace Bachup_s_backup.Setting_items.form1
             if (opac != 0.0f) Form1.Form1_Instance.Opacity = opac;
         }
 
-        private void onCancel(object sender, EventArgs e)
-        {
-            Form1.Form1_Instance.Opacity = ori;
-            hScrollBar1.Value = (int)(ori * 100);
-        }
-
-        private void onSubmit(object sender, EventArgs e) => ori = Form1.Form1_Instance.Opacity;
+        private void Form_Desktop_General_Load(object sender, EventArgs e) => hScrollBar1.Value = (int)(ori * 100);
 
     }
 }

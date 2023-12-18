@@ -84,6 +84,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_Desktop_General";
             Text = "Form_Opacity";
+            Load += Form_Desktop_General_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
