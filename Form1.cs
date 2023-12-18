@@ -3,6 +3,7 @@ using static Bachup_s_backup.Program;
 using System.Reflection;
 using System.Text.Json;
 using UItestv2;
+using System.Net;
 
 namespace Bachup_s_backup
 {
@@ -15,6 +16,7 @@ namespace Bachup_s_backup
         public HashSet<DesktopItem> selected = new();
         public  Config_JSON config_JSON = new();  
         public bool autoArrange = true;
+        public string Background = "Defult";
         public RainbowGenerator RainbowGenerator;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
         public bool DI_visable = true;
@@ -99,8 +101,6 @@ namespace Bachup_s_backup
             };
             RCM_view.DropDownItems.Add(RCM_DI_visable);
 
-            RCM_view.DropDownItems.Add(new ToolStripSeparator());
-
             //auto arrange
 
             ToolStripMenuItem RCM_reArrange = new("Auto Arrange");
@@ -110,23 +110,28 @@ namespace Bachup_s_backup
             };
             RCM_view.DropDownItems.Add(RCM_reArrange);
 
-            //nano is gay
-            ToolStripMenuItem RCM_rainbow = new("Rainbow mode");
-            RCM_rainbow.Click += (s, e) =>
-            {
-                if (!RCM_rainbow.Checked)
-                {
-                    RainbowGenerator.Start();
-                }
-                else
-                {
-                    RainbowGenerator.Stop();
-                    BackColor = SystemColors.Control;
-                }
-            };
-            RCM_rainbow.Paint += (s, e) => { RCM_rainbow.Checked = RainbowGenerator.IsActive; };
-            RCM_view.DropDownItems.Add(RCM_rainbow);
+            RCM_view.DropDownItems.Add(new ToolStripSeparator());
 
+            //nano is gay
+
+            RCM_view.DropDownItems.AddRange(new List<ToolStripMenuItem>()
+            {
+                new ("Defult") { CheckOnClick = true, Tag="Defult" },
+                new ("Image") { CheckOnClick =  true, Tag="Image" },
+                new ("Rainbow mode") {CheckOnClick = true, Tag = "Rainbow"},
+            }.Select(x =>
+            {
+                x.Click += (s, e) =>
+                {
+                    ChangeBackImage((string)x.Tag);
+                };
+                x.Paint += (s, e) =>
+                {
+                    x.Checked = (string)x.Tag == Background;
+                };
+                return x;
+            }).ToArray());
+            
             //dragmode
 
             List<ToolStripMenuItem> dragmode_opt = new()
@@ -265,6 +270,57 @@ namespace Bachup_s_backup
                         currentX += item.Width + spacing;
                     }
                 }
+            }
+        }
+
+        private void  ChangeBackImage(string type)
+        {
+            if (type == "Defult")
+            {
+                if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
+                config_JSON.URL = null;
+                Background = type;
+                BackgroundImage = null;
+                BackColor = SystemColors.Control;
+            }
+            else if (type == "Image")
+            {
+                if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
+                TopMost = false;
+                string? URL = config_JSON.URL;
+                if (URL == null) URL = Microsoft.VisualBasic.Interaction.InputBox("Enter the image URL:", "Image URL", "");
+                TopMost = true;
+                if (!string.IsNullOrEmpty(URL))
+                {
+                    config_JSON.URL = URL;
+                    try
+                    {
+                        using (WebClient w = new())
+                        {
+                            using (var stream = new MemoryStream(w.DownloadData(URL)))
+                            {
+                                BackgroundImageLayout = ImageLayout.Stretch;
+                                BackgroundImage = Image.FromStream(stream);
+                            }
+                        }
+                        Background = type;
+                        foreach(DesktopItem item in Controls)
+                        {
+                            //TODO add transparent to DI's
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error loading the image: " + e.Message);
+                    }
+                }
+            }
+            else if(type == "Rainbow")
+            {
+                Background = type;
+                config_JSON.URL = null;
+                BackgroundImage = null;
+                RainbowGenerator.Start();
             }
         }
 
@@ -438,8 +494,9 @@ namespace Bachup_s_backup
                 Location = config_JSON.location;
                 Size = config_JSON.size;
                 Opacity = config_JSON.Opacity;
+                ChangeBackImage(config_JSON.Background);
                 current_effects = config_JSON.DragDropEffects;
-                if (config_JSON.RainbowMode) RainbowGenerator.Start();
+                if (config_JSON.Background == "Rainbow") RainbowGenerator.Start();
                 else RainbowGenerator.Stop();
                 Controls.AddRange(config_JSON.DI_List.Select(
                     x => DesktopItem.SaveCreate(x.FilePath, x.location, x.NickName)).ToArray());
@@ -451,7 +508,7 @@ namespace Bachup_s_backup
             Size = config_JSON.size;
             Opacity = config_JSON.Opacity;
             current_effects = config_JSON.DragDropEffects;
-            if (config_JSON.RainbowMode) RainbowGenerator.Start();
+            if (config_JSON.Background == "Rainbow") RainbowGenerator.Start();
             else RainbowGenerator.Stop();
             AutoArrange();
             Refresh();
@@ -463,8 +520,9 @@ namespace Bachup_s_backup
             config_JSON.location = Location;
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
+            config_JSON.Background = Background;
             config_JSON.DragDropEffects = current_effects;
-            config_JSON.RainbowMode = RainbowGenerator.IsActive;
+            //config_JSON.RainbowMode = RainbowGenerator.IsActive;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.NickName)).ToList();
             File.WriteAllText(jsonPath, JsonSerializer.Serialize(config_JSON));
         }

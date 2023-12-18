@@ -12,6 +12,8 @@ namespace Bachup_s_backup
         public Point location { get; set; } = new(0, 0);
         public Size size { get; set; } = new(800, 450);
         public double Opacity { get; set; } = .700;
+        public string Background { get; set; } = "Defult";
+        public string? URL { get; set; } = null;
         public DragDropEffects DragDropEffects { get; set; } = DragDropEffects.Copy;
         public HotKeys Hotkey { get; set; } = new();
         public string DI_selectedColor { get; set; } = "#ADD8E6";
@@ -19,6 +21,5 @@ namespace Bachup_s_backup
         public string DI_ForeColor { get; set; } = "#000000";
         public Size DI_size { get; set; } = DI_size_opt.Medium;
         public List<DI_Json> DI_List { get; set; } = new();
-        public bool RainbowMode { get; set; } = false;
     }
 }
