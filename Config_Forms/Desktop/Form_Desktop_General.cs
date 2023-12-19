@@ -31,7 +31,7 @@ namespace Bachup_s_backup.Setting_items.form1
         private void Form_Desktop_General_Load(object sender, EventArgs e)
         {
             hScrollBar1.Value = (int)(ori * 100);
-            label1.Text = $"{ori}%";
+            label1.Text = $"{ori *100}%";
             label4.BackColor = Desktop_Instance.config_JSON.Defult_Color.Hex2Color();
             label4.ForeColor = label2.BackColor.GetContrastColor();
         }
