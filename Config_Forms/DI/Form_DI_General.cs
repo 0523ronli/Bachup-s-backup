@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Bachup_s_backup.Form1;
+using static Bachup_s_backup.MainDesktop;
 
 namespace Bachup_s_backup.Setting_items
 {
@@ -18,29 +18,31 @@ namespace Bachup_s_backup.Setting_items
         public Form_DI_General()
         {
             InitializeComponent();
+            radioButton1.Tag = Program.DI_size_opt.Small;
+            radioButton2.Tag = Program.DI_size_opt.Medium;
+            radioButton3.Tag = Program.DI_size_opt.Large;
         }
 
         private void Form_DI_Size_Load(object sender, EventArgs e)
         {
 
+            new List<RadioButton> { radioButton1, radioButton2, radioButton3 }.ForEach(x =>
+            {
+                x.CheckedChanged += (s, e) =>
+                {
+                    Desktop_Instance.config_JSON.DI_size = (Size)x.Tag!;
+                    Desktop_Instance.Refresh();
+                };
+                x.Checked = (Size)x.Tag == Desktop_Instance.config_JSON.DI_size;
+            });
+            
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Form1_Instance.config_JSON.DI_size = Program.DI_size_opt.Small;
-            Form1_Instance.Refresh();
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            Form1_Instance.config_JSON.DI_size = Program.DI_size_opt.Medium;
-            Form1_Instance.Refresh();
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            Form1_Instance.config_JSON.DI_size = Program.DI_size_opt.Large;
-            Form1_Instance.Refresh();
+            //Desktop_Instance.config_JSON.DI_Transparent = checkBox1.Checked;
+            Desktop_Instance.config_JSON.DI_Transparent = true;
+            Desktop_Instance.Refresh();
         }
     }
 }

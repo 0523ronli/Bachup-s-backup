@@ -34,7 +34,7 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             Grid1.Rows.Clear();
-            Form1.Form1_Instance.Controls.Cast<DesktopItem>().ToList().ForEach(x =>
+            MainDesktop.Desktop_Instance.Controls.Cast<DesktopItem>().ToList().ForEach(x =>
             {
                 Grid1.Rows.Add(new object[]
                 {

@@ -7,11 +7,11 @@ using System.Net;
 
 namespace Bachup_s_backup
 {
-    public partial class Form1 : Form
+    public partial class MainDesktop : Form
     {
         ContextMenuStrip RightClickMenu = new();
 
-        public static Form1 Form1_Instance;
+        public static MainDesktop Desktop_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public HashSet<DesktopItem> selected = new();
         public  Config_JSON config_JSON = new();  
@@ -36,9 +36,9 @@ namespace Bachup_s_backup
         [DllImport("user32.dll")]
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        public Form1()
+        public MainDesktop()
         {
-            Form1_Instance = this;
+            Desktop_Instance = this;
             TopMost = true;
             KeyPreview = true;
             DoubleBuffered = true;
@@ -136,21 +136,15 @@ namespace Bachup_s_backup
             
             //dragmode
 
-            List<ToolStripMenuItem> dragmode_opt = new()
-            {
+            List<ToolStripMenuItem> dragmode_opt =
+            [
                 new ToolStripMenuItem("Copy From Source") { CheckOnClick = true ,Tag=DragDropEffects.Copy},
                 new ToolStripMenuItem("Move Form Source") { CheckOnClick = true ,Tag=DragDropEffects.Move}
-            };
+            ];
             dragmode_opt.ForEach(x =>
             {
-                x.Click += (s, e) =>
-                {
-                    current_effects = (DragDropEffects)x.Tag;
-                };
-                x.Paint += (s, e) =>
-                {
-                    x.Checked = (DragDropEffects)x.Tag == current_effects;
-                };
+                x.Click += (s, e) => current_effects = (DragDropEffects)x.Tag; ;
+                x.Paint += (s, e) => x.Checked = (DragDropEffects)x.Tag == current_effects;
             });
             RCM_dragmode.DropDownItems.AddRange(dragmode_opt.ToArray());
 
@@ -162,21 +156,18 @@ namespace Bachup_s_backup
             };
 
             //add_di
-            List<ToolStripMenuItem> add_opt = new()
-            {
+            List<ToolStripMenuItem> add_opt =
+            [
                 new ToolStripMenuItem("File") { CheckOnClick = false, Tag = "File" },
                 new ToolStripMenuItem("Folder") { CheckOnClick = false, Tag = "Folder" }
-            };
+            ];
             add_opt.ForEach(x =>
             {
                 x.Click += (s, e) =>
                 {
                     if (x.Tag.ToString() == "File")
                     {
-                        OpenFileDialog OFD = new()
-                        {
-                            Multiselect = true
-                        };
+                        OpenFileDialog OFD = new() { Multiselect = true };
                         if (OFD.ShowDialog() != DialogResult.OK) return;
                         int i = 0;
                         foreach (string file in OFD.FileNames)
@@ -280,6 +271,7 @@ namespace Bachup_s_backup
             if (type == "Defult")
             {
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
+                config_JSON.URL = null;
                 Background = type;
                 BackgroundImage = null;
                 BackColor = config_JSON.Defult_Color.Hex2Color();
@@ -292,12 +284,12 @@ namespace Bachup_s_backup
                 }
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
                 TopMost = false;
-                string? URL = config_JSON.URL;
+                string? URL = config_JSON.Background_URL;
                 if (URL == null) URL = Microsoft.VisualBasic.Interaction.InputBox("Enter the image URL:", "Image URL", "");
                 TopMost = true;
                 if (!string.IsNullOrEmpty(URL))
                 {
-                    config_JSON.URL = URL;
+                    config_JSON.Background_URL = URL;
                     try
                     {
                         using (WebClient w = new())
@@ -561,7 +553,7 @@ namespace Bachup_s_backup
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            //TransparencyKey = Color.Aqua;
         }
     }
 }

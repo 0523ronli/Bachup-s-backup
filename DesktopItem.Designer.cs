@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
+            Label_Name = new Label();
             label_folder = new Label();
             pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -36,13 +36,13 @@
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label1.Location = new Point(12, 92);
-            label1.Name = "label1";
-            label1.Size = new Size(96, 19);
-            label1.TabIndex = 0;
-            label1.Text = "???";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            Label_Name.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Label_Name.Location = new Point(12, 92);
+            Label_Name.Name = "label1";
+            Label_Name.Size = new Size(96, 19);
+            Label_Name.TabIndex = 0;
+            Label_Name.Text = "???";
+            Label_Name.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label_folder
             // 
@@ -71,7 +71,7 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(120, 120);
             Controls.Add(label_folder);
-            Controls.Add(label1);
+            Controls.Add(Label_Name);
             Controls.Add(pictureBox1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "DesktopItem";
@@ -83,7 +83,7 @@
 
         #endregion
 
-        private Label label1;
+        private Label Label_Name;
         private PictureBox pictureBox1;
         private Label label_folder;
     }

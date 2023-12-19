@@ -20,9 +20,9 @@ namespace UItestv2
         {
             SettingMainForm.Instance.checkedbtn = this;
             SettingMainForm.Instance.ReFreshColor();
+            SettingMainForm.Instance.centerPenal.Controls.Clear();
             if (Linkform != null)
             {
-                SettingMainForm.Instance.centerPenal.Controls.Clear();
                 Linkform.FormBorderStyle = FormBorderStyle.None;
                 Linkform.Dock = DockStyle.Fill;
                 Linkform.TopLevel = false;

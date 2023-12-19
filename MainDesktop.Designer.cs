@@ -1,6 +1,6 @@
 ﻿namespace Bachup_s_backup
 {
-    partial class Form1
+    partial class MainDesktop
     {
         /// <summary>
         ///  Required designer variable.
