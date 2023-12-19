@@ -32,7 +32,12 @@
             label1 = new Label();
             label2 = new Label();
             groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
+            label4 = new Label();
+            label3 = new Label();
+            colorDialog1 = new ColorDialog();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // hScrollBar1
@@ -75,11 +80,44 @@
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(label4);
+            groupBox2.Controls.Add(label3);
+            groupBox2.Location = new Point(12, 72);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(884, 54);
+            groupBox2.TabIndex = 7;
+            groupBox2.TabStop = false;
+            // 
+            // label4
+            // 
+            label4.BackColor = SystemColors.AppWorkspace;
+            label4.BorderStyle = BorderStyle.FixedSingle;
+            label4.ForeColor = SystemColors.ControlText;
+            label4.Location = new Point(208, 17);
+            label4.Name = "label4";
+            label4.Size = new Size(141, 30);
+            label4.TabIndex = 9;
+            label4.Text = "Click to change";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
+            label4.Click += label4_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 23);
+            label3.Name = "label3";
+            label3.Size = new Size(186, 19);
+            label3.TabIndex = 8;
+            label3.Text = "Desktop Defult BackColor";
+            // 
             // Form_Desktop_General
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(908, 448);
+            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_Desktop_General";
@@ -87,6 +125,8 @@
             Load += Form_Desktop_General_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -96,5 +136,9 @@
         private Label label1;
         private Label label2;
         private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private Label label4;
+        private Label label3;
+        private ColorDialog colorDialog1;
     }
 }
