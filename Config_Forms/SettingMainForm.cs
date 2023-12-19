@@ -81,7 +81,6 @@ namespace UItestv2
                     new Subbtn() { Text = "General", Linkform = new Form_DI_General() },
                     new Subbtn() {Text="Color",Linkform = new Form_DI_Color()},
                     new Subbtn() {Text="Item Manager", Linkform = new Form_All_DI()},
-
                 ]
             });
             originalleftbtn.Add(new Leftbtn()
@@ -91,13 +90,17 @@ namespace UItestv2
             });
             originalleftbtn.Add(new Leftbtn()
             {
+                Text = "Temp Folder",
+                Linkform = new Form_Temps()
+            });
+            originalleftbtn.Add(new Leftbtn()
+            {
                 Text = "Restore to Default",
                 ToRun = () => {
                     if (MessageBox.Show("Are you sure about it?","Default all config",MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                     centerPenal.Controls.Clear();
                     MainDesktop.Desktop_Instance.config_JSON = new Config_JSON() { DI_List = MainDesktop.Desktop_Instance.config_JSON.DI_List };
                     MainDesktop.Desktop_Instance.ReadJSON(false);
-                    //Form1.Form1_Instance.Refresh();
                 }
             });
             leftrestore();

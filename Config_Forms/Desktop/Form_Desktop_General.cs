@@ -24,7 +24,7 @@ namespace Bachup_s_backup.Setting_items.form1
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             double opac = (double)hScrollBar1.Value / 100;
-            label1.Text = $"{opac *100}%";
+            label1.Text = $"{opac * 100}%";
             if (opac != 0.0f) Desktop_Instance.Opacity = opac;
         }
 
