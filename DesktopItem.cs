@@ -170,7 +170,7 @@ namespace Bachup_s_backup
             {
                 RightClickMenu.Show(this, e.Location);
             }
-            Refresh();
+            Desktop_Instance.Refresh();
         }
         private void onMouseMove(object? sender, MouseEventArgs e)
         {
@@ -212,8 +212,9 @@ namespace Bachup_s_backup
             BackColor = Desktop_Instance.selected.Contains(this) ?
                 Desktop_Instance.config_JSON.DI_selectedColor.Hex2Color() :
                 Desktop_Instance.config_JSON.DI_BackColor.Hex2Color();
-            if (Desktop_Instance.config_JSON.DI_Transparent) TransparencyKey = BackColor;
-            else TransparencyKey = Color.Empty;
+            //if (Desktop_Instance.config_JSON.DI_Transparent) BackColor = Color.Transparent;
+            //if (Desktop_Instance.config_JSON.DI_Transparent) TransparencyKey = BackColor;
+            //else TransparencyKey = Color.Empty;
             Size = Desktop_Instance.config_JSON.DI_size;
         }
 

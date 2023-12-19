@@ -32,7 +32,6 @@
             radioButton3 = new RadioButton();
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
-            checkBox1 = new CheckBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -82,24 +81,11 @@
             radioButton1.Text = "Smail Icon";
             radioButton1.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(18, 129);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(185, 23);
-            checkBox1.TabIndex = 3;
-            checkBox1.Text = "Transparent Backcolor";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.Visible = false;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            // 
             // Form_DI_General
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(638, 320);
-            Controls.Add(checkBox1);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_DI_General";
@@ -108,7 +94,6 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         private void Submit_Click(object sender, EventArgs e)
@@ -121,6 +106,5 @@
         private RadioButton radioButton1;
         private RadioButton radioButton3;
         private RadioButton radioButton2;
-        private CheckBox checkBox1;
     }
 }

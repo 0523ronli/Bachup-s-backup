@@ -42,7 +42,7 @@ namespace Bachup_s_backup
             TopMost = true;
             KeyPreview = true;
             DoubleBuffered = true;
-            RainbowGenerator = new(Opacity, 8f, this);
+            RainbowGenerator = new(Opacity, .8f, this);
 
             InitializeComponent();
             ReadJSON();
@@ -350,6 +350,7 @@ namespace Bachup_s_backup
                 RightClickMenu.Show(this, e.Location);
                 Rclick_pos = e.Location;
             }
+            Refresh();        
         }
 
         private void onDragEnter(object? s, DragEventArgs e)
@@ -455,6 +456,7 @@ namespace Bachup_s_backup
                     {
                         foreach (var item in selected.ToList())
                         {
+                            if (item.Intemp) File.Delete(item.FilePath);
                             Controls.Remove(item);
                             selected.Remove(item);
                             item.Dispose();

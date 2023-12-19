@@ -37,12 +37,5 @@ namespace Bachup_s_backup.Setting_items
             });
             
         }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            //Desktop_Instance.config_JSON.DI_Transparent = checkBox1.Checked;
-            Desktop_Instance.config_JSON.DI_Transparent = true;
-            Desktop_Instance.Refresh();
-        }
     }
 }
