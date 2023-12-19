@@ -99,6 +99,7 @@ namespace UItestv2
                 ToRun = () => {
                     if (MessageBox.Show("Are you sure about it?","Default all config",MessageBoxButtons.OKCancel) != DialogResult.OK) return;
                     centerPenal.Controls.Clear();
+                    MainDesktop.Desktop_Instance.BackgroundImage = null;
                     MainDesktop.Desktop_Instance.config_JSON = new Config_JSON() { DI_List = MainDesktop.Desktop_Instance.config_JSON.DI_List };
                     MainDesktop.Desktop_Instance.ReadJSON(false);
                 }
