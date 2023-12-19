@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text.Json;
 using UItestv2;
 using System.Net;
+using Microsoft.Win32;
 
 namespace Bachup_s_backup
 {
@@ -48,6 +49,7 @@ namespace Bachup_s_backup
             ReadJSON();
             RegistHotkey();
             InitRCM();
+            AutoStartUp();
 
             KeyDown += onKeyDown;
             MouseDown += onMouseDown;
@@ -555,6 +557,28 @@ namespace Bachup_s_backup
             else
             {
                 BackColor = config_JSON.Defult_Color.Hex2Color();
+            }
+        }
+
+        private void AutoStartUp()
+        {
+            try
+            {
+                string appPath = Application.ExecutablePath;
+                if (!string.IsNullOrEmpty(appPath))
+                {
+                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                    {
+                        if (key.GetValue("FloatDesktop") == null && key != null)
+                        {
+                            key.SetValue("FloatDesktop", appPath);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error registering the application for startup: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
