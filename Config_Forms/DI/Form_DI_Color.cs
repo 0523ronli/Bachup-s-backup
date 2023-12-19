@@ -36,7 +36,7 @@ namespace Bachup_s_backup
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 label2.BackColor = colorDialog.Color;
-                label2.ForeColor = GetContrastColor(label2.BackColor);
+                label2.ForeColor = label2.BackColor.GetContrastColor();
                 Desktop_Instance.config_JSON.DI_BackColor = colorDialog.Color.Color2Hex();
                 Desktop_Instance.Refresh();
             }
@@ -47,7 +47,7 @@ namespace Bachup_s_backup
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 label4.BackColor = colorDialog.Color;
-                label4.ForeColor = GetContrastColor(label2.BackColor);
+                label4.ForeColor = label2.BackColor.GetContrastColor();
                 Desktop_Instance.config_JSON.DI_ForeColor = colorDialog.Color.Color2Hex();
                 Desktop_Instance.Refresh();
             }

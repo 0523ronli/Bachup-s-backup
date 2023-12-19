@@ -271,7 +271,6 @@ namespace Bachup_s_backup
             if (type == "Defult")
             {
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
-                config_JSON.URL = null;
                 Background = type;
                 BackgroundImage = null;
                 BackColor = config_JSON.Defult_Color.Hex2Color();
@@ -284,12 +283,12 @@ namespace Bachup_s_backup
                 }
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
                 TopMost = false;
-                string? URL = config_JSON.Background_URL;
+                string? URL = config_JSON.URL;
                 if (URL == null) URL = Microsoft.VisualBasic.Interaction.InputBox("Enter the image URL:", "Image URL", "");
                 TopMost = true;
                 if (!string.IsNullOrEmpty(URL))
                 {
-                    config_JSON.Background_URL = URL;
+                    config_JSON.URL = URL;
                     try
                     {
                         using (WebClient w = new())
