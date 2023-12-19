@@ -41,6 +41,7 @@ namespace Bachup_s_backup
             Desktop_Instance = this;
             TopMost = true;
             KeyPreview = true;
+            DoubleBuffered = true;
             RainbowGenerator = new(Opacity, 8f, this);
 
             InitializeComponent();
@@ -112,7 +113,6 @@ namespace Bachup_s_backup
 
             RCM_view.DropDownItems.Add(new ToolStripSeparator());
 
-            //nano is gay
 
             RCM_view.DropDownItems.AddRange(new List<ToolStripMenuItem>()
             {
@@ -150,7 +150,12 @@ namespace Bachup_s_backup
 
             RCM_setting.Click += (s, e) =>
             {
-                if (!SettingMainForm.Instance.Visible) SettingMainForm.Instance.ShowDialog();
+
+                if (!SettingMainForm.Instance.Visible) {
+                    TopMost = false;
+                    SettingMainForm.Instance.ShowDialog();
+                    TopMost = true;
+                } 
             };
 
             //add_di
@@ -458,7 +463,9 @@ namespace Bachup_s_backup
                     {
                         if (!SettingMainForm.Instance.Visible)
                         {
+                            TopMost = false;
                             SettingMainForm.Instance.ShowDialog();
+                            TopMost = true;
                         }
                     }
                     if (m.WParam == config_JSON.Hotkey.Close.ID)

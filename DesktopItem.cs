@@ -117,8 +117,14 @@ namespace Bachup_s_backup
             RCM_delete.Font = new Font(RCM_delete.Font, FontStyle.Bold);
             RCM_delete.Click += (s, e) =>
             {
+                
                 Desktop_Instance.selected.ToList().ForEach(x =>
                 {
+                    if (x.Intemp)
+                    {
+                        if (File.Exists(x.FilePath)) File.Delete(x.FilePath);
+                        else if (Directory.Exists(x.FilePath)) Directory.Delete(x.FilePath, true);
+                    }
                     x.Dispose();
                 });
                 Desktop_Instance.selected.Clear();
@@ -182,12 +188,7 @@ namespace Bachup_s_backup
                 new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{FilePath}\"" } }.Start();
             }
         }
-
-        private void InitVarieties()
-        {
-            
-        }
-
+          
         private void InitPictureBox()
         {
             if ((File.GetAttributes(FilePath) & FileAttributes.Directory) != FileAttributes.Directory)

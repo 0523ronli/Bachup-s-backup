@@ -12,6 +12,7 @@ namespace Bachup_s_backup
         public TransparentPanel()
         {
             Dock = DockStyle.Fill;
+            BackColor = Color.Empty;
         }
         protected override CreateParams CreateParams
         {
