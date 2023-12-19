@@ -18,17 +18,12 @@ namespace Bachup_s_backup
             InitializeComponent();
             //propertyGrid1.SelectedObject = new DI_color_property();
         }
-        private Color GetContrastColor(Color backgroundColor)
-        {
-            double luminance = (0.299 * backgroundColor.R + 0.587 * backgroundColor.G + 0.114 * backgroundColor.B) / 255;
-            return luminance > 0.5 ? Color.Black : Color.White;
-        }
         private void Form_DI_Color_Load(object sender, EventArgs e)
         {
             label2.BackColor = Form1_Instance.config_JSON.DI_BackColor.Hex2Color();
-            label2.ForeColor = GetContrastColor(label2.BackColor);
+            label2.ForeColor = label2.BackColor.GetContrastColor();
             label4.BackColor = Form1_Instance.config_JSON.DI_ForeColor.Hex2Color();
-            label4.ForeColor = GetContrastColor(label4.BackColor);
+            label4.ForeColor = label4.BackColor.GetContrastColor();
         }
 
         private string ColorToHex(Color c)
@@ -41,7 +36,7 @@ namespace Bachup_s_backup
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 label2.BackColor = colorDialog.Color;
-                label2.ForeColor = GetContrastColor(label2.BackColor);
+                label2.ForeColor = label2.BackColor.GetContrastColor();
                 Form1_Instance.config_JSON.DI_BackColor = colorDialog.Color.Color2Hex();
                 Form1_Instance.Refresh();
             }
@@ -52,7 +47,7 @@ namespace Bachup_s_backup
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 label4.BackColor = colorDialog.Color;
-                label4.ForeColor = GetContrastColor(label2.BackColor);
+                label4.ForeColor = label2.BackColor.GetContrastColor();
                 Form1_Instance.config_JSON.DI_ForeColor = colorDialog.Color.Color2Hex();
                 Form1_Instance.Refresh();
             }

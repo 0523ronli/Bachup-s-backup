@@ -104,6 +104,7 @@ namespace Bachup_s_backup
         public static string Color2Hex(this Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         public static string GetKeyName(this Keys keyCode) => Enum.GetName(typeof(Keys), keyCode)??"gay";
         public static string FullPath(this string path)=> Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        public static Color GetContrastColor(this Color backgroundColor) => ((0.299 * backgroundColor.R + 0.587 * backgroundColor.G + 0.114 * backgroundColor.B) / 255) > 0.5 ? Color.Black : Color.White;
     }
 
     public class RainbowGenerator

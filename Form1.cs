@@ -41,6 +41,7 @@ namespace Bachup_s_backup
             Form1_Instance = this;
             TopMost = true;
             KeyPreview = true;
+            DoubleBuffered = true;
             RainbowGenerator = new(Opacity, 8f, this);
 
             InitializeComponent();
@@ -123,7 +124,8 @@ namespace Bachup_s_backup
             {
                 x.Click += (s, e) =>
                 {
-                    ChangeBackImage((string)x.Tag);
+                    if (Background == "Image") ChangeBackImage((string)x.Tag, true);
+                    else ChangeBackImage((string)x.Tag);
                 };
                 x.Paint += (s, e) =>
                 {
@@ -273,18 +275,21 @@ namespace Bachup_s_backup
             }
         }
 
-        private void  ChangeBackImage(string type)
+        public void ChangeBackImage(string type, bool? isCheck = null)
         {
             if (type == "Defult")
             {
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
-                config_JSON.URL = null;
                 Background = type;
                 BackgroundImage = null;
-                BackColor = SystemColors.Control;
+                BackColor = config_JSON.Defult_Color.Hex2Color();
             }
             else if (type == "Image")
             {
+                if (isCheck == true && MessageBox.Show("Are you sure about it?", "Reset Image", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    config_JSON.URL = null;
+                }
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
                 TopMost = false;
                 string? URL = config_JSON.URL;
@@ -304,21 +309,19 @@ namespace Bachup_s_backup
                             }
                         }
                         Background = type;
-                        foreach(DesktopItem item in Controls)
-                        {
-                            //TODO add transparent to DI's
-                        }
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("Error loading the image: " + e.Message);
+                        MessageBox.Show("Error loading the image: " + e.Message + "\nUsing Defult Background");
+                        config_JSON.URL = null;
+                        ChangeBackImage("Defult");
                     }
                 }
+                
             }
             else if(type == "Rainbow")
             {
                 Background = type;
-                config_JSON.URL = null;
                 BackgroundImage = null;
                 RainbowGenerator.Start();
             }
@@ -552,7 +555,7 @@ namespace Bachup_s_backup
             }
             else
             {
-                BackColor = SystemColors.Control;
+                BackColor = config_JSON.Defult_Color.Hex2Color();
             }
         }
 

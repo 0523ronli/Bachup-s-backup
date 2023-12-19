@@ -13,6 +13,7 @@ namespace Bachup_s_backup
         public Size size { get; set; } = new(800, 450);
         public double Opacity { get; set; } = .700;
         public string Background { get; set; } = "Defult";
+        public string Defult_Color { get; set; } = SystemColors.Control.Color2Hex();
         public string? URL { get; set; } = null;
         public DragDropEffects DragDropEffects { get; set; } = DragDropEffects.Copy;
         public HotKeys Hotkey { get; set; } = new();
