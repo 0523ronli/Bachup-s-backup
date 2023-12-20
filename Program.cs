@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System.Windows.Forms;
 using UItestv2;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;

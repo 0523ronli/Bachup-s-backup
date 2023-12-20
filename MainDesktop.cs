@@ -17,7 +17,6 @@ namespace Bachup_s_backup
         public HashSet<DesktopItem> selected = new();
         public  Config_JSON config_JSON = new();  
         public bool autoArrange = true;
-        public string Background = "Defult";
         public RainbowGenerator RainbowGenerator;
         public ArrangeMode arrangeMode = ArrangeMode.Row;
         public bool DI_visable = true;
@@ -57,7 +56,27 @@ namespace Bachup_s_backup
             DragDrop += onDragDrop;
             FormClosed += onFormClosed;
         }
-
+        private void AutoStartUp()
+        {
+            try
+            {
+                string appPath = Application.ExecutablePath;
+                if (!string.IsNullOrEmpty(appPath))
+                {
+                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                    {
+                        if (key.GetValue("FloatDesktop") == null && key != null)
+                        {
+                            key.SetValue("FloatDesktop", appPath);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error registering the application for startup: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void InitRCM()
         {
             ToolStripMenuItem RCM_view = new("View");
@@ -125,12 +144,12 @@ namespace Bachup_s_backup
             {
                 x.Click += (s, e) =>
                 {
-                    if (Background == "Image") ChangeBackImage((string)x.Tag, true);
+                    if (config_JSON.Background == "Image") ChangeBackImage((string)x.Tag, true);
                     else ChangeBackImage((string)x.Tag);
                 };
                 x.Paint += (s, e) =>
                 {
-                    x.Checked = (string)x.Tag == Background;
+                    x.Checked = (string)x.Tag == config_JSON.Background;
                 };
                 return x;
             }).ToArray());
@@ -277,7 +296,7 @@ namespace Bachup_s_backup
             if (type == "Defult")
             {
                 if (RainbowGenerator.IsActive) RainbowGenerator.Stop();
-                Background = type;
+                config_JSON.Background = type;
                 BackgroundImage = null;
                 BackColor = config_JSON.Defult_Color.Hex2Color();
             }
@@ -305,7 +324,7 @@ namespace Bachup_s_backup
                                 BackgroundImage = Image.FromStream(stream);
                             }
                         }
-                        Background = type;
+                        config_JSON.Background = type;
                     }
                     catch (Exception e)
                     {
@@ -318,7 +337,7 @@ namespace Bachup_s_backup
             }
             else if(type == "Rainbow")
             {
-                Background = type;
+                config_JSON.Background = type;
                 BackgroundImage = null;
                 RainbowGenerator.Start();
             }
@@ -524,7 +543,6 @@ namespace Bachup_s_backup
             config_JSON.location = Location;
             config_JSON.size = Size;
             config_JSON.Opacity = Opacity;
-            config_JSON.Background = Background;
             config_JSON.DragDropEffects = current_effects;
             //config_JSON.RainbowMode = RainbowGenerator.IsActive;
             config_JSON.DI_List = Controls.Cast<DesktopItem>().Select(f => new DI_Json(f.Location, f.FilePath, f.NickName)).ToList();

@@ -76,17 +76,18 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(884, 54);
+            groupBox1.Size = new Size(864, 54);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(label3);
             groupBox2.Location = new Point(12, 72);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(884, 54);
+            groupBox2.Size = new Size(864, 54);
             groupBox2.TabIndex = 7;
             groupBox2.TabStop = false;
             // 
@@ -116,7 +117,7 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(908, 448);
+            ClientSize = new Size(888, 448);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.None;
