@@ -188,16 +188,29 @@ namespace Bachup_s_backup
                 new Process() { StartInfo = new ProcessStartInfo() { FileName = "explorer", Arguments = $"\"{FilePath}\"" } }.Start();
             }
         }
-          
+
         private void InitPictureBox()
         {
             if ((File.GetAttributes(FilePath) & FileAttributes.Directory) != FileAttributes.Directory)
             {
                 try
                 {
-                    pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)!.ToBitmap();
+                    using (FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                    {
+                        try
+                        {
+                            Image image = Image.FromStream(stream);
+                            pictureBox1.Image = image;
+                        }
+                        catch (Exception)
+                        {
+                            pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
+                        }
+                    }
                 }
-                catch (Exception) { }
+                catch (Exception)
+                {
+                }
             }
         }
         protected override void OnPaint(PaintEventArgs e=null!)
