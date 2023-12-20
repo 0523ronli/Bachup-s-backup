@@ -5,6 +5,8 @@ using System.Text.Json;
 using UItestv2;
 using System.Net;
 using Microsoft.Win32;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
 
 namespace Bachup_s_backup
 {
@@ -61,22 +63,25 @@ namespace Bachup_s_backup
             try
             {
                 string appPath = Application.ExecutablePath;
-                if (!string.IsNullOrEmpty(appPath))
+                string startupFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup));
+                string shortcutPath = Path.Combine(startupFolderPath, "FloatDesktop.lnk");
+
+                if (File.Exists(shortcutPath))
                 {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
-                    {
-                        if (key.GetValue("FloatDesktop") == null && key != null)
-                        {
-                            key.SetValue("FloatDesktop", appPath);
-                        }
-                    }
+                    File.Delete(shortcutPath);
                 }
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+
+                shortcut.TargetPath = appPath;
+                shortcut.Save();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error registering the application for startup: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error creating the shortcut: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void InitRCM()
         {
             ToolStripMenuItem RCM_view = new("View");
@@ -404,6 +409,7 @@ namespace Bachup_s_backup
                         if (DesktopItem.SaveCreate(file) is DesktopItem DI)
                         {
                             DI.Location = new(M_Pos.X - Location.X - DI.Width / 2 + i * (config_JSON.DI_size.Width + 10), M_Pos.Y - Location.Y - DI.Height / 2);
+                            
                             Controls.Add(DI);
                             GC.Collect();
                             i++;
@@ -577,29 +583,6 @@ namespace Bachup_s_backup
                 BackColor = config_JSON.Defult_Color.Hex2Color();
             }
         }
-
-        private void AutoStartUp()
-        {
-            try
-            {
-                string appPath = Application.ExecutablePath;
-                if (!string.IsNullOrEmpty(appPath))
-                {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
-                    {
-                        if (key.GetValue("FloatDesktop") == null && key != null)
-                        {
-                            key.SetValue("FloatDesktop", appPath);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error registering the application for startup: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             //TransparencyKey = Color.Aqua;
