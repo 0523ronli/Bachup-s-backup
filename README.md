@@ -1,5 +1,6 @@
-# Project Title
-Floting Desktop
+# Floting Desktop
+### Bread on Wheel !
+<img src="/assets/breadcar.gif" alt="麵包車" width="300">
 
 ## Table of Contents
 - [Why](#why)
@@ -12,7 +13,7 @@ Floting Desktop
 <p>We think that our desktop is quite all the times and its hard to clean it up when its messy,</p>
 <p>so we want to make a floating window that can do everything that you can do in your desktop.</p>
 <p>Even it is not messy, you can still use it to make your desktop more beautiful and clean.</p>
-<p><strong>What's more! You can look at your [Desktop Image](/assets/img01.jpg) with no items on it.</strong>
+<p><strong>What's more! You can look at your [Desktop Image](assets/img01.jpg) with no items on it.</strong></p>
 
 ## How
 Using C# Window Form with base and thats it.
@@ -24,11 +25,20 @@ Using C# Window Form with base and thats it.
 
 
 ## Contributors
-- [0523ronli](https://github.com/0523ronli/) Project Manager/ Main Developer
-- [69you](https://github.com/69you/) Developert
-- [MelonLafa](https://github.com/MelonLafa/) Developer
+<div style="display: flex; align-items: center;">
+  <img src="https://avatars.githubusercontent.com/0523ronli" alt="0523ronli" width="50" height="50" style="border-radius: 60%;">
+  <span style="margin-left: 10px;">Project Manager/Main Developer</span>
+</div><p></p>
+<div style="display: flex; align-items: center;">
+  <img src="https://avatars.githubusercontent.com/69you" alt="69you" width="50" height="50" style="border-radius: 60%;">
+  <span style="margin-left: 10px;">Developer</span>
+</div><p></p>
+<div style="display: flex; align-items: center;">
+  <img src="https://avatars.githubusercontent.com/MelonLafa" alt="MelonLafa" width="50" height="50" style="border-radius: 60%;">
+  <span style="margin-left: 10px;">Developer</span>
+</div>
 
 ## Installation
-<p>Download the zip file through [here](/releases/lastest) and extract it, then run the .exe file.</p>
+<p>Download the zip file through [here](/releases/latest) and extract it, then run the .exe file.</p>
 <p>All you need to do after you run the exe is to figure how to use it.</p>
 You only to need to download the zip file once, it will be automatically started when you open your computer.
