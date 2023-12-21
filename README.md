@@ -26,15 +26,15 @@ Using C# Window Form with base and thats it.
 
 ## Contributors
 <div style="display: flex; align-items: center;">
-  <img src="https://avatars.githubusercontent.com/0523ronli" alt="0523ronli" width="50" height="50" style="border-radius: 60%;">
+  <img src="/assets/0523ronli.png" alt="0523ronli" width="50" height="50" style="border-radius: 60%;">
   <span style="margin-left: 10px;">Project Manager/Main Developer</span>
 </div><p></p>
 <div style="display: flex; align-items: center;">
-  <img src="https://avatars.githubusercontent.com/69you" alt="69you" width="50" height="50" style="border-radius: 60%;">
+  <img src="/assets/69you.png" alt="69you" width="50" height="50" style="border-radius: 60%;">
   <span style="margin-left: 10px;">Developer</span>
 </div><p></p>
 <div style="display: flex; align-items: center;">
-  <img src="https://avatars.githubusercontent.com/MelonLafa" alt="MelonLafa" width="50" height="50" style="border-radius: 60%;">
+  <img src="/assets/MelonLafa.png" alt="MelonLafa" width="50" height="50" style="border-radius: 60%;">
   <span style="margin-left: 10px;">Developer</span>
 </div>
 
