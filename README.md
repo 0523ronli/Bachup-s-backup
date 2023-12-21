@@ -1,6 +1,6 @@
 # Floting Desktop
 ### Bread on Wheel !
-<img src="/assets/breadcar.gif" alt="麵包車" width="300">
+<img src="/assets/breadcar.gif" alt="麵包車" width="500">
 
 ## Table of Contents
 - [Why](#why)
@@ -13,7 +13,7 @@
 <p>We think that our desktop is quite all the times and its hard to clean it up when its messy,</p>
 <p>so we want to make a floating window that can do everything that you can do in your desktop.</p>
 <p>Even it is not messy, you can still use it to make your desktop more beautiful and clean.</p>
-<p><strong>What's more! You can look at your [Desktop Image](assets/img01.jpg) with no items on it.</strong></p>
+<p><strong>What's more! You can look at your <a href="/assets/breadcar.gif">Desktop Image</a> with no items on it.</strong></p>
 
 ## How
 Using C# Window Form with base and thats it.
@@ -26,19 +26,20 @@ Using C# Window Form with base and thats it.
 
 ## Contributors
 <div style="display: flex; align-items: center;">
-  <img src="/assets/0523ronli.png" alt="0523ronli" width="50" height="50" style="border-radius: 60%;">
-  <span style="margin-left: 10px;">Project Manager/Main Developer</span>
+  <img src="/assets/0523ronli.png" alt="0523ronli" width="50" height="50"">
+  <span style="display: inline-block; vertical-align: middle;">Project Manager/Main Developer</span>
 </div><p></p>
 <div style="display: flex; align-items: center;">
-  <img src="/assets/69you.png" alt="69you" width="50" height="50" style="border-radius: 60%;">
-  <span style="margin-left: 10px;">Developer</span>
+  <img src="/assets/69you.png" alt="69you" width="50" height="50">
+  <span style="display: inline-block; vertical-align: middle;">Developer</span>
 </div><p></p>
 <div style="display: flex; align-items: center;">
-  <img src="/assets/MelonLafa.png" alt="MelonLafa" width="50" height="50" style="border-radius: 60%;">
-  <span style="margin-left: 10px;">Developer</span>
+  <img src="/assets/MelonLafa.png" alt="MelonLafa" width="50" height="50">
+  <span style="display: inline-block; vertical-align: middle;">Developer</span>
 </div>
 
+
 ## Installation
-<p>Download the zip file through [here](/releases/latest) and extract it, then run the .exe file.</p>
+<p>Download the zip file through <a href="/releases/latest">here</a> and extract it, then run the .exe file.</p>
 <p>All you need to do after you run the exe is to figure how to use it.</p>
 You only to need to download the zip file once, it will be automatically started when you open your computer.
