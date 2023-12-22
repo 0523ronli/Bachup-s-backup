@@ -31,6 +31,7 @@ namespace UItestv2
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingMainForm));
             foldablePanel = new Panel();
             centerPenal = new Panel();
             SuspendLayout();
@@ -64,6 +65,7 @@ namespace UItestv2
             ClientSize = new Size(1137, 711);
             Controls.Add(centerPenal);
             Controls.Add(foldablePanel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Margin = new Padding(4);
             Name = "SettingMainForm";
