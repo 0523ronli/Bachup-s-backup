@@ -13,7 +13,7 @@
 <p>We think that our desktop is quite all the times and its hard to clean it up when its messy,</p>
 <p>so we want to make a floating window that can do everything that you can do in your desktop.</p>
 <p>Even it is not messy, you can still use it to make your desktop more beautiful and clean.</p>
-<p><strong>What's more! You can look at your <a href="/assets/breadcar.gif">Desktop Image</a> with no items on it.</strong></p>
+<p><strong>What's more! You can look at your <a href="https://raw.githubusercontent.com/0523ronli/Floating-Desktop/main/assets/breadcar.gif">Desktop Image</a> with no items on it.</strong></p>
 
 ## How
 Using C# Window Form with base and thats it.
