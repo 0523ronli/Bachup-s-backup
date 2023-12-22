@@ -40,6 +40,6 @@ Using C# Window Form with base and thats it.
 
 
 ## Installation
-<p>Download the zip file through <a href="/releases/latest">here</a> and extract it, then run the .exe file.</p>
+<p>Download the zip file through <a href="../../releases/latest">here</a> and extract it, then run the .exe file.</p>
 <p>All you need to do after you run the exe is to figure how to use it.</p>
 You only to need to download the zip file once, it will be automatically started when you open your computer.
