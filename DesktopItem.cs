@@ -1,10 +1,12 @@
 ﻿using Bachup_s_backup;
 using System;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using static Bachup_s_backup.MainDesktop;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Bachup_s_backup
 {
@@ -191,26 +193,31 @@ namespace Bachup_s_backup
 
         private void InitPictureBox()
         {
-            if ((File.GetAttributes(FilePath) & FileAttributes.Directory) != FileAttributes.Directory)
+            try
             {
-                try
+                using (FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
                 {
-                    using (FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                    try
                     {
-                        try
+                        Image image = Image.FromStream(stream); ;
+                        if (ImageAnimator.CanAnimate(image))
                         {
-                            Image image = Image.FromStream(stream);
-                            pictureBox1.Image = image;
+                            pictureBox1.Image = Program.GIFToImage(FilePath);
                         }
-                        catch (Exception)
+                        else
                         {
-                            pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
+                            pictureBox1.Image = Image.FromStream(stream);;
                         }
                     }
+                    catch (Exception)
+                    {
+                        pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
+                    }
                 }
-                catch (Exception)
-                {
-                }
+            }
+            catch (Exception)
+            {
+                pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
             }
         }
         protected override void OnPaint(PaintEventArgs e=null!)
