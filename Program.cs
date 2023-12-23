@@ -21,7 +21,6 @@ namespace Bachup_s_backup
             SettingMainForm _ = new();
             Application.Run(new MainDesktop());
             //Application.Run(new Form2Test());
-            //Application.Run(new SettingMainForm());
         }
         public static string TempPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\..\local\Floating Desktop".FullPath();
 
