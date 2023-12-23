@@ -54,10 +54,14 @@ namespace Bachup_s_backup
 
             KeyDown += onKeyDown;
             MouseDown += onMouseDown;
+            DoubleClick += MainDesktop_DoubleClick;
             DragEnter += onDragEnter;
             DragDrop += onDragDrop;
             FormClosed += onFormClosed;
         }
+
+        
+
         private void AutoStartUp()
         {
             try
@@ -376,9 +380,14 @@ namespace Bachup_s_backup
                 RightClickMenu.Show(this, e.Location);
                 Rclick_pos = e.Location;
             }
-            Refresh();        
+            Refresh();
         }
-
+        private void MainDesktop_DoubleClick(object? sender, EventArgs e)
+        {
+            Capture=false;
+            Message msg = Message.Create(Handle, 0x0203, 2, 0);
+            WndProc(ref msg);
+        }
         private void onDragEnter(object? s, DragEventArgs e)
         {
             e.Effect = current_effects;
@@ -445,6 +454,7 @@ namespace Bachup_s_backup
             UnregisterHotKey(Handle, config_JSON.Hotkey.Setting.ID);
             UnregisterHotKey(Handle, config_JSON.Hotkey.Close.ID);
             UnregisterHotKey(Handle, config_JSON.Hotkey.Switch_DI_Visable.ID);
+            UnregisterHotKey(Handle, config_JSON.Hotkey.Switch_Full_Screen.ID);
         }
         public void RegistHotkey()
         {
@@ -454,6 +464,7 @@ namespace Bachup_s_backup
             RegisterHotKey(Handle, config_JSON.Hotkey.Setting.ID, 1, (int)config_JSON.Hotkey.Setting.Key);
             RegisterHotKey(Handle, config_JSON.Hotkey.Close.ID, 1, (int)config_JSON.Hotkey.Close.Key);
             RegisterHotKey(Handle, config_JSON.Hotkey.Switch_DI_Visable.ID, 1, (int)config_JSON.Hotkey.Switch_DI_Visable.Key);
+            RegisterHotKey(Handle, config_JSON.Hotkey.Switch_Full_Screen.ID, 1, (int)config_JSON.Hotkey.Switch_Full_Screen.Key);
         }
 
         protected override void WndProc(ref Message m)
@@ -506,6 +517,18 @@ namespace Bachup_s_backup
                     if (m.WParam == config_JSON.Hotkey.Switch_DI_Visable.ID)
                     {
                         DI_visable = !DI_visable;
+                        Refresh();
+                    }
+                    if (m.WParam == config_JSON.Hotkey.Switch_Full_Screen.ID)
+                    {
+                        if (WindowState == FormWindowState.Maximized)
+                        {
+                            WindowState = FormWindowState.Normal;
+                        }
+                        else
+                        {
+                            WindowState = FormWindowState.Maximized;
+                        }
                         Refresh();
                     }
                     break;
