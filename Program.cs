@@ -114,6 +114,11 @@ namespace Bachup_s_backup
             ID = 6,
             Key = Keys.F
         };
+        public Hotkey Switch_Full_Screen { get; set; } = new()
+        {
+            ID = 7,
+            Key = Keys.F11
+        };
     }
     public static class ext
     {

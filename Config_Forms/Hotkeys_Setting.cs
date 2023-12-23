@@ -41,7 +41,7 @@ namespace Bachup_s_backup
                 }
             };
             
-            new List<Label> { HKSetter_Visable, HKSetter_Dragmode, HKSetter_Setting, HKSetter_Close, HKSetter_DI_Visible }.ForEach(x =>
+            new List<Label> { HKSetter_Visable, HKSetter_Dragmode, HKSetter_Setting, HKSetter_Close, HKSetter_DI_Visible,HKSetter_Full }.ForEach(x =>
             {
                 x.MouseDown += (s, e) =>
                 {
@@ -70,6 +70,7 @@ namespace Bachup_s_backup
             HKSetter_Setting.Tag = Desktop_Instance.config_JSON.Hotkey.Setting;
             HKSetter_Close.Tag = Desktop_Instance.config_JSON.Hotkey.Close;
             HKSetter_DI_Visible.Tag = Desktop_Instance.config_JSON.Hotkey.Switch_DI_Visable;
+            HKSetter_Full.Tag = Desktop_Instance.config_JSON.Hotkey.Switch_Full_Screen;
         }
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label2 = new Label();
             HKSetter_DI_Visible = new Label();
             label8 = new Label();
             HKSetter_Close = new Label();
@@ -39,13 +40,16 @@
             label3 = new Label();
             HKSetter_Visable = new Label();
             label1 = new Label();
-            label2 = new Label();
+            HKSetter_Full = new Label();
+            label7 = new Label();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(HKSetter_Full);
+            groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(HKSetter_DI_Visible);
             groupBox1.Controls.Add(label8);
@@ -59,17 +63,27 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(776, 268);
+            groupBox1.Size = new Size(776, 315);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Hotkeys Config";
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 278);
+            label2.Name = "label2";
+            label2.Size = new Size(189, 19);
+            label2.TabIndex = 15;
+            label2.Text = "(Use Alt + Key to Activate)";
             // 
             // HKSetter_DI_Visible
             // 
             HKSetter_DI_Visible.BackColor = SystemColors.AppWorkspace;
             HKSetter_DI_Visible.BorderStyle = BorderStyle.FixedSingle;
             HKSetter_DI_Visible.ForeColor = SystemColors.ControlText;
-            HKSetter_DI_Visible.Location = new Point(178, 188);
+            HKSetter_DI_Visible.Location = new Point(178, 233);
             HKSetter_DI_Visible.Name = "HKSetter_DI_Visible";
             HKSetter_DI_Visible.Size = new Size(141, 30);
             HKSetter_DI_Visible.TabIndex = 14;
@@ -78,7 +92,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(6, 194);
+            label8.Location = new Point(6, 239);
             label8.Name = "label8";
             label8.Size = new Size(140, 19);
             label8.TabIndex = 13;
@@ -89,7 +103,7 @@
             HKSetter_Close.BackColor = SystemColors.AppWorkspace;
             HKSetter_Close.BorderStyle = BorderStyle.FixedSingle;
             HKSetter_Close.ForeColor = SystemColors.ControlText;
-            HKSetter_Close.Location = new Point(178, 145);
+            HKSetter_Close.Location = new Point(178, 190);
             HKSetter_Close.Name = "HKSetter_Close";
             HKSetter_Close.Size = new Size(141, 30);
             HKSetter_Close.TabIndex = 12;
@@ -98,7 +112,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(6, 151);
+            label6.Location = new Point(6, 196);
             label6.Name = "label6";
             label6.Size = new Size(133, 19);
             label6.TabIndex = 11;
@@ -109,7 +123,7 @@
             HKSetter_Setting.BackColor = SystemColors.AppWorkspace;
             HKSetter_Setting.BorderStyle = BorderStyle.FixedSingle;
             HKSetter_Setting.ForeColor = SystemColors.ControlText;
-            HKSetter_Setting.Location = new Point(178, 103);
+            HKSetter_Setting.Location = new Point(178, 148);
             HKSetter_Setting.Name = "HKSetter_Setting";
             HKSetter_Setting.Size = new Size(141, 30);
             HKSetter_Setting.TabIndex = 10;
@@ -118,7 +132,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(6, 109);
+            label4.Location = new Point(6, 154);
             label4.Name = "label4";
             label4.Size = new Size(101, 19);
             label4.TabIndex = 9;
@@ -129,7 +143,7 @@
             HKSetter_Dragmode.BackColor = SystemColors.AppWorkspace;
             HKSetter_Dragmode.BorderStyle = BorderStyle.FixedSingle;
             HKSetter_Dragmode.ForeColor = SystemColors.ControlText;
-            HKSetter_Dragmode.Location = new Point(178, 63);
+            HKSetter_Dragmode.Location = new Point(178, 108);
             HKSetter_Dragmode.Name = "HKSetter_Dragmode";
             HKSetter_Dragmode.Size = new Size(141, 30);
             HKSetter_Dragmode.TabIndex = 8;
@@ -138,7 +152,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(6, 69);
+            label3.Location = new Point(6, 114);
             label3.Name = "label3";
             label3.Size = new Size(135, 19);
             label3.TabIndex = 7;
@@ -164,14 +178,25 @@
             label1.TabIndex = 1;
             label1.Text = "Desktop Visible Switch";
             // 
-            // label2
+            // HKSetter_Full
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 231);
-            label2.Name = "label2";
-            label2.Size = new Size(189, 19);
-            label2.TabIndex = 15;
-            label2.Text = "(Use Alt + Key to Activate)";
+            HKSetter_Full.BackColor = SystemColors.AppWorkspace;
+            HKSetter_Full.BorderStyle = BorderStyle.FixedSingle;
+            HKSetter_Full.ForeColor = SystemColors.ControlText;
+            HKSetter_Full.Location = new Point(178, 65);
+            HKSetter_Full.Name = "HKSetter_Full";
+            HKSetter_Full.Size = new Size(141, 30);
+            HKSetter_Full.TabIndex = 17;
+            HKSetter_Full.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(6, 71);
+            label7.Name = "label7";
+            label7.Size = new Size(131, 19);
+            label7.TabIndex = 16;
+            label7.Text = "FullScreen Switch";
             // 
             // Hotkeys_Setting
             // 
@@ -202,5 +227,7 @@
         private Label HKSetter_Setting;
         private Label label4;
         private Label label2;
+        private Label HKSetter_Full;
+        private Label label7;
     }
 }
