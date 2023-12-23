@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using UItestv2;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
@@ -23,7 +24,22 @@ namespace Bachup_s_backup
             //Application.Run(new SettingMainForm());
         }
         public static string TempPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\..\local\Floating Desktop".FullPath();
-        
+
+        public static Image GIFToImage(string gifFilePath)
+        {
+            Image gifImage = Image.FromFile(gifFilePath);
+            FrameDimension dimension = new FrameDimension(gifImage.FrameDimensionsList[0]);
+            int frameCount = gifImage.GetFrameCount(dimension);
+            Image firstFrame = null;
+            if (frameCount > 0)
+            {
+                gifImage.SelectActiveFrame(dimension, 0);
+                firstFrame = (Image)gifImage.Clone();
+            }
+            gifImage.Dispose();
+            return firstFrame;
+        }
+
         public class DI_size_opt
         {
             public static Size Small = new(80, 80);
