@@ -195,30 +195,38 @@ namespace Bachup_s_backup
         {
             try
             {
-                using (FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                try
                 {
-                    try
+                    using (FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
                     {
-                        Image image = Image.FromStream(stream); ;
-                        if (ImageAnimator.CanAnimate(image))
+                        try
                         {
-                            pictureBox1.Image = Program.GIFToImage(FilePath);
+                            Image image = Image.FromStream(stream); ;
+                            if (ImageAnimator.CanAnimate(image))
+                            {
+                                pictureBox1.Image = Program.GIFToImage(FilePath);
+                            }
+                            else
+                            {
+                                pictureBox1.Image = Image.FromStream(stream); ;
+                            }
                         }
-                        else
+                        catch (Exception)
                         {
-                            pictureBox1.Image = Image.FromStream(stream);;
+                            pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
                         }
                     }
-                    catch (Exception)
-                    {
-                        pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
-                    }
+                }
+                catch (Exception)
+                {
+                    pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
                 }
             }
             catch (Exception)
             {
-                pictureBox1.Image = Icon.ExtractAssociatedIcon(FilePath)?.ToBitmap();
+
             }
+            
         }
         protected override void OnPaint(PaintEventArgs e=null!)
         {

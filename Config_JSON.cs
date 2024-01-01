@@ -22,6 +22,7 @@ namespace Bachup_s_backup
         public string DI_ForeColor { get; set; } = "#000000";
         public bool DI_Transparent { get; set; } = false;
         public Size DI_size { get; set; } = DI_size_opt.Medium;
+        public bool double_buffer { get; set; } = true;
         public List<DI_Json> DI_List { get; set; } = new();
     }
 }

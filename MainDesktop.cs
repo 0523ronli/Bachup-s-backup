@@ -438,6 +438,7 @@ namespace Bachup_s_backup
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Messed up when dropping");
+                throw ex;
             }
         }
 
@@ -562,8 +563,8 @@ namespace Bachup_s_backup
             current_effects = config_JSON.DragDropEffects;
             if (config_JSON.Background == "Rainbow") RainbowGenerator.Start();
             else RainbowGenerator.Stop();
-            AutoArrange();
             Refresh();
+            AutoArrange();
         }
 
         public void WriteJSON()
@@ -592,7 +593,8 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
+            DoubleBuffered = config_JSON.double_buffer;
+            
             foreach (DesktopItem item in Controls)
             {
                 item.OnRender();
