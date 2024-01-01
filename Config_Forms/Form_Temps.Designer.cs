@@ -31,6 +31,7 @@
             button2 = new Button();
             button1 = new Button();
             groupBox1 = new GroupBox();
+            checkBox1 = new CheckBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,18 +67,32 @@
             groupBox1.Size = new Size(726, 101);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
+            groupBox1.Text = "Temp Folder";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(12, 119);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(149, 23);
+            checkBox1.TabIndex = 4;
+            checkBox1.Text = "double buffering";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // Form_Temps
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(750, 450);
+            Controls.Add(checkBox1);
             Controls.Add(groupBox1);
             Name = "Form_Temps";
             Text = "Form_Temps";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -85,5 +100,6 @@
         private Button button2;
         private Button button1;
         private GroupBox groupBox1;
+        private CheckBox checkBox1;
     }
 }

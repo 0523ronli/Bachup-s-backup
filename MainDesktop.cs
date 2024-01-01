@@ -593,7 +593,8 @@ namespace Bachup_s_backup
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
+            DoubleBuffered = config_JSON.double_buffer;
+            
             foreach (DesktopItem item in Controls)
             {
                 item.OnRender();

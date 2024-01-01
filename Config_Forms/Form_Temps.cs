@@ -18,6 +18,7 @@ namespace Bachup_s_backup
         public Form_Temps()
         {
             InitializeComponent();
+            checkBox1.Checked = Desktop_Instance.config_JSON.double_buffer;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -55,6 +56,11 @@ namespace Bachup_s_backup
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Desktop_Instance.config_JSON.double_buffer = checkBox1.Checked;
         }
     }
 }

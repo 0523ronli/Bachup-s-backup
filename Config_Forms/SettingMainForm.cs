@@ -90,7 +90,7 @@ namespace UItestv2
             });
             originalleftbtn.Add(new Leftbtn()
             {
-                Text = "Temp Folder",
+                Text = "Other",
                 Linkform = new Form_Temps()
             });
             originalleftbtn.Add(new Leftbtn()
