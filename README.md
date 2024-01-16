@@ -1,6 +1,4 @@
 # Floting Desktop
-### With Bread on Wheel !
-<img src="/assets/breadcar.gif" alt="麵包車" width="500">
 
 ## Table of Contents
 - [Why](#why)
