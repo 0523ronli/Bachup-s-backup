@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Bachup_s_backup.MainDesktop;
-using static Bachup_s_backup.Program;
+using static Floating_Desktop.MainDesktop;
+using static Floating_Desktop.Program;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop
 {
     public partial class Hotkeys_Setting : Form
     {

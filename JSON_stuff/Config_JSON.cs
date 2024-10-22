@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Bachup_s_backup.Program;
+using static Floating_Desktop.Program;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop.JSON_stuff
 {
     public class Config_JSON
     {

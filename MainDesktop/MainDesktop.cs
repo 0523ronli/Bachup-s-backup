@@ -1,5 +1,5 @@
 using System.Runtime.InteropServices;
-using static Bachup_s_backup.Program;
+using static Floating_Desktop.Program;
 using System.Reflection;
 using System.Text.Json;
 using UItestv2;
@@ -7,8 +7,9 @@ using System.Net;
 using Microsoft.Win32;
 using IWshRuntimeLibrary;
 using File = System.IO.File;
+using Floating_Desktop.JSON_stuff;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop
 {
     public partial class MainDesktop : Form
     {
@@ -17,7 +18,7 @@ namespace Bachup_s_backup
         public static MainDesktop Desktop_Instance;
         string jsonPath = Assembly.GetExecutingAssembly().Location + @"/../config.json";
         public HashSet<DesktopItem> selected = new();
-        public  Config_JSON config_JSON = new();  
+        public Config_JSON config_JSON = new();  
         public bool autoArrange = true;
         public RainbowGenerator RainbowGenerator;
         public ArrangeMode arrangeMode = ArrangeMode.Row;

@@ -1,4 +1,4 @@
-﻿namespace Bachup_s_backup.Setting_items.form1
+﻿namespace Floating_Desktop.Setting_items.form1
 {
     partial class Form_Desktop_General
     {

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using UItestv2;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop
 {
     internal static class Program
     {

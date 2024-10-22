@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
-using static Bachup_s_backup.MainDesktop;
+using static Floating_Desktop.MainDesktop;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop
 {
     public partial class Form_Temps : Form
     {

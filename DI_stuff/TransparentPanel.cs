@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop.DI_stuff
 {
     internal class TransparentPanel : Panel
     {

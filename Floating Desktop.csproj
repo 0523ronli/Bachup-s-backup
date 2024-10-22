@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="MainFormUI\MainFormUI.cs" />
-    <Compile Remove="MainFormUI\SettingForm.cs" />
+    <Compile Remove="ConfigMainFormUI\MainFormUI.cs" />
+    <Compile Remove="ConfigMainFormUI\SettingForm.cs" />
     <Compile Remove="Set_of_DI.cs" />
   </ItemGroup>
 
