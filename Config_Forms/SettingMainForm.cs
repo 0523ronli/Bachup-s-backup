@@ -1,6 +1,6 @@
-using Bachup_s_backup;
-using Bachup_s_backup.Setting_items;
-using Bachup_s_backup.Setting_items.form1;
+using Floating_Desktop;
+using Floating_Desktop.Setting_items;
+using Floating_Desktop.Setting_items.form1;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

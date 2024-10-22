@@ -1,4 +1,4 @@
-﻿namespace Bachup_s_backup
+﻿namespace Floating_Desktop
 {
     partial class DI_Info
     {

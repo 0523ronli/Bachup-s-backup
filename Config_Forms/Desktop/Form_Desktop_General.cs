@@ -8,9 +8,9 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Bachup_s_backup.MainDesktop;
+using static Floating_Desktop.MainDesktop;
 
-namespace Bachup_s_backup.Setting_items.form1
+namespace Floating_Desktop.Setting_items.form1
 {
     public partial class Form_Desktop_General : Form
     {

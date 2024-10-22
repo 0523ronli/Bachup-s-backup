@@ -1,14 +1,14 @@
-﻿using Bachup_s_backup;
+﻿using Floating_Desktop.DI_stuff;
 using System;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static Bachup_s_backup.MainDesktop;
+using static Floating_Desktop.MainDesktop;
 using Timer = System.Windows.Forms.Timer;
 
-namespace Bachup_s_backup
+namespace Floating_Desktop
 {
     public partial class DesktopItem : Form
     {
